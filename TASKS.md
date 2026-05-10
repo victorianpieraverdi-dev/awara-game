@@ -30,7 +30,7 @@
   Файлы: `tigel.html`
   Est: 6 мин
 
-- [ ] **T-003 · подгрузить data/matrices.json в matrices.html (заменить хардкод 33 матриц)**
+- [x] **T-003 · подгрузить data/matrices.json в matrices.html (заменить хардкод 33 матриц)**
   DoD: 33 матрицы рендерятся из JSON. Активная матрица (по `awara_active_matrix` slug) выделяется. Конфликт-описание из JSON показывается под названием.
   Файлы: `matrices.html`, опционально `data/matrices.json` (только чтение)
   Est: 10 мин
