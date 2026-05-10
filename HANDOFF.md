@@ -25,14 +25,21 @@
 | Сессия | https://app.devin.ai/sessions/e84aad0cb623469da4d71a42da4d46ce |
 | Модель | Agent |
 | Дата | 2026-05-10 (UTC) |
-| Закрытая задача | T-006 |
-| Следующая задача | **T-007** (см. TASKS.md) |
+| Закрытая задача | T-007 |
+| Следующая задача | **T-008** (см. TASKS.md) |
 | Состояние master | ожидает merge PR |
 | Pages | включён, master/root |
 
 ---
 
 ## Лог смен (новые записи СВЕРХУ)
+
+### 2026-05-10 · PBerty · T-007
+
+- Закрыто: T-007 — data/chakras.json (9 чакр-мер)
+- Источник: AWARA_Structured_Omnibus_V3.txt (§8 «Девятимерная система») + AWARA_Zodiac_and_Chakra_Prompts_Expansion.txt
+- Парсер: `tools/build_chakras.py`
+- 7 классических чакр (Муладхара → Сахасрара) + Монада (8) + Абсолют (9)
 
 ### 2026-05-10 · PBerty · T-006
 
