@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>33 Матрицы · AWARA</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative&family=Cinzel&family=JetBrains+Mono&display=swap" rel="stylesheet">
+<title>21 Агентов · 33 Матрицы · AWARA</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative&family=Cinzel&family=Cormorant+Garamond&family=JetBrains+Mono&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#02010a;color:#d4d4d4;font-family:'JetBrains Mono',monospace;min-height:100vh;padding:20px 10px 100px}
@@ -36,10 +36,24 @@ body{background:#02010a;color:#d4d4d4;font-family:'JetBrains Mono',monospace;min
 .badge.available{background:rgba(100,220,200,.1);color:rgba(100,220,200,.8)}
 .back{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);padding:12px 30px;background:rgba(201,168,76,.15);border:2px solid #c9a84c;border-radius:6px;color:#c9a84c;font-family:Cinzel,serif;font-size:11px;letter-spacing:.2em;cursor:pointer;z-index:1000}
 .back:hover{background:rgba(201,168,76,.25);border-color:#ffe080}
+.agents-section{margin-bottom:50px}
+.agents-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.agent-card{background:rgba(20,20,30,.8);border:1px solid rgba(201,168,76,.2);border-radius:8px;padding:14px 10px;transition:.3s;text-align:center}
+.agent-card:hover{border-color:rgba(201,168,76,.6);transform:translateY(-3px)}
+.agent-name{font-family:Cinzel,serif;font-size:14px;color:#ffe080;margin-bottom:6px}
+.agent-domain{font-family:'Cormorant Garamond',serif;font-size:11px;color:rgba(212,212,212,.85);margin-bottom:8px}
+.agent-meta{font-size:8px;color:rgba(201,168,76,.55);line-height:1.6;letter-spacing:.04em}
+@media(min-width:768px){.agents-grid{grid-template-columns:repeat(4,1fr);gap:14px}.agent-name{font-size:14px}}
+@media(min-width:1024px){.agents-grid{grid-template-columns:repeat(7,1fr);gap:15px}}
+@media(max-width:375px){.agent-name{font-size:12px}.agent-domain{font-size:10px}.agent-meta{font-size:7px}.agent-card{padding:10px 6px}}
 </style>
 </head>
 <body>
 <div class="container">
+<div class="agents-section">
+<div class="title">21 АГЕНТОВ</div>
+<div class="agents-grid" id="agents-grid"></div>
+</div>
 <div class="title">33 МАТРИЦЫ ИНИЦИАЦИЙ</div>
 <div class="tier"><div class="tier-h"><div class="tier-num">I</div><div class="tier-name">ПРИРОДНЫЕ</div></div><div class="grid" id="t1"></div></div>
 <div class="tier"><div class="tier-h"><div class="tier-num">II</div><div class="tier-name">ХРАМОВЫЕ</div></div><div class="grid" id="t2"></div></div>
@@ -49,6 +63,15 @@ body{background:#02010a;color:#d4d4d4;font-family:'JetBrains Mono',monospace;min
 </div>
 <button class="back" onclick="location.href='index.html'">← ЛОББИ</button>
 <script>
+fetch('data/agents.json').then(r=>r.json()).then(agents=>{
+const grid=document.getElementById('agents-grid');
+agents.forEach(ag=>{
+const c=document.createElement('div');
+c.className='agent-card';
+c.innerHTML=`<div class="agent-name">${ag.name}</div><div class="agent-domain">${ag.domain}</div><div class="agent-meta">${ag.guna} &middot; ${ag.vastu_zone} &middot; ${ag.planet}<br>${ag.element} &middot; луч ${ag.ray}</div>`;
+grid.appendChild(c);
+});
+}).catch(err=>console.warn('agents.json:',err));
 const M={
 t1:[{i:'shamanistic',c:'🪶',n:'Шаманская',g:'Первобытная',l:12,m:20,u:1},{i:'slavic',c:'⚡',n:'Славянская',g:'Языческая',l:8,m:20,u:1},{i:'scandinavian',c:'⚔️',n:'Скандинавская',g:'Рунная',l:5,m:20,u:1},{i:'celtic',c:'🌿',n:'Кельтская',g:'Друидская',l:3,m:20,u:0},{i:'african',c:'🥁',n:'Африканская',g:'Племенная',l:0,m:20,u:0},{i:'polynesian',c:'🌊',n:'Полинезийская',g:'Океаническая',l:0,m:20,u:0}],
 t2:[{i:'vedic',c:'ॐ',n:'Ведическая',g:'Санатана',l:15,m:20,u:1},{i:'egyptian',c:'𓂀',n:'Египетская',g:'Герметическая',l:7,m:20,u:1},{i:'greek',c:'⚡',n:'Античная',g:'Олимпийская',l:4,m:20,u:0},{i:'buddhist',c:'☸',n:'Буддийская',g:'Дхарма',l:6,m:20,u:1},{i:'confucian',c:'☯',n:'Конфуцианская',g:'Порядок',l:0,m:20,u:0},{i:'mayan',c:'🌞',n:'Майянская',g:'Календарная',l:2,m:20,u:0}],
