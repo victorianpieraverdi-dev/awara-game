@@ -43,7 +43,7 @@
 
 ### Расширение канон-данных
 
-- [ ] **T-005 · сгенерировать data/zones.json (9 Васту-зон)**
+- [x] **T-005 · сгенерировать data/zones.json (9 Васту-зон)**
   DoD: новый файл `data/zones.json`, массив из 9 объектов: `{id, slug, name, direction, element, planet, quality}`. Источник: лорбук «Vastu» в `lore/text/`. Парсер — Python, оставить в `tools/build_zones.py`.
   Файлы: `data/zones.json`, `tools/build_zones.py`
   Est: 10 мин
