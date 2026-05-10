@@ -37,9 +37,10 @@
 ### 2026-05-10 · paharaduga-beep · T-001
 
 - Закрыто: T-001 — секция "21 АГЕНТОВ" в matrices.html из data/agents.json
-- PR: TBD
+- PR: https://github.com/paharaduga-beep/awara-game/pull/1
+- Коммит: `a334866` (https://github.com/paharaduga-beep/awara-game/commit/a334866)
 - 21 карточка агента (name, domain, guna, vastu_zone, planet, element, ray) грузится через fetch, mobile-first CSS Grid (2/4/7 колонок)
-- Pages обновится после merge
+- Merge: `f9d9894` в master fork
 
 ### 2026-05-10 · victorianpieraverdi-dev · T-002
 
