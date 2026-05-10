@@ -21,18 +21,25 @@
 
 | Поле | Значение |
 |---|---|
-| Аккаунт | victorianpieraverdi-dev |
-| Сессия | https://app.devin.ai/sessions/05aaba6831eb4070ab7145c501bb67d3 |
-| Модель | Fast Mode / Sonnet |
+| Аккаунт | paharaduga-beep |
+| Сессия | https://app.devin.ai/sessions/bbf1cec713be43a7b227177d3207df11 |
+| Модель | Agent |
 | Дата | 2026-05-10 (UTC) |
-| Закрытая задача | T-002 |
+| Закрытая задача | T-001 |
 | Следующая задача | **T-003** (см. TASKS.md) |
-| Состояние master | ожидает merge PR #2 |
+| Состояние master | ожидает merge PR |
 | Pages | включён, master/root |
 
 ---
 
 ## Лог смен (новые записи СВЕРХУ)
+
+### 2026-05-10 · paharaduga-beep · T-001
+
+- Закрыто: T-001 — секция "21 АГЕНТОВ" в matrices.html из data/agents.json
+- PR: TBD
+- 21 карточка агента (name, domain, guna, vastu_zone, planet, element, ray) грузится через fetch, mobile-first CSS Grid (2/4/7 колонок)
+- Pages обновится после merge
 
 ### 2026-05-10 · victorianpieraverdi-dev · T-002
 
