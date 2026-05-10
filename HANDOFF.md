@@ -25,8 +25,8 @@
 | Сессия | https://app.devin.ai/sessions/bbf1cec713be43a7b227177d3207df11 |
 | Модель | Agent |
 | Дата | 2026-05-10 (UTC) |
-| Закрытая задача | T-001 |
-| Следующая задача | **T-003** (см. TASKS.md) |
+| Закрытая задача | T-003 |
+| Следующая задача | **T-004** (см. TASKS.md) |
 | Состояние master | ожидает merge PR |
 | Pages | включён, master/root |
 
@@ -34,12 +34,20 @@
 
 ## Лог смен (новые записи СВЕРХУ)
 
+### 2026-05-10 · paharaduga-beep · T-003
+
+- Закрыто: T-003 — 33 матрицы в matrices.html из data/matrices.json (замена хардкода)
+- Карточка: name + conflict + visual_code, активная матрица выделяется, клик меняет активную
+- Mobile-first CSS Grid (2/4/6 колонок)
+- Удалены хардкод-тиры (I-V) и объект M={}
+
 ### 2026-05-10 · paharaduga-beep · T-001
 
 - Закрыто: T-001 — секция "21 АГЕНТОВ" в matrices.html из data/agents.json
-- PR: TBD
+- PR: https://github.com/paharaduga-beep/awara-game/pull/1
+- Коммит: `a334866` (https://github.com/paharaduga-beep/awara-game/commit/a334866)
 - 21 карточка агента (name, domain, guna, vastu_zone, planet, element, ray) грузится через fetch, mobile-first CSS Grid (2/4/7 колонок)
-- Pages обновится после merge
+- Merge: `f9d9894` в master fork
 
 ### 2026-05-10 · victorianpieraverdi-dev · T-002
 
