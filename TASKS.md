@@ -48,7 +48,7 @@
   Файлы: `data/zones.json`, `tools/build_zones.py`
   Est: 10 мин
 
-- [ ] **T-006 · сгенерировать data/locas.json (14 лок плотностей)**
+- [x] **T-006 · сгенерировать data/locas.json (14 лок плотностей)**
   DoD: новый файл `data/locas.json`, массив из 14 объектов: `{id, name, density, description}`. Источник: лор. Парсер либо ручная транскрипция (если в лоре нет машинно-читаемого формата) — в `tools/`.
   Файлы: `data/locas.json`, опц. `tools/build_locas.py`
   Est: 10 мин
