@@ -25,14 +25,20 @@
 | Сессия | https://app.devin.ai/sessions/e84aad0cb623469da4d71a42da4d46ce |
 | Модель | Agent |
 | Дата | 2026-05-10 (UTC) |
-| Закрытая задача | T-008 |
-| Следующая задача | **T-009** (см. TASKS.md) |
+| Закрытая задача | T-009 |
+| Следующая задача | **T-010** (см. TASKS.md) |
 | Состояние master | ожидает merge PR |
 | Pages | включён, master/root |
 
 ---
 
 ## Лог смен (новые записи СВЕРХУ)
+
+### 2026-05-10 · PBerty · T-009
+
+- Закрыто: T-009 — dashboard.html теперь использует `import { getState } from './js/playerState.js'`
+- Удалено прямое чтение `localStorage.getItem('awara_v255_state')`
+- Поведение пользователя не меняется
 
 ### 2026-05-10 · PBerty · T-008
 

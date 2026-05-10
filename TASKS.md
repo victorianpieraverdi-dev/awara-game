@@ -66,7 +66,7 @@
   Файлы: `js/playerState.js`
   Est: 10 мин
 
-- [ ] **T-009 · подключить js/playerState.js в dashboard.html (рефакторинг)**
+- [x] **T-009 · подключить js/playerState.js в dashboard.html (рефакторинг)**
   DoD: dashboard.html больше не читает `localStorage.getItem('awara_v255_state')` напрямую — вместо этого `import { getState } from './js/playerState.js'`. Поведение пользователя не меняется.
   Файлы: `dashboard.html`, `js/playerState.js`
   Est: 7 мин (зависит от T-008)

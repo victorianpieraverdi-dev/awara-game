@@ -463,21 +463,15 @@ body{
 
 <a class="fab-back" href="index.html"><span style="font-size:14px;">←</span>ЛОББИ</a>
 
-<script>
+<script type="module">
+import { getState } from './js/playerState.js';
+
 (function(){
   'use strict';
 
-  // ── 1. Чтение state из localStorage ──
-  // Основной ключ: awara_v255_state (см. index.html, syncState/loadState)
+  // ── 1. Чтение state через playerState.js ──
   function loadState(){
-    try{
-      var raw = localStorage.getItem('awara_v255_state');
-      if(!raw) return null;
-      return JSON.parse(raw);
-    }catch(e){
-      console.warn('Не удалось прочитать awara_v255_state:', e);
-      return null;
-    }
+    return getState();
   }
 
   // Активная матрица (Тигель/Матрицы)
