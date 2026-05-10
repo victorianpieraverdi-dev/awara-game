@@ -22,16 +22,25 @@
 | Поле | Значение |
 |---|---|
 | Аккаунт | victorianpieraverdi-dev |
-| Сессия | https://app.devin.ai/sessions/093104b794fa4719991db44d8a44897f |
+| Сессия | https://app.devin.ai/sessions/05aaba6831eb4070ab7145c501bb67d3 |
+| Модель | Fast Mode / Sonnet |
 | Дата | 2026-05-10 (UTC) |
-| Закрытая задача | — (инфраструктура: bootstrap репо + протокол синхронизации) |
-| Следующая задача | **T-001** (см. TASKS.md) |
-| Состояние master | `d935f37` (orphan-bootstrap, без секретов в истории) |
+| Закрытая задача | T-002 |
+| Следующая задача | **T-003** (см. TASKS.md) |
+| Состояние master | ожидает merge PR #2 |
 | Pages | включён, master/root |
 
 ---
 
 ## Лог смен (новые записи СВЕРХУ)
+
+### 2026-05-10 · victorianpieraverdi-dev · T-002
+
+- Закрыто: T-002 — подгрузить data/agents.json в tigel.html (замена хардкод-имён агентов)
+- PR: https://github.com/victorianpieraverdi-dev/awara-game/pull/2
+- Коммит: `f602e55` (https://github.com/victorianpieraverdi-dev/awara-game/commit/f602e55)
+- Найдено 3 хардкод-имени (Искра x2, Према x1) — заменены на динамическое чтение из agents.json через getAgentName(slug)
+- Pages обновится после merge
 
 ### 2026-05-10 · victorianpieraverdi-dev · setup
 
