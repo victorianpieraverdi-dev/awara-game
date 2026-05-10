@@ -54,7 +54,7 @@
   Est: 10 мин
   ASK: какие 14 лок (есть ли список в готовом виде в лоре, или нужен синтез)?
 
-- [ ] **T-007 · сгенерировать data/chakras.json (9 чакр-мер)**
+- [x] **T-007 · сгенерировать data/chakras.json (9 чакр-мер)**
   DoD: новый файл `data/chakras.json`, массив из 9 объектов: `{id, slug, name, sanskrit, position, color, element, mantra_seed}`. Источник: лор + `AWARA_Zodiac_and_Chakra_Prompts_Expansion.txt`.
   Файлы: `data/chakras.json`, опц. `tools/build_chakras.py`
   Est: 10 мин
