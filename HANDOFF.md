@@ -25,14 +25,21 @@
 | Сессия | https://app.devin.ai/sessions/e84aad0cb623469da4d71a42da4d46ce |
 | Модель | Agent |
 | Дата | 2026-05-10 (UTC) |
-| Закрытая задача | T-005 |
-| Следующая задача | **T-006** (см. TASKS.md) |
+| Закрытая задача | T-006 |
+| Следующая задача | **T-007** (см. TASKS.md) |
 | Состояние master | ожидает merge PR |
 | Pages | включён, master/root |
 
 ---
 
 ## Лог смен (новые записи СВЕРХУ)
+
+### 2026-05-10 · PBerty · T-006
+
+- Закрыто: T-006 — data/locas.json (14 лок плотностей)
+- Источник: AWARA_Vedic_Cosmogenesis_Ultimate.txt, Часть 5 «14 ЛОК»
+- Парсер: `tools/build_locas.py`
+- 7 верхних миров (Урдхва-Локи, density 1..7) + 7 нижних (Паталы, density -1..-7)
 
 ### 2026-05-10 · PBerty · T-005
 
