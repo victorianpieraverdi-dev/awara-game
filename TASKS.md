@@ -61,7 +61,7 @@
 
 ### Игровое состояние (PlayerState)
 
-- [ ] **T-008 · создать js/playerState.js — минимальный API**
+- [x] **T-008 · создать js/playerState.js — минимальный API**
   DoD: новый модуль с функциями `getState()`, `saveState(state)`, `migrate(legacyState)`. Ключ — `awara_v258_state` (новый), миграция с `awara_v255_state` (если есть). Покрывает поля: `totalLight`, `sphereData`, `spirit`, `elements`, `activeSystem`, `journey`. Никакой логики игры — только I/O.
   Файлы: `js/playerState.js`
   Est: 10 мин

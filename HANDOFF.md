@@ -21,18 +21,25 @@
 
 | Поле | Значение |
 |---|---|
-| Аккаунт | paharaduga-beep |
+| Аккаунт | PBerty |
 | Сессия | https://app.devin.ai/sessions/e84aad0cb623469da4d71a42da4d46ce |
 | Модель | Agent |
 | Дата | 2026-05-10 (UTC) |
-| Закрытая задача | T-007 |
-| Следующая задача | **T-008** (см. TASKS.md) |
+| Закрытая задача | T-008 |
+| Следующая задача | **T-009** (см. TASKS.md) |
 | Состояние master | ожидает merge PR |
 | Pages | включён, master/root |
 
 ---
 
 ## Лог смен (новые записи СВЕРХУ)
+
+### 2026-05-10 · PBerty · T-008
+
+- Закрыто: T-008 — js/playerState.js (минимальный API)
+- Функции: getState(), saveState(state), migrate()
+- Ключ: awara_v258_state (новый), миграция с awara_v255_state
+- Поля: totalLight, sphereData, spirit, elements, activeSystem, journey
 
 ### 2026-05-10 · PBerty · T-007
 
