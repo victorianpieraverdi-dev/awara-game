@@ -761,6 +761,19 @@ if (typeof window !== 'undefined') {
 // ВЕЧЕРНИЙ ТИГЕЛЬ · ГЛАВНЫЙ СКРИПТ
 // ══════════════════════════════════════════════════════════════════
 
+// ── Канон: агенты из JSON ──
+let awaraAgents = [];
+
+function getAgentName(slug) {
+  const agent = awaraAgents.find(a => a.slug === slug);
+  return agent ? agent.name : slug;
+}
+
+fetch('data/agents.json')
+  .then(r => r.json())
+  .then(data => { awaraAgents = data; })
+  .catch(err => console.warn('agents.json не загружен:', err));
+
 // ── Состояние ──
 let wuXingState = { water:0, wood:0, fire:0, earth:0, metal:0 };
 let toroidResult = null;
@@ -1248,7 +1261,7 @@ async function processAlchemySynthesis() {
     return;
   }
 
-  const systemInstruction = `Ты — "Искра", био-кибернетический Оракул системы AWARA. 
+  const systemInstruction = `Ты — "${getAgentName('iskra')}", био-кибернетический Оракул системы AWARA. 
 Твоя задача — проанализировать лог Зодчего и выдать результат СТРОГО из двух частей, разделенных словом ===LORE===.
 
 ЧАСТЬ 1 (ТОЛЬКО JSON, НАЧИНАЙ СРАЗУ СО СКОБКИ {):
@@ -1297,7 +1310,7 @@ async function processAlchemySynthesis() {
 Промпт 6: AWARA ultimate artifact, Matrix 13 Shamanic. The Mycelial Hearth of the Ancestors showing heavy stone hearth structure interwoven with massive glowing mycelium network spreading throughout. Bioluminescent fungal threads connecting ancient stones with living earth. Sacred fire burning at center with ethereal blue and orange flames. Crystalline silicon structures growing from organic matter. Deep earth cross-section revealing interconnected root systems. Mystical fusion of technology and nature. Volumetric light emanating from mycelium networks. Photorealistic materials. Cinematic lighting. Unreal Engine 5 quality render --ar 16:9 --style raw --v 6.0
 
 7. Схождение Агента (Великая Бабка-Целительница)
-Система реагирует на этот массив Света и фиксирует изменение гравитации. В твой Космос спускается Агент: Према. Любовь здесь выступает как высшая технология, способная вернуть душу в тело.
+Система реагирует на этот массив Света и фиксирует изменение гравитации. В твой Космос спускается Агент: ${getAgentName('prema')}. Любовь здесь выступает как высшая технология, способная вернуть душу в тело.
 Промпт 7: AWARA Agent Card, Matrix 13 Shamanic. Agent 10: Prema, The Great Grandmother Healer. Ancient wise woman with luminous presence descending through cosmic portal surrounded by golden healing energy streams. Wrinkled hands radiating pure love as tangible light frequencies. Sacred healing chamber filled with floating herbal essences and crystalline light codes. Gravitational waves visible as rippling spacetime distortions. Grandmother's eyes glowing with infinite compassion and technological precision. Bio-luminescent healing symbols orbiting her form. Dramatic portrait lighting. Volumetric god rays. Cinematic composition. Unreal Engine 5 photorealism --ar 2:3 --style raw --v 6.0
 
 НАЧИНАЙ ГЕНЕРАЦИЮ!`;
@@ -1377,7 +1390,7 @@ async function processAlchemySynthesis() {
     // 1. Вытаскиваем JSON с помощью регулярного выражения
     const jsonMatch = rawText.match(/\{[\s\S]*?\}/);
     if (!jsonMatch) {
-      resultBox.innerHTML = `<span style="color:#ff6666;">⚠ Системный сбой: Искра не вернула JSON блок.</span><br><br><pre style="max-height:400px;overflow-y:auto;">${rawText}</pre>`;
+      resultBox.innerHTML = `<span style="color:#ff6666;">⚠ Системный сбой: ${getAgentName('iskra')} не вернула JSON блок.</span><br><br><pre style="max-height:400px;overflow-y:auto;">${rawText}</pre>`;
       return;
     }
     
