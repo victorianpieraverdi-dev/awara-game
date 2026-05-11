@@ -21,18 +21,26 @@
 
 | Поле | Значение |
 |---|---|
-| Аккаунт | PBerty |
-| Сессия | https://app.devin.ai/sessions/e84aad0cb623469da4d71a42da4d46ce |
-| Модель | Agent |
+| Аккаунт | victorianpieraverdi-dev |
+| Сессия | https://app.devin.ai/sessions/05aaba6831eb4070ab7145c501bb67d3 |
+| Модель | Fast Mode / Sonnet |
 | Дата | 2026-05-10 (UTC) |
-| Закрытая задача | T-025 |
-| Следующая задача | **T-026** (см. TASKS.md) |
+| Закрытая задача | T-026 |
+| Следующая задача | **T-027** (см. TASKS.md) |
 | Состояние master | ожидает merge PR |
 | Pages | включён, master/root |
 
 ---
 
 ## Лог смен (новые записи СВЕРХУ)
+
+### 2026-05-10 · victorianpieraverdi-dev · T-026
+
+- Закрыто: T-026 — получение карты из daily reward (~5% шанс)
+- js/dailyReward.js: checkDailyReward() — один ролл в день, 5% дроп случайной несобранной карты
+- index.html: попап "КАРТА НАЙДЕНА" с агентом, матрицей, стихией, зоной
+- Бейдж колоды обновляется после дропа
+- Добавлены T-026/T-027/T-028 в TASKS.md (Phase 2)
 
 ### 2026-05-10 · PBerty · T-025
 
