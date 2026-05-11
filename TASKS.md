@@ -71,7 +71,7 @@
   Файлы: `dashboard.html`, `js/playerState.js`
   Est: 7 мин (зависит от T-008)
 
-- [ ] **T-010 · подключить js/playerState.js в tigel.html (рефакторинг)**
+- [x] **T-010 · подключить js/playerState.js в tigel.html (рефакторинг)**
   DoD: аналогично T-009.
   Файлы: `tigel.html`, `js/playerState.js`
   Est: 7 мин (зависит от T-008)

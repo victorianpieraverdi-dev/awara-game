@@ -24,15 +24,22 @@
 | Аккаунт | victorianpieraverdi-dev |
 | Сессия | https://app.devin.ai/sessions/05aaba6831eb4070ab7145c501bb67d3 |
 | Модель | Fast Mode / Sonnet |
-| Дата | 2026-05-11 (UTC) |
-| Закрытая задача | T-027 |
+| Дата | 2026-05-10 (UTC) |
+| Закрытая задача | T-010 |
 | Следующая задача | **T-028** (см. TASKS.md) |
-| Состояние master | ожидает merge PR |
+| Состояние master | ожидает merge PR (T-010) |
 | Pages | включён, master/root |
 
 ---
 
 ## Лог смен (новые записи СВЕРХУ)
+
+### 2026-05-10 · victorianpieraverdi-dev · T-010
+
+- Закрыто: T-010 — подключить playerState.js в tigel.html (рефакторинг)
+- Импорт getState/saveState из js/playerState.js через module script
+- sphereData читается из playerState с фоллбэком на awara_sphere_entries
+- Поведение не меняется, только источник данных централизован
 
 ### 2026-05-11 · victorianpieraverdi-dev · T-027
 
