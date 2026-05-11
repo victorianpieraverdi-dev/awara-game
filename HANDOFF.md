@@ -21,18 +21,30 @@
 
 | Поле | Значение |
 |---|---|
-| Аккаунт | victorianpieraverdi-dev |
-| Сессия | https://app.devin.ai/sessions/05aaba6831eb4070ab7145c501bb67d3 |
+| Аккаунт | paharaduga-beep |
+| Сессия | https://app.devin.ai/sessions/62b6aff860814728a556d1a69288d140 |
 | Модель | Fast Mode / Sonnet |
-| Дата | 2026-05-10 (UTC) |
-| Закрытая задача | T-010 |
-| Следующая задача | **T-028** (см. TASKS.md) |
-| Состояние master | ожидает merge PR (T-010) |
+| Дата | 2026-05-11 (UTC) |
+| Закрытые задачи | T-029, T-030 |
+| Следующая задача | **T-031** (Оракул LLM, см. TASKS.md) |
+| Состояние master | T-010 merged; T-029/T-030 в fork PR, ожидает merge |
 | Pages | включён, master/root |
 
 ---
 
 ## Лог смен (новые записи СВЕРХУ)
+
+### 2026-05-11 · paharaduga-beep · T-029 + T-030
+
+- Закрыто: T-029 — natal.html форма ввода натальных данных (UI)
+- Закрыто: T-030 — подключить Swiss Ephemeris (JS-порт для браузера)
+- natal.html: форма (дата/время/город) + расчёт 9 планет (Навграхи), 12 домов (Бхавы), Лагна
+- @swisseph/browser WASM (lib/swisseph/, ~500KB) — пропатчен для работы в браузере
+- Сидерический зодиак (Lahiri аянамша), Whole Sign дома, 27 накшатр
+- Геокодирование города через Nominatim OpenStreetMap API
+- localStorage: awara_natal_data (форма), awara_natal_chart (расчёт)
+- Кнопка «НАТАЛЬНАЯ КАРТА» в лобби (index.html)
+- Phase 3 (T-029..T-031) добавлена в TASKS.md
 
 ### 2026-05-10 · victorianpieraverdi-dev · T-010
 
