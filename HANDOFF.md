@@ -21,19 +21,49 @@
 
 | Поле | Значение |
 |---|---|
-| Аккаунт | victorianpieraverdi-dev |
-| Сессия | https://app.devin.ai/sessions/05aaba6831eb4070ab7145c501bb67d3 |
+| Аккаунт | dadyup08-debug |
+| Сессия | https://app.devin.ai/sessions/a0fda14696cc45db8ec2b3f3bdc82a8d |
 | Модель | Fast Mode / Sonnet |
-| Дата | 2026-05-10 (UTC) |
-| Закрытая задача | T-010 |
-| Следующая задача | **T-028** (см. TASKS.md) |
-| Состояние master | ожидает merge PR (T-010) |
+| Дата | 2026-05-11 (UTC) |
+| Закрытые задачи | T-031 (push), T-034, T-035, T-036 |
+| Следующая задача | следующая из backlog |
+| Состояние master | T-031, T-034, T-035, T-036 |
 | Pages | включён, master/root |
 
 ---
 
 ## Лог смен (новые записи СВЕРХУ)
 
+### 2026-05-11 · dadyup08-debug · T-031..T-036
+
+- T-031: oracle.html + js/oracle.js запушены в remote (были cherry-picked локально, но не запушены)
+- Кнопка ОРАКУЛ добавлена в лобби index.html
+- T-034: 4 контекста Оракула (толкование дня / наставник матрицы / зеркало выбора / архивариус)
+- js/oracle.js: ORACLE_CONTEXTS массив, CONTEXT_PROMPTS с уникальными system prompts, getContext/setContext
+- oracle.html: панель выбора контекста (4 кнопки), переключение очищает чат
+- T-035: SAFETY_PROMPT — запрет медицинских/финансовых/опасных советов во всех режимах
+- T-036: CSS-анимации перехода при смене матрицы (matrixPulse, matrixFadeOut/In, colorSweep)
+- js/matrixSwitcher.js: анимация кнопок (scale) при переключении
+- TASKS.md: T-031..T-036 помечены [x]
+
+### 2026-05-11 · brarianwindahl · T-028
+
+- Закрыто: T-028 — переключатель матрицы восприятия (UI reskin)
+- js/matrixSwitcher.js: ES-модуль с PERCEPTIONS (3 матрицы), getActivePerception(), setActivePerception(), renderSwitcher()
+- index.html: виджет быстрого переключения (Ведическая/Славянская/Каббала) в лобби
+- Интеграция с существующей темой applyMatrixTheme() — UI адаптируется при переключении
+
+### 2026-05-11 · paharaduga-beep · T-029 + T-030
+
+- Закрыто: T-029 — natal.html форма ввода натальных данных (UI)
+- Закрыто: T-030 — подключить Swiss Ephemeris (JS-порт для браузера)
+- natal.html: форма (дата/время/город) + расчёт 9 планет (Навграхи), 12 домов (Бхавы), Лагна
+- @swisseph/browser WASM (lib/swisseph/, ~500KB) — пропатчен для работы в браузере
+- Сидерический зодиак (Lahiri аянамша), Whole Sign дома, 27 накшатр
+- Геокодирование города через Nominatim OpenStreetMap API
+- localStorage: awara_natal_data (форма), awara_natal_chart (расчёт)
+- Кнопка «НАТАЛЬНАЯ КАРТА» в лобби (index.html)
+- Phase 3 (T-029..T-031) добавлена в TASKS.md
 ### 2026-05-10 · victorianpieraverdi-dev · T-010
 
 - Закрыто: T-010 — подключить playerState.js в tigel.html (рефакторинг)
