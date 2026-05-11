@@ -8,6 +8,7 @@
 const ORACLE_KEY_STORAGE = 'awara_oracle_apikey';
 const ORACLE_HISTORY_STORAGE = 'awara_oracle_history';
 const ORACLE_MODEL_STORAGE = 'awara_oracle_model';
+const ORACLE_CONTEXT_STORAGE = 'awara_oracle_context';
 const OPENROUTER_URL = 'https://openrouter.ai/api/v1/chat/completions';
 const DEFAULT_MODEL = 'google/gemini-2.5-flash';
 
@@ -19,6 +20,33 @@ export const AVAILABLE_MODELS = [
   { id: 'meta-llama/llama-4-maverick', name: 'Llama 4 Maverick', desc: 'открытый, бесплатный*' },
 ];
 const MAX_HISTORY = 20;
+
+export const ORACLE_CONTEXTS = [
+  {
+    id: 'day',
+    name: 'Толкование дня',
+    icon: '&#9788;',
+    desc: 'Оракул раскрывает смысл текущего дня через агента, матрицу и стихию'
+  },
+  {
+    id: 'matrix',
+    name: 'Наставник матрицы',
+    icon: '&#9670;',
+    desc: 'Проводник по активной матрице восприятия — ведической, славянской или каббалистической'
+  },
+  {
+    id: 'mirror',
+    name: 'Зеркало выбора',
+    icon: '&#9883;',
+    desc: 'Помогает принять решение, отражая ситуацию через призму AWARA'
+  },
+  {
+    id: 'archivist',
+    name: 'Архивариус',
+    icon: '&#128214;',
+    desc: 'Хранитель знаний AWARA — агенты, матрицы, стихии, чакры, локи'
+  }
+];
 
 export function getApiKey() {
   return localStorage.getItem(ORACLE_KEY_STORAGE) || '';
@@ -40,6 +68,14 @@ export function setModel(model) {
   localStorage.setItem(ORACLE_MODEL_STORAGE, model || DEFAULT_MODEL);
 }
 
+export function getContext() {
+  return localStorage.getItem(ORACLE_CONTEXT_STORAGE) || 'day';
+}
+
+export function setContext(contextId) {
+  localStorage.setItem(ORACLE_CONTEXT_STORAGE, contextId || 'day');
+}
+
 export function getHistory() {
   try {
     return JSON.parse(localStorage.getItem(ORACLE_HISTORY_STORAGE) || '[]');
@@ -55,12 +91,40 @@ export function clearHistory() {
   localStorage.removeItem(ORACLE_HISTORY_STORAGE);
 }
 
-function buildSystemPrompt(context) {
-  let prompt = `Ты — Оракул AWARA, мудрый проводник в священной операционной системе реальности.
-Ты говоришь на языке пользователя (обычно русский).
-Твоя задача — давать глубокие, но практичные ответы, соединяя древнюю мудрость с повседневной жизнью.
-Ты НЕ притворяешься человеком. Ты — Оракул, часть игры AWARA.
-Отвечай кратко (2-5 предложений), мудро, с уважением к вопрошающему.`;
+const CONTEXT_PROMPTS = {
+  day: `Ты — Оракул AWARA в режиме «Толкование дня».
+Твоя задача — раскрыть смысл текущего дня для игрока.
+Опирайся на агента дня, матрицу восприятия, стихию и вопрос дня.
+Объясни, какие энергии доминируют сегодня, какие уроки предлагает день, какие действия гармоничны.
+Отвечай на языке пользователя (обычно русский). Кратко (3-6 предложений), образно, с практическим советом.`,
+
+  matrix: `Ты — Оракул AWARA в режиме «Наставник матрицы».
+Твоя задача — быть проводником по активной матрице восприятия игрока.
+Если матрица Ведическая — говори через призму дхармы, кармы, гун.
+Если Славянская — через Правь, Навь, Явь, родовую силу.
+Если Каббалистическая — через Древо Жизни, сфирот, тиккун.
+Объясняй символы, связи агентов с традицией, давай практические наставления.
+Отвечай на языке пользователя. Кратко (3-6 предложений), глубоко, с уважением к традиции.`,
+
+  mirror: `Ты — Оракул AWARA в режиме «Зеркало выбора».
+Твоя задача — помочь игроку принять решение.
+Не давай прямых указаний. Задавай уточняющие вопросы, показывай ситуацию с разных сторон.
+Используй метафоры из AWARA: стихии, агенты, матрицы — как зеркала для рефлексии.
+Помоги увидеть последствия выбора через призму духовного развития.
+Отвечай на языке пользователя. Кратко (3-6 предложений), сократически, без давления.`,
+
+  archivist: `Ты — Оракул AWARA в режиме «Архивариус».
+Ты — хранитель канона AWARA. Знаешь всё о 21 космическом агенте, 33 матрицах восприятия,
+14 локах плотности, 9 Васту-зонах, 9 чакрах-мерах, 5 стихиях, Светкоине, Тигеле.
+Отвечай на вопросы о механиках игры, лоре, связях между сущностями.
+Если не знаешь точного ответа — честно скажи, не выдумывай.
+Отвечай на языке пользователя. Кратко (2-5 предложений), точно, энциклопедически.`
+};
+
+function buildSystemPrompt(context, contextMode) {
+  let prompt = CONTEXT_PROMPTS[contextMode] || CONTEXT_PROMPTS.day;
+
+  prompt += `\nТы НЕ притворяешься человеком. Ты — Оракул, часть системы AWARA.`;
 
   if (context.agent) {
     prompt += `\n\nАгент дня игрока: ${context.agent.name} (${context.agent.culture}).`;
@@ -115,7 +179,8 @@ export async function sendMessage(userText, history) {
   }
 
   const context = gatherContext();
-  const systemMsg = { role: 'system', content: buildSystemPrompt(context) };
+  const contextMode = getContext();
+  const systemMsg = { role: 'system', content: buildSystemPrompt(context, contextMode) };
 
   const messages = [systemMsg, ...history, { role: 'user', content: userText }];
 
