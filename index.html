@@ -666,6 +666,18 @@ window.applyMatrixTheme = function(mid) {
       <div id="dk-question" style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(12px,3vw,15px);color:rgba(220,210,190,0.7);line-height:1.5;margin-top:4px;">...</div>
     </div>
 
+    <!-- STREAK 7 ДНЕЙ -->
+    <div id="streak-widget" style="
+      padding:8px 12px;border-radius:10px;
+      background:rgba(201,168,76,0.04);
+      border:1px solid rgba(201,168,76,0.15);
+      display:flex;align-items:center;gap:10px;justify-content:center;
+    ">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:0.15em;color:rgba(201,168,76,0.4);">СЕРИЯ</div>
+      <div id="streak-dots" style="display:flex;gap:6px;align-items:center;"></div>
+      <div id="streak-count" style="font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(201,168,76,0.7);min-width:20px;text-align:center;">0</div>
+    </div>
+
     <!-- 2. СМЫСЛ ДНЯ -->
     <div id="daily-meaning-btn" ontouchstart="this.click()" onclick="window.openDailyMeaning()" style="
       padding:clamp(6px,1.5vw,9px) clamp(10px,2.5vw,12px);border-radius:10px;cursor:pointer;
@@ -896,6 +908,28 @@ window.applyMatrixTheme = function(mid) {
     document.getElementById('dk-element').textContent = ELEMENT_RU[key.element] || key.element;
     document.getElementById('dk-question').textContent = key.question;
   } catch(e) { console.warn('dailyKey:', e); }
+})();
+
+// ══ STREAK ══
+(async function() {
+  try {
+    const { recordVisit, getStreak } = await import('./js/streak.js');
+    recordVisit();
+    const s = getStreak();
+    const DAYS_RU = ['\u041f\u043d','\u0412\u0442','\u0421\u0440','\u0427\u0442','\u041f\u0442','\u0421\u0431','\u0412\u0441'];
+    const dotsEl = document.getElementById('streak-dots');
+    dotsEl.innerHTML = s.last7.map(d => {
+      const dt = new Date(d.date);
+      const label = DAYS_RU[dt.getDay() === 0 ? 6 : dt.getDay() - 1];
+      const color = d.visited ? 'rgba(201,168,76,0.9)' : 'rgba(255,255,255,0.12)';
+      const shadow = d.visited ? 'box-shadow:0 0 6px rgba(201,168,76,0.5);' : '';
+      return '<div style="display:flex;flex-direction:column;align-items:center;gap:3px;">' +
+        '<div style="width:10px;height:10px;border-radius:50%;background:'+color+';'+shadow+'"></div>' +
+        '<div style="font-family:\'JetBrains Mono\',monospace;font-size:7px;color:rgba(255,255,255,0.25);">'+label+'</div></div>';
+    }).join('');
+    document.getElementById('streak-count').textContent = s.current + '/7';
+    if (s.current >= 7) document.getElementById('streak-count').style.color = '#ffd700';
+  } catch(e) { console.warn('streak:', e); }
 })();
 </script>
 
