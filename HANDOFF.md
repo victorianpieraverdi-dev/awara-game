@@ -25,14 +25,26 @@
 | Сессия | https://app.devin.ai/sessions/e84aad0cb623469da4d71a42da4d46ce |
 | Модель | Agent |
 | Дата | 2026-05-10 (UTC) |
-| Закрытая задача | T-017 |
-| Следующая задача | **Phase 1 backlog** (см. TASKS.md) |
+| Закрытая задача | T-019 |
+| Следующая задача | **T-020** (см. TASKS.md) |
 | Состояние master | ожидает merge PR |
 | Pages | включён, master/root |
 
 ---
 
 ## Лог смен (новые записи СВЕРХУ)
+
+### 2026-05-10 · PBerty · T-019
+
+- Закрыто: T-019 — карточка "Ключ Дня" в лобби
+- Плитка между "Игра" и "Смысл Дня": агент дня, матрица, стихия, вопрос
+- Данные из getDailyKey() (js/dailyKey.js)
+
+### 2026-05-10 · PBerty · T-018
+
+- Закрыто: T-018 — js/dailyKey.js
+- getDailyKey(date?) → {date, agent, matrix, element, question}
+- FNV-1a hash(date+playerId), playerId в localStorage
 
 ### 2026-05-10 · PBerty · T-017
 
