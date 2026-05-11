@@ -293,6 +293,12 @@ html,body{width:100%;height:100%;overflow:hidden;background:#020108;font-family:
   <button class="zi-close" onclick="document.getElementById('zone-info').classList.remove('show')">ЗАКРЫТЬ</button>
 </div>
 
+<!-- Бонусы карт -->
+<div id="earth-card-effects" style="display:none;position:fixed;bottom:52px;left:50%;transform:translateX(-50%);width:min(320px,90vw);padding:10px 14px;border-radius:10px;background:rgba(6,4,18,0.95);border:1px solid rgba(201,168,76,0.2);z-index:100;">
+  <div style="font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:0.2em;color:rgba(201,168,76,0.4);margin-bottom:6px;text-align:center;">БОНУСЫ КАРТ</div>
+  <div id="earth-card-effects-list" style="font-family:'Cormorant Garamond',serif;font-size:12px;color:rgba(220,210,190,0.7);display:flex;flex-direction:column;gap:4px;"></div>
+</div>
+
 <!-- Кнопка строительства -->
 <div id="build-btn" onclick="toggleBuild()">
   <span>⚒</span> ВОЗВЕСТИ СТРУКТУРУ
@@ -669,5 +675,47 @@ renderBuildGrid('all');
 setTimeout(drawMap, 100);
 window.addEventListener('resize', function(){ setTimeout(drawMap,50); });
 </script>
+
+<script>
+// ══ БОНУСЫ КАРТ НА ЗЕМЛЕ ══
+(async function() {
+  try {
+    const { getCardEffects, applyStreakBonus } = await import('./js/cardEffects.js');
+    const fx = getCardEffects();
+    const total = fx.vedic + fx.slavic + fx.kabbalistic;
+    if (total === 0) return;
+
+    var lines = [];
+    if (fx.vedic > 0) {
+      lines.push('<div style="display:flex;justify-content:space-between;"><span style="font-family:\'JetBrains Mono\',monospace;font-size:7px;color:rgba(201,168,76,0.4);">СВЕТ/ЧАС (КАРТЫ)</span><span>+' + fx.lightPerHour + '</span></div>');
+    }
+    if (fx.slavic > 0) {
+      lines.push('<div style="display:flex;justify-content:space-between;"><span style="font-family:\'JetBrains Mono\',monospace;font-size:7px;color:rgba(201,168,76,0.4);">ШАНС КЛЮЧА</span><span>+' + fx.keyChancePct + '%</span></div>');
+    }
+    if (fx.kabbalistic > 0) {
+      lines.push('<div style="display:flex;justify-content:space-between;"><span style="font-family:\'JetBrains Mono\',monospace;font-size:7px;color:rgba(201,168,76,0.4);">КЛЮЧИ (STREAK 7)</span><span>+' + fx.keysAtStreak7 + '</span></div>');
+    }
+
+    document.getElementById('earth-card-effects-list').innerHTML = lines.join('');
+    document.getElementById('earth-card-effects').style.display = 'block';
+
+    // Streak 7 bonus
+    try {
+      const { getStreak } = await import('./js/streak.js');
+      var streak = getStreak();
+      var result = applyStreakBonus(streak.current);
+      if (result.awarded) {
+        var keysEl = document.getElementById('status-msg');
+        if (keysEl) {
+          keysEl.textContent = '+' + result.keys + ' ключей за streak 7!';
+          keysEl.classList.add('show');
+          setTimeout(function(){ keysEl.classList.remove('show'); }, 3000);
+        }
+      }
+    } catch(e) { console.warn('streak bonus:', e); }
+  } catch(e) { console.warn('cardEffects:', e); }
+})();
+</script>
+
 </body>
 </html>
