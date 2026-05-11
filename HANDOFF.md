@@ -25,14 +25,21 @@
 | Сессия | https://app.devin.ai/sessions/e84aad0cb623469da4d71a42da4d46ce |
 | Модель | Agent |
 | Дата | 2026-05-10 (UTC) |
-| Закрытая задача | T-012 |
-| Следующая задача | **T-013** (см. TASKS.md) |
+| Закрытая задача | T-013 |
+| Следующая задача | **T-014** (см. TASKS.md) |
 | Состояние master | ожидает merge PR |
 | Pages | включён, master/root |
 
 ---
 
 ## Лог смен (новые записи СВЕРХУ)
+
+### 2026-05-10 · PBerty · T-013
+
+- Закрыто: T-013 — mobile-audit tigel.html (320/375/768)
+- 15 фиксов: hint-text 7→9px, wuxing-name 7→9px, light-cell-label 7→9px, rec-priority 6→8px, key-stat-label 7→9px и др.
+- Touch targets: back-btn 44×44px, tab-btn min-height 44px
+- Нет горизонтального скролла на всех 3 viewport’ах
 
 ### 2026-05-10 · PBerty · T-012
 

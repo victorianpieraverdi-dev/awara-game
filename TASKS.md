@@ -88,7 +88,7 @@
   Файлы: `dashboard.html`
   Est: 8 мин
 
-- [ ] **T-013 · mobile-audit tigel.html (320 / 375 / 768)**
+- [x] **T-013 · mobile-audit tigel.html (320 / 375 / 768)**
   DoD: см. T-011.
   Файлы: `tigel.html`
   Est: 10 мин
