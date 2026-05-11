@@ -24,15 +24,23 @@
 | Аккаунт | victorianpieraverdi-dev |
 | Сессия | https://app.devin.ai/sessions/05aaba6831eb4070ab7145c501bb67d3 |
 | Модель | Fast Mode / Sonnet |
-| Дата | 2026-05-10 (UTC) |
-| Закрытая задача | T-026 |
-| Следующая задача | **T-027** (см. TASKS.md) |
+| Дата | 2026-05-11 (UTC) |
+| Закрытая задача | T-027 |
+| Следующая задача | **T-028** (см. TASKS.md) |
 | Состояние master | ожидает merge PR |
 | Pages | включён, master/root |
 
 ---
 
 ## Лог смен (новые записи СВЕРХУ)
+
+### 2026-05-11 · victorianpieraverdi-dev · T-027
+
+- Закрыто: T-027 — эффекты карт на Тигель/Землю
+- js/cardEffects.js: getCardEffects() — подсчёт бонусов по матрицам (Ведическая +свет, Славянская +ключ%, Каббалистическая +ключи streak 7)
+- applyStreakBonus() — начисление ключей при streak 7 (раз в день)
+- tigel.html: блок «БОНУСЫ КАРТ» в табе Баланс
+- earth-player.html: блок «БОНУСЫ КАРТ» + автоначисление streak-ключей
 
 ### 2026-05-10 · victorianpieraverdi-dev · T-026
 
