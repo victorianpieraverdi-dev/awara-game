@@ -708,6 +708,12 @@ body {
 
 </div>
 
+<!-- ══ PLAYERSTATE ══ -->
+<script type="module">
+import { getState, saveState } from './js/playerState.js';
+window._playerState = { getState, saveState };
+</script>
+
 <!-- ══ ДВИЖКИ ══ -->
 <script>
 // ══════════════════════════════════════════════════════════════════
@@ -1230,14 +1236,19 @@ function gatherExperienceToCrucible() {
     });
   }
 
-  // ── ИСТОЧНИК 2: Старый формат лобби (фоллбэк / совместимость) ──
+  // ── ИСТОЧНИК 2: playerState.js sphereData + фоллбэк awara_sphere_entries ──
   if (collected.length === 0) {
     let sphereData = {};
     try {
-      const savedState = localStorage.getItem('awara_sphere_entries');
-      if (savedState) sphereData = JSON.parse(savedState);
+      if (window._playerState) {
+        sphereData = window._playerState.getState().sphereData || {};
+      }
+      if (!Object.keys(sphereData).length) {
+        const savedState = localStorage.getItem('awara_sphere_entries');
+        if (savedState) sphereData = JSON.parse(savedState);
+      }
     } catch(e) {
-      console.warn('Не удалось загрузить awara_sphere_entries:', e);
+      console.warn('Не удалось загрузить sphereData:', e);
     }
 
     const sphereMapping = {
