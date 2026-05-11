@@ -42,6 +42,13 @@
 - Синхронизация с PerceptionMatrix (applyMatrixTheme)
 - localStorage key: awara_active_matrix
 
+### 2026-05-10 · victorianpieraverdi-dev · T-010
+
+- Закрыто: T-010 — подключить playerState.js в tigel.html (рефакторинг)
+- Импорт getState/saveState из js/playerState.js через module script
+- sphereData читается из playerState с фоллбэком на awara_sphere_entries
+- Поведение не меняется, только источник данных централизован
+
 ### 2026-05-11 · victorianpieraverdi-dev · T-027
 
 - Закрыто: T-027 — эффекты карт на Тигель/Землю
