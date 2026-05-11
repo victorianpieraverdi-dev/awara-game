@@ -110,7 +110,7 @@
   Файлы: `README.md`
   Est: 6 мин
 
-- [ ] **T-017 · добавить docs/screen-status.md (статус каждого экрана)**
+- [x] **T-017 · добавить docs/screen-status.md (статус каждого экрана)**
   DoD: новый файл `docs/screen-status.md`. Таблица: экран | назначение | статус (ready/wip/placeholder) | известные проблемы. По каждому из 6 экранов.
   Файлы: `docs/screen-status.md`
   Est: 8 мин
