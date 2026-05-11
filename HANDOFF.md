@@ -21,18 +21,25 @@
 
 | Поле | Значение |
 |---|---|
-| Аккаунт | paharaduga-beep |
-| Сессия | https://app.devin.ai/sessions/62b6aff860814728a556d1a69288d140 |
+| Аккаунт | brarianwindahl |
+| Сессия | https://app.devin.ai/sessions/adff3fb623704799a36820baff14eff9 |
 | Модель | Fast Mode / Sonnet |
 | Дата | 2026-05-11 (UTC) |
-| Закрытые задачи | T-029, T-030 |
-| Следующая задача | **T-031** (Оракул LLM, см. TASKS.md) |
-| Состояние master | T-010 merged; T-029/T-030 в fork PR, ожидает merge |
+| Закрытые задачи | T-028, T-029, T-030, T-031 |
+| Следующая задача | следующая из backlog (см. TASKS.md) |
+| Состояние master | T-028..T-031 merged |
 | Pages | включён, master/root |
 
 ---
 
 ## Лог смен (новые записи СВЕРХУ)
+
+### 2026-05-11 · brarianwindahl · T-028
+
+- Закрыто: T-028 — переключатель матрицы восприятия (UI reskin)
+- js/matrixSwitcher.js: ES-модуль с PERCEPTIONS (3 матрицы), getActivePerception(), setActivePerception(), renderSwitcher()
+- index.html: виджет быстрого переключения (Ведическая/Славянская/Каббала) в лобби
+- Интеграция с существующей темой applyMatrixTheme() — UI адаптируется при переключении
 
 ### 2026-05-11 · paharaduga-beep · T-029 + T-030
 
@@ -45,7 +52,6 @@
 - localStorage: awara_natal_data (форма), awara_natal_chart (расчёт)
 - Кнопка «НАТАЛЬНАЯ КАРТА» в лобби (index.html)
 - Phase 3 (T-029..T-031) добавлена в TASKS.md
-
 ### 2026-05-10 · victorianpieraverdi-dev · T-010
 
 - Закрыто: T-010 — подключить playerState.js в tigel.html (рефакторинг)

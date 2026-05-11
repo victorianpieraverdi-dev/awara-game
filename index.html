@@ -804,7 +804,19 @@ window.applyMatrixTheme = function(mid) {
         white-space:nowrap;flex-shrink:0;">&#9789; ОТКРЫТЬ</div>
     </div>
 
-    <!-- 3. МАТРИЦА ВОСПРИЯТИЯ -->
+    <!-- 2.9b. ПЕРЕКЛЮЧАТЕЛЬ МАТРИЦЫ (быстрый) -->
+    <div id="matrix-switcher-widget" style="
+      padding:clamp(8px,2vw,12px) clamp(6px,1.5vw,10px);border-radius:12px;
+      background:linear-gradient(135deg,rgba(201,168,76,0.04),rgba(100,100,200,0.03));
+      border:1px solid rgba(201,168,76,0.12);
+    ">
+      <div style="text-align:center;margin-bottom:8px;">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:0.2em;color:rgba(201,168,76,0.3);">МАТРИЦА ВОСПРИЯТИЯ</div>
+      </div>
+      <div id="matrix-switcher-container"></div>
+    </div>
+
+    <!-- 3. МАТРИЦА ВОСПРИЯТИЯ (все 33) -->
     <div ontouchstart="this.click()" onclick="window.AWARA_SYS&&window.AWARA_SYS.PerceptionMatrix.open()" style="
       padding:clamp(6px,1.5vw,9px) clamp(10px,2.5vw,12px);border-radius:10px;cursor:pointer;
       background:linear-gradient(135deg,rgba(100,220,200,0.06),rgba(80,200,255,0.04));
@@ -1022,6 +1034,21 @@ window.applyMatrixTheme = function(mid) {
       if(badge) badge.textContent = Object.keys(c).length + '/63';
     }
   } catch(e) { console.warn('dailyReward:', e); }
+})();
+
+// ══ ПЕРЕКЛЮЧАТЕЛЬ МАТРИЦЫ ══
+(async function() {
+  try {
+    const { renderSwitcher } = await import('./js/matrixSwitcher.js');
+    var container = document.getElementById('matrix-switcher-container');
+    if (container) {
+      renderSwitcher(container, function(matrixId) {
+        var lbl = document.getElementById('active-matrix-label');
+        var NAMES = { vedic: 'ВЕДИЧЕСКАЯ', slavic: 'СЛАВЯНСКАЯ', kabbalistic: 'КАББАЛА' };
+        if (lbl) lbl.textContent = NAMES[matrixId] || matrixId.toUpperCase();
+      });
+    }
+  } catch(e) { console.warn('matrixSwitcher:', e); }
 })();
 </script>
 
