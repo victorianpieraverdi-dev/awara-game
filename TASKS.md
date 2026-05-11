@@ -127,6 +127,11 @@
   Файлы: `index.html`
   Est: 15 мин
 
+- [x] **T-020 · 7-day streak визуализация в лобби**
+  DoD: `js/streak.js` — recordVisit() + getStreak(). Виджет в лобби: 7 точек (Пн..Вс), золотые если визит был, серые если нет. Счётчик текущей серии. localStorage `awara_streak_days`.
+  Файлы: `js/streak.js`, `index.html`
+  Est: 10 мин
+
 ---
 
 ## Done (закрытые)

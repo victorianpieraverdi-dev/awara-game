@@ -25,14 +25,20 @@
 | Сессия | https://app.devin.ai/sessions/e84aad0cb623469da4d71a42da4d46ce |
 | Модель | Agent |
 | Дата | 2026-05-10 (UTC) |
-| Закрытая задача | T-019 |
-| Следующая задача | **T-020** (см. TASKS.md) |
+| Закрытая задача | T-020 |
+| Следующая задача | **T-021** (см. TASKS.md) |
 | Состояние master | ожидает merge PR |
 | Pages | включён, master/root |
 
 ---
 
 ## Лог смен (новые записи СВЕРХУ)
+
+### 2026-05-10 · PBerty · T-020
+
+- Закрыто: T-020 — 7-day streak в лобби
+- js/streak.js: recordVisit() + getStreak(), localStorage awara_streak_days
+- Виджет: 7 точек (Пн..Вс), золотые при визите, счётчик серии
 
 ### 2026-05-10 · PBerty · T-019
 
