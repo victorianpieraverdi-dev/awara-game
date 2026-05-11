@@ -62,6 +62,35 @@ h1{
   text-transform:uppercase;
 }
 
+/* Context Selector */
+.ctx-bar{
+  display:flex;gap:6px;margin-bottom:12px;flex-shrink:0;
+  overflow-x:auto;scrollbar-width:none;padding:2px 0;
+}
+.ctx-bar::-webkit-scrollbar{display:none}
+.ctx-btn{
+  flex:1;min-width:0;padding:8px 6px;border-radius:10px;
+  border:1px solid var(--accent-line);background:var(--accent-bg);
+  cursor:pointer;text-align:center;transition:all 0.3s;
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+}
+.ctx-btn:hover{border-color:var(--accent);background:rgba(180,120,255,0.1)}
+.ctx-btn.active{
+  border-color:var(--accent);background:rgba(180,120,255,0.15);
+  box-shadow:0 0 12px rgba(180,120,255,0.15);
+}
+.ctx-icon{font-size:16px;line-height:1}
+.ctx-name{
+  font-family:Cinzel,serif;font-size:8px;letter-spacing:0.1em;
+  color:var(--accent-dim);line-height:1.2;
+}
+.ctx-btn.active .ctx-name{color:var(--accent)}
+.ctx-desc{
+  font-size:10px;color:var(--accent-dim);text-align:center;
+  font-family:'JetBrains Mono',monospace;margin-bottom:8px;
+  flex-shrink:0;min-height:14px;
+}
+
 /* API Key Setup */
 .key-setup{
   background:var(--accent-bg);border:1px solid var(--accent-line);
@@ -220,6 +249,10 @@ h1{
   <h1>ОРАКУЛ</h1>
   <div class="subtitle">мудрость древних традиций</div>
 
+  <!-- Context Selector -->
+  <div id="ctxBar" class="ctx-bar"></div>
+  <div id="ctxDesc" class="ctx-desc"></div>
+
   <!-- API Key Setup (collapsible) -->
   <div id="keyPanel" class="key-setup">
     <label>OpenRouter API Key</label>
@@ -267,7 +300,7 @@ h1{
 </div>
 
 <script type="module">
-import { getApiKey, setApiKey, getHistory, saveHistory, clearHistory, sendMessage, getModel, setModel, AVAILABLE_MODELS } from './js/oracle.js';
+import { getApiKey, setApiKey, getHistory, saveHistory, clearHistory, sendMessage, getModel, setModel, AVAILABLE_MODELS, getContext, setContext, ORACLE_CONTEXTS } from './js/oracle.js';
 
 const chatArea = document.getElementById('chatArea');
 const chatInput = document.getElementById('chatInput');
@@ -278,9 +311,43 @@ const keyPanel = document.getElementById('keyPanel');
 const keyBar = document.getElementById('keyBar');
 const welcome = document.getElementById('welcome');
 const modelSelect = document.getElementById('modelSelect');
+const ctxBar = document.getElementById('ctxBar');
+const ctxDescEl = document.getElementById('ctxDesc');
 
 let chatHistory = [];
 let sending = false;
+
+function initContextSelector() {
+  const current = getContext();
+  ORACLE_CONTEXTS.forEach(c => {
+    const btn = document.createElement('button');
+    btn.className = 'ctx-btn' + (c.id === current ? ' active' : '');
+    btn.dataset.ctx = c.id;
+    btn.innerHTML = `<span class="ctx-icon">${c.icon}</span><span class="ctx-name">${c.name}</span>`;
+    btn.onclick = () => switchContext(c.id);
+    ctxBar.appendChild(btn);
+  });
+  const active = ORACLE_CONTEXTS.find(c => c.id === current);
+  if (active) ctxDescEl.textContent = active.desc;
+}
+
+function switchContext(contextId) {
+  setContext(contextId);
+  ctxBar.querySelectorAll('.ctx-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.ctx === contextId);
+  });
+  const active = ORACLE_CONTEXTS.find(c => c.id === contextId);
+  if (active) ctxDescEl.textContent = active.desc;
+  clearHistory();
+  chatHistory = [];
+  chatArea.innerHTML = '';
+  chatArea.appendChild(welcome);
+  welcome.style.display = 'flex';
+  const ctxLabel = ORACLE_CONTEXTS.find(c => c.id === contextId);
+  if (ctxLabel) {
+    appendMsg('system', `Режим: ${ctxLabel.name}`, false);
+  }
+}
 
 function initModelSelector() {
   const current = getModel();
@@ -298,6 +365,7 @@ window.changeModel = function(modelId) {
 };
 
 function init() {
+  initContextSelector();
   initModelSelector();
   const key = getApiKey();
   if (key) {

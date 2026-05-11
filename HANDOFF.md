@@ -25,20 +25,23 @@
 | Сессия | https://app.devin.ai/sessions/a0fda14696cc45db8ec2b3f3bdc82a8d |
 | Модель | Fast Mode / Sonnet |
 | Дата | 2026-05-11 (UTC) |
-| Закрытые задачи | T-031 (push oracle files) |
-| Следующая задача | T-034 |
-| Состояние master | T-031 oracle files pushed |
+| Закрытые задачи | T-031 (push), T-034 |
+| Следующая задача | T-035 |
+| Состояние master | T-031, T-034 |
 | Pages | включён, master/root |
 
 ---
 
 ## Лог смен (новые записи СВЕРХУ)
 
-### 2026-05-11 · dadyup08-debug · T-031 (push)
+### 2026-05-11 · dadyup08-debug · T-031 (push) + T-034
 
 - T-031: oracle.html + js/oracle.js запушены в remote (были cherry-picked локально, но не запушены)
 - Кнопка ОРАКУЛ добавлена в лобби index.html
-- TASKS.md: T-031 помечен [x], добавлены T-032..T-036 (Phase 3b)
+- T-034: 4 контекста Оракула (толкование дня / наставник матрицы / зеркало выбора / архивариус)
+- js/oracle.js: ORACLE_CONTEXTS массив, CONTEXT_PROMPTS с уникальными system prompts, getContext/setContext
+- oracle.html: панель выбора контекста (4 кнопки), переключение очищает чат
+- TASKS.md: T-031, T-034 помечены [x], добавлены T-032..T-036 (Phase 3b)
 
 ### 2026-05-11 · brarianwindahl · T-028
 
