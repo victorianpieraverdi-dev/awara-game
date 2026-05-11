@@ -93,7 +93,7 @@
   Файлы: `tigel.html`
   Est: 10 мин
 
-- [ ] **T-014 · mobile-audit matrices.html (320 / 375 / 768)**
+- [x] **T-014 · mobile-audit matrices.html (320 / 375 / 768)**
   DoD: см. T-011.
   Файлы: `matrices.html`
   Est: 10 мин
