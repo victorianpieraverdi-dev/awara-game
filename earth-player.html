@@ -130,6 +130,32 @@ html,body{width:100%;height:100%;overflow:hidden;background:#020108;font-family:
 }
 #status-msg.show{opacity:1;}
 
+/* ── Инфо зоны (попап) ── */
+#zone-info{
+  position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:80;
+  width:min(320px,85vw);padding:18px 20px;border-radius:14px;
+  background:rgba(6,4,18,0.96);border:1px solid rgba(201,168,76,0.25);
+  box-shadow:0 0 40px rgba(0,0,0,0.7);display:none;
+  font-family:'JetBrains Mono',monospace;
+}
+#zone-info.show{display:block;}
+.zi-title{
+  font-family:'Cinzel',serif;font-size:16px;color:#c9a84c;
+  letter-spacing:0.15em;text-align:center;margin-bottom:12px;
+}
+.zi-row{
+  display:flex;justify-content:space-between;align-items:baseline;
+  padding:5px 0;border-bottom:1px solid rgba(201,168,76,0.06);
+}
+.zi-label{font-size:9px;letter-spacing:0.1em;color:rgba(255,255,255,0.3);}
+.zi-value{font-family:'Cormorant Garamond',serif;font-size:14px;color:rgba(255,248,214,0.85);}
+.zi-close{
+  display:block;margin:14px auto 0;padding:8px 24px;min-height:44px;
+  border:1px solid rgba(201,168,76,0.3);border-radius:8px;
+  background:rgba(201,168,76,0.06);color:#c9a84c;
+  font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.15em;cursor:pointer;
+}
+
 /* ── Панель строительства (снизу) ── */
 #build-panel{
   position:fixed;bottom:0;left:0;right:0;z-index:60;
@@ -255,6 +281,17 @@ html,body{width:100%;height:100%;overflow:hidden;background:#020108;font-family:
 
 <!-- Тултип -->
 <div id="tooltip"><div id="tt-name"></div><div id="tt-desc"></div></div>
+
+<!-- Инфо зоны -->
+<div id="zone-info">
+  <div class="zi-title" id="zi-name">—</div>
+  <div class="zi-row"><span class="zi-label">НАПРАВЛЕНИЕ</span><span class="zi-value" id="zi-dir">—</span></div>
+  <div class="zi-row"><span class="zi-label">СТИХИЯ</span><span class="zi-value" id="zi-element">—</span></div>
+  <div class="zi-row"><span class="zi-label">ПЛАНЕТА</span><span class="zi-value" id="zi-planet">—</span></div>
+  <div class="zi-row"><span class="zi-label">КАЧЕСТВО</span><span class="zi-value" id="zi-quality">—</span></div>
+  <div class="zi-row"><span class="zi-label">СТРОЕНИЯ</span><span class="zi-value" id="zi-buildings">нет</span></div>
+  <button class="zi-close" onclick="document.getElementById('zone-info').classList.remove('show')">ЗАКРЫТЬ</button>
+</div>
 
 <!-- Кнопка строительства -->
 <div id="build-btn" onclick="toggleBuild()">
@@ -553,6 +590,72 @@ function updateTime(){
     days[d.getDay()]+' · '+d.getHours().toString().padStart(2,'0')+':'+d.getMinutes().toString().padStart(2,'0');
 }
 updateTime(); setInterval(updateTime,60000);
+
+// ══ КЛИК ПО ЗОНАМ ВАСТУ ══
+var zonesData = null;
+fetch('data/zones.json').then(function(r){return r.json();}).then(function(d){zonesData=d;}).catch(function(){});
+
+var ZONE_MAP = {
+  'СЗ':'northwest','С':'north','СВ':'northeast',
+  'З':'west','ЦТР':'center','В':'east',
+  'ЮЗ':'southwest','Ю':'south','ЮВ':'southeast'
+};
+
+document.getElementById('vastu-canvas').addEventListener('click', function(e){
+  var c = this;
+  var rect = c.getBoundingClientRect();
+  var scaleX = c.width / rect.width;
+  var scaleY = c.height / rect.height;
+  var mx = (e.clientX - rect.left) * scaleX;
+  var my = (e.clientY - rect.top) * scaleY;
+
+  var sz = Math.min(c.width, c.height) * 0.85;
+  var g3 = sz / 3;
+  var cx = c.width / 2;
+  var cy = c.height / 2;
+
+  var zones = [
+    {r:0,c:0,dir:'СЗ',el:'air',  lbl:'Вайю',  ico:'💨'},
+    {r:0,c:1,dir:'С', el:'water',lbl:'Варуна', ico:'🌊'},
+    {r:0,c:2,dir:'СВ',el:'ether',lbl:'Ишана',  ico:'✦'},
+    {r:1,c:0,dir:'З', el:'fire', lbl:'Агни',   ico:'🔥'},
+    {r:1,c:1,dir:'ЦТР',el:'earth',lbl:'Брахма', ico:'🌱'},
+    {r:1,c:2,dir:'В', el:'earth',lbl:'Индра',  ico:'⚡'},
+    {r:2,c:0,dir:'ЮЗ',el:'water',lbl:'Нирити', ico:'🌊'},
+    {r:2,c:1,dir:'Ю', el:'fire', lbl:'Яма',    ico:'🔥'},
+    {r:2,c:2,dir:'ЮВ',el:'air',  lbl:'Агни',   ico:'💨'},
+  ];
+
+  for (var i = 0; i < zones.length; i++) {
+    var z = zones[i];
+    var x = cx - sz/2 + z.c * g3;
+    var y = cy - sz/2 + z.r * g3;
+    if (mx >= x && mx <= x+g3 && my >= y && my <= y+g3) {
+      showZoneInfo(z);
+      break;
+    }
+  }
+});
+
+function showZoneInfo(z) {
+  var EL_RU = {water:'Вода',wood:'Дерево',fire:'Огонь',earth:'Земля',metal:'Металл',air:'Воздух',ether:'Эфир'};
+  document.getElementById('zi-name').textContent = z.ico + ' ' + z.lbl;
+  document.getElementById('zi-dir').textContent = z.dir;
+  document.getElementById('zi-element').textContent = EL_RU[z.el] || z.el;
+
+  var slug = ZONE_MAP[z.dir] || '';
+  var zd = zonesData && zonesData.find(function(d){ return d.slug === slug; });
+  document.getElementById('zi-planet').textContent = zd ? zd.planet : '—';
+  document.getElementById('zi-quality').textContent = zd ? zd.quality : '—';
+
+  var state = loadState();
+  var bInZone = BUILDINGS.filter(function(b){ return b.el===z.el && state.structs[b.id]; });
+  document.getElementById('zi-buildings').textContent = bInZone.length > 0
+    ? bInZone.map(function(b){ return b.ico + ' ' + b.name; }).join(', ')
+    : 'нет';
+
+  document.getElementById('zone-info').classList.add('show');
+}
 
 // ══ ИНИЦИАЛИЗАЦИЯ ══
 updateCoins();
