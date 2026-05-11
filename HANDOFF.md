@@ -25,14 +25,22 @@
 | Сессия | https://app.devin.ai/sessions/05aaba6831eb4070ab7145c501bb67d3 |
 | Модель | Fast Mode / Sonnet |
 | Дата | 2026-05-10 (UTC) |
-| Закрытая задача | T-010 |
-| Следующая задача | **T-028** (см. TASKS.md) |
-| Состояние master | ожидает merge PR (T-010) |
+| Закрытая задача | T-028 |
+| Следующая задача | см. TASKS.md (Phase 2 закрыт) |
+| Состояние master | ожидает merge PR (T-028) |
 | Pages | включён, master/root |
 
 ---
 
 ## Лог смен (новые записи СВЕРХУ)
+
+### 2026-05-10 · victorianpieraverdi-dev · T-028
+
+- Закрыто: T-028 — переключатель матрицы восприятия (UI reskin)
+- js/matrixSwitcher.js: getActiveMatrix/setActiveMatrix/getTheme/getAllThemes
+- index.html: 3-кнопочный виджет в лобби (Ведическая/Славянская/Каббалистическая)
+- Синхронизация с PerceptionMatrix (applyMatrixTheme)
+- localStorage key: awara_active_matrix
 
 ### 2026-05-10 · victorianpieraverdi-dev · T-010
 
