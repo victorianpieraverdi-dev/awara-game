@@ -25,23 +25,26 @@
 | Сессия | https://app.devin.ai/sessions/a0fda14696cc45db8ec2b3f3bdc82a8d |
 | Модель | Fast Mode / Sonnet |
 | Дата | 2026-05-11 (UTC) |
-| Закрытые задачи | T-031 (push), T-034, T-035 |
-| Следующая задача | T-036 |
-| Состояние master | T-031, T-034, T-035 |
+| Закрытые задачи | T-031 (push), T-034, T-035, T-036 |
+| Следующая задача | следующая из backlog |
+| Состояние master | T-031, T-034, T-035, T-036 |
 | Pages | включён, master/root |
 
 ---
 
 ## Лог смен (новые записи СВЕРХУ)
 
-### 2026-05-11 · dadyup08-debug · T-031 (push) + T-034
+### 2026-05-11 · dadyup08-debug · T-031..T-036
 
 - T-031: oracle.html + js/oracle.js запушены в remote (были cherry-picked локально, но не запушены)
 - Кнопка ОРАКУЛ добавлена в лобби index.html
 - T-034: 4 контекста Оракула (толкование дня / наставник матрицы / зеркало выбора / архивариус)
 - js/oracle.js: ORACLE_CONTEXTS массив, CONTEXT_PROMPTS с уникальными system prompts, getContext/setContext
 - oracle.html: панель выбора контекста (4 кнопки), переключение очищает чат
-- TASKS.md: T-031, T-034 помечены [x], добавлены T-032..T-036 (Phase 3b)
+- T-035: SAFETY_PROMPT — запрет медицинских/финансовых/опасных советов во всех режимах
+- T-036: CSS-анимации перехода при смене матрицы (matrixPulse, matrixFadeOut/In, colorSweep)
+- js/matrixSwitcher.js: анимация кнопок (scale) при переключении
+- TASKS.md: T-031..T-036 помечены [x]
 
 ### 2026-05-11 · brarianwindahl · T-028
 
