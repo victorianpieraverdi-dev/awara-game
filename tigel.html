@@ -645,6 +645,12 @@ body {
 
       <!-- РЕКОМЕНДАЦИИ -->
       <div id="recommendations" class="recommendations"></div>
+
+      <!-- ИТОГИ ДНЯ — 7 параметров -->
+      <div id="day-summary" style="display:none;margin-top:18px;padding:14px;border-radius:10px;background:rgba(201,168,76,0.04);border:1px solid rgba(201,168,76,0.15);">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.2em;color:rgba(201,168,76,0.5);margin-bottom:12px;text-align:center;">ИТОГИ ДНЯ</div>
+        <div id="day-summary-list" style="display:flex;flex-direction:column;gap:8px;font-family:'Cormorant Garamond',serif;font-size:clamp(12px,3vw,14px);color:rgba(220,210,190,0.75);line-height:1.4;"></div>
+      </div>
     </div>
   </div>
   </div>
@@ -945,6 +951,28 @@ function calculateToroid() {
     </div>
   `).join('');
   document.getElementById('recommendations').innerHTML = recHTML || '<div class="hint-text">Баланс отличный — продолжай в том же духе!</div>';
+
+  // ── ИТОГИ ДНЯ — 7 параметров ──
+  const ELEM_RU = {water:'Вода',wood:'Дерево',fire:'Огонь',earth:'Земля',metal:'Металл'};
+  const topElem = Object.entries(wuXingState).sort((a,b) => b[1] - a[1])[0];
+  const summaryEl = document.getElementById('day-summary');
+  const listEl = document.getElementById('day-summary-list');
+  const params = [
+    { label: 'Доминантная стихия', value: ELEM_RU[topElem[0]] || topElem[0], sub: Math.round(topElem[1]*100) + '%' },
+    { label: 'Канал Пингала (Ян)', value: Math.round(pingala*100) + '%' },
+    { label: 'Канал Ида (Инь)', value: Math.round(ida*100) + '%' },
+    { label: 'Баланс Сушумны', value: sushumna.label, sub: Math.round(balance*100) + '%' },
+    { label: 'Множитель майнинга', value: '×' + mining_multiplier },
+    { label: 'Свет за сессию', value: light_total + ' ✦' },
+    { label: 'Рекомендация', value: dominant.advice },
+  ];
+  listEl.innerHTML = params.map(p =>
+    '<div style="display:flex;justify-content:space-between;align-items:baseline;padding:4px 0;border-bottom:1px solid rgba(201,168,76,0.07);">' +
+      '<span style="font-family:\'JetBrains Mono\',monospace;font-size:9px;letter-spacing:0.1em;color:rgba(201,168,76,0.4);">' + p.label + '</span>' +
+      '<span style="color:rgba(255,248,214,0.85);">' + p.value + (p.sub ? ' <span style="font-size:10px;color:rgba(201,168,76,0.5);">(' + p.sub + ')</span>' : '') + '</span>' +
+    '</div>'
+  ).join('');
+  summaryEl.style.display = 'block';
 }
 
 // ── Слушатель изменения лога ──
