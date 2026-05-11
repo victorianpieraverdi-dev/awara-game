@@ -21,18 +21,26 @@
 
 | Поле | Значение |
 |---|---|
-| Аккаунт | victorianpieraverdi-dev |
-| Сессия | https://app.devin.ai/sessions/05aaba6831eb4070ab7145c501bb67d3 |
+| Аккаунт | brarianwindahl |
+| Сессия | https://app.devin.ai/sessions/adff3fb623704799a36820baff14eff9 |
 | Модель | Fast Mode / Sonnet |
-| Дата | 2026-05-10 (UTC) |
-| Закрытая задача | T-010 |
-| Следующая задача | **T-028** (см. TASKS.md) |
-| Состояние master | ожидает merge PR (T-010) |
+| Дата | 2026-05-11 (UTC) |
+| Закрытая задача | T-028 |
+| Следующая задача | следующая из backlog (см. TASKS.md) |
+| Состояние master | T-028 в PR, ожидает merge |
 | Pages | включён, master/root |
 
 ---
 
 ## Лог смен (новые записи СВЕРХУ)
+
+### 2026-05-11 · brarianwindahl · T-028
+
+- Закрыто: T-028 — переключатель матрицы восприятия (UI reskin)
+- js/matrixSwitcher.js: ES-модуль с PERCEPTIONS (3 матрицы), getActivePerception(), setActivePerception(), renderSwitcher()
+- index.html: виджет быстрого переключения (Ведическая/Славянская/Каббала) в лобби
+- Интеграция с существующей темой applyMatrixTheme() — UI адаптируется при переключении
+- Также перенесены PR из форка paharaduga-beep: T-029+T-030 (натальная карта) и T-031 (Оракул)
 
 ### 2026-05-10 · victorianpieraverdi-dev · T-010
 
