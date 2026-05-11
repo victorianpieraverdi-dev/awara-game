@@ -25,9 +25,9 @@
 | Сессия | https://app.devin.ai/sessions/adff3fb623704799a36820baff14eff9 |
 | Модель | Fast Mode / Sonnet |
 | Дата | 2026-05-11 (UTC) |
-| Закрытая задача | T-028 |
+| Закрытые задачи | T-028, T-029, T-030, T-031 |
 | Следующая задача | следующая из backlog (см. TASKS.md) |
-| Состояние master | T-028 в PR, ожидает merge |
+| Состояние master | T-028..T-031 merged |
 | Pages | включён, master/root |
 
 ---
@@ -40,8 +40,18 @@
 - js/matrixSwitcher.js: ES-модуль с PERCEPTIONS (3 матрицы), getActivePerception(), setActivePerception(), renderSwitcher()
 - index.html: виджет быстрого переключения (Ведическая/Славянская/Каббала) в лобби
 - Интеграция с существующей темой applyMatrixTheme() — UI адаптируется при переключении
-- Также перенесены PR из форка paharaduga-beep: T-029+T-030 (натальная карта) и T-031 (Оракул)
 
+### 2026-05-11 · paharaduga-beep · T-029 + T-030
+
+- Закрыто: T-029 — natal.html форма ввода натальных данных (UI)
+- Закрыто: T-030 — подключить Swiss Ephemeris (JS-порт для браузера)
+- natal.html: форма (дата/время/город) + расчёт 9 планет (Навграхи), 12 домов (Бхавы), Лагна
+- @swisseph/browser WASM (lib/swisseph/, ~500KB) — пропатчен для работы в браузере
+- Сидерический зодиак (Lahiri аянамша), Whole Sign дома, 27 накшатр
+- Геокодирование города через Nominatim OpenStreetMap API
+- localStorage: awara_natal_data (форма), awara_natal_chart (расчёт)
+- Кнопка «НАТАЛЬНАЯ КАРТА» в лобби (index.html)
+- Phase 3 (T-029..T-031) добавлена в TASKS.md
 ### 2026-05-10 · victorianpieraverdi-dev · T-010
 
 - Закрыто: T-010 — подключить playerState.js в tigel.html (рефакторинг)
