@@ -25,14 +25,21 @@
 | Сессия | https://app.devin.ai/sessions/e84aad0cb623469da4d71a42da4d46ce |
 | Модель | Agent |
 | Дата | 2026-05-10 (UTC) |
-| Закрытая задача | T-014 |
-| Следующая задача | **T-015** (см. TASKS.md) |
+| Закрытая задача | T-015 |
+| Следующая задача | **T-016** (см. TASKS.md) |
 | Состояние master | ожидает merge PR |
 | Pages | включён, master/root |
 
 ---
 
 ## Лог смен (новые записи СВЕРХУ)
+
+### 2026-05-10 · PBerty · T-015
+
+- Закрыто: T-015 — mobile-audit earth-player.html (320/375/768)
+- 14 фиксов: realm-era 6→8px, el-lbl 5→8px, zone-dir 6→8px, si-lbl/bt/bld-name/bld-cost 7→9px
+- back-lbl/top-coins/realm-level/realm-time 7-8→9px
+- Touch targets: .bt min-height 44px, #build-btn min-height 44px
 
 ### 2026-05-10 · PBerty · T-014
 
