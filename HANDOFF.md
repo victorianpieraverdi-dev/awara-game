@@ -25,14 +25,21 @@
 | Сессия | https://app.devin.ai/sessions/e84aad0cb623469da4d71a42da4d46ce |
 | Модель | Agent |
 | Дата | 2026-05-10 (UTC) |
-| Закрытая задача | T-013 |
-| Следующая задача | **T-014** (см. TASKS.md) |
+| Закрытая задача | T-014 |
+| Следующая задача | **T-015** (см. TASKS.md) |
 | Состояние master | ожидает merge PR |
 | Pages | включён, master/root |
 
 ---
 
 ## Лог смен (новые записи СВЕРХУ)
+
+### 2026-05-10 · PBerty · T-014
+
+- Закрыто: T-014 — mobile-audit matrices.html (320/375/768)
+- 6 фиксов: matrix-visual 8→9px, matrix-badge 7→9px, agent-meta 8→9px
+- @media(max-width:375px): matrix-visual/agent-meta 7→9px
+- back кнопка: min-height 44px
 
 ### 2026-05-10 · PBerty · T-013
 
