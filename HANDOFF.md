@@ -21,18 +21,24 @@
 
 | Поле | Значение |
 |---|---|
-| Аккаунт | brarianwindahl |
-| Сессия | https://app.devin.ai/sessions/adff3fb623704799a36820baff14eff9 |
+| Аккаунт | dadyup08-debug |
+| Сессия | https://app.devin.ai/sessions/a0fda14696cc45db8ec2b3f3bdc82a8d |
 | Модель | Fast Mode / Sonnet |
 | Дата | 2026-05-11 (UTC) |
-| Закрытые задачи | T-028, T-029, T-030, T-031 |
-| Следующая задача | следующая из backlog (см. TASKS.md) |
-| Состояние master | T-028..T-031 merged |
+| Закрытые задачи | T-031 (push oracle files) |
+| Следующая задача | T-034 |
+| Состояние master | T-031 oracle files pushed |
 | Pages | включён, master/root |
 
 ---
 
 ## Лог смен (новые записи СВЕРХУ)
+
+### 2026-05-11 · dadyup08-debug · T-031 (push)
+
+- T-031: oracle.html + js/oracle.js запушены в remote (были cherry-picked локально, но не запушены)
+- Кнопка ОРАКУЛ добавлена в лобби index.html
+- TASKS.md: T-031 помечен [x], добавлены T-032..T-036 (Phase 3b)
 
 ### 2026-05-11 · brarianwindahl · T-028
 
