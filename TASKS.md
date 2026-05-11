@@ -98,7 +98,7 @@
   Файлы: `matrices.html`
   Est: 10 мин
 
-- [ ] **T-015 · mobile-audit earth-player.html (320 / 375 / 768)**
+- [x] **T-015 · mobile-audit earth-player.html (320 / 375 / 768)**
   DoD: см. T-011.
   Файлы: `earth-player.html`
   Est: 10 мин
