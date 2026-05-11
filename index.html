@@ -678,6 +678,17 @@ window.applyMatrixTheme = function(mid) {
       <div id="streak-count" style="font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(201,168,76,0.7);min-width:20px;text-align:center;">0</div>
     </div>
 
+    <!-- ПЕРЕКЛЮЧАТЕЛЬ МАТРИЦЫ -->
+    <div id="matrix-switcher" style="
+      padding:8px 10px;border-radius:10px;
+      background:rgba(201,168,76,0.03);
+      border:1px solid rgba(201,168,76,0.10);
+      display:flex;flex-direction:column;align-items:center;gap:6px;
+    ">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:0.2em;color:rgba(201,168,76,0.35);">АКТИВНАЯ МАТРИЦА</div>
+      <div id="matrix-switcher-btns" style="display:flex;gap:6px;width:100%;"></div>
+    </div>
+
     <!-- 2. СМЫСЛ ДНЯ -->
     <div id="daily-meaning-btn" ontouchstart="this.click()" onclick="window.openDailyMeaning()" style="
       padding:clamp(6px,1.5vw,9px) clamp(10px,2.5vw,12px);border-radius:10px;cursor:pointer;
@@ -15476,6 +15487,50 @@ function toggleNakopPanel() {
   to   { opacity:1; transform:scale(1) translateY(0); }
 }
 </style>
+
+<script>
+// ══ ПЕРЕКЛЮЧАТЕЛЬ МАТРИЦЫ ВОСПРИЯТИЯ (T-028) ══
+(async function() {
+  try {
+    const { getActiveMatrix, setActiveMatrix, getTheme, getAllThemes } = await import('./js/matrixSwitcher.js');
+    var host = document.getElementById('matrix-switcher-btns');
+    if (!host) return;
+
+    function render() {
+      var active = getActiveMatrix();
+      var themes = getAllThemes();
+      host.innerHTML = themes.map(function(t) {
+        var isActive = t.slug === active;
+        var bg = isActive ? t.bg : 'rgba(255,255,255,0.02)';
+        var border = isActive ? t.border : 'rgba(255,255,255,0.06)';
+        var labelColor = isActive ? t.accent : 'rgba(255,255,255,0.3)';
+        return '<div data-matrix-slug="' + t.slug + '" style="' +
+          'flex:1;padding:8px 4px;border-radius:8px;cursor:pointer;text-align:center;' +
+          'background:' + bg + ';border:1px solid ' + border + ';transition:all 0.25s;' +
+          '">' +
+          '<div style="font-size:18px;line-height:1;margin-bottom:4px;filter:drop-shadow(0 0 6px ' + t.color + ');">' + t.icon + '</div>' +
+          '<div style="font-family:\'Cinzel\',serif;font-size:clamp(7px,1.8vw,9px);color:' + labelColor + ';letter-spacing:0.1em;line-height:1.2;">' + t.label + '</div>' +
+          (isActive ? '<div style="font-family:\'JetBrains Mono\',monospace;font-size:6px;color:' + t.accent + ';margin-top:3px;letter-spacing:0.15em;">АКТИВНА</div>' : '') +
+          '</div>';
+      }).join('');
+
+      host.querySelectorAll('[data-matrix-slug]').forEach(function(el) {
+        el.onclick = function() {
+          var slug = el.getAttribute('data-matrix-slug');
+          setActiveMatrix(slug);
+          render();
+          // Синхронизация с PerceptionMatrix если доступна
+          if (window.applyMatrixTheme) {
+            window.applyMatrixTheme(slug);
+          }
+        };
+      });
+    }
+
+    render();
+  } catch(e) { console.warn('matrixSwitcher:', e); }
+})();
+</script>
 
 </body>
 </html>
