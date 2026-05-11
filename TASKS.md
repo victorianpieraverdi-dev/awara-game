@@ -83,7 +83,7 @@
   Файлы: `index.html` (правки media-queries при необходимости)
   Est: 10 мин
 
-- [ ] **T-012 · mobile-audit dashboard.html (320 / 375 / 768)**
+- [x] **T-012 · mobile-audit dashboard.html (320 / 375 / 768)**
   DoD: см. T-011.
   Файлы: `dashboard.html`
   Est: 8 мин
