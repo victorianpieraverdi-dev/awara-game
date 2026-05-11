@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#02010a">
+<title>Колода Карт · AWARA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --gold:#c9a84c;
+  --gold-bright:#ffd700;
+  --gold-light:#fff8d6;
+  --bg:#02010a;
+  --line:rgba(201,168,76,0.18);
+  --text:rgba(255,248,214,0.85);
+  --text-soft:rgba(255,248,214,0.55);
+  --text-mute:rgba(255,255,255,0.35);
+}
+html,body{background:var(--bg);color:var(--text);min-height:100vh}
+body{
+  font-family:'JetBrains Mono',monospace;
+  padding:18px 14px 40px;
+  background:
+    radial-gradient(ellipse at 50% -10%, rgba(201,168,76,0.10), transparent 55%),
+    radial-gradient(ellipse at 50% 100%, rgba(80,40,140,0.08), transparent 60%),
+    var(--bg);
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:780px;margin:0 auto}
+
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:24px;gap:8px;
+}
+.back-link{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:9px 14px;min-height:44px;
+  border:1px solid var(--line);border-radius:10px;
+  font-family:Cinzel,serif;font-size:11px;
+  letter-spacing:0.2em;color:var(--text-soft);
+  text-decoration:none;cursor:pointer;transition:all 0.3s;
+}
+.back-link:hover{border-color:var(--gold);color:var(--gold)}
+
+.page-title{
+  font-family:'Cinzel Decorative',serif;
+  font-size:clamp(16px,4vw,22px);
+  color:var(--gold);letter-spacing:0.15em;
+  text-align:center;margin-bottom:4px;
+}
+.page-sub{
+  font-size:9px;letter-spacing:0.2em;
+  color:var(--text-mute);text-align:center;margin-bottom:6px;
+}
+.counter{
+  text-align:center;font-size:11px;color:var(--text-mute);
+  margin-bottom:20px;
+}
+.counter b{color:var(--gold)}
+
+/* Фильтры матриц */
+.filter-row{
+  display:flex;gap:6px;justify-content:center;margin-bottom:20px;flex-wrap:wrap;
+}
+.filter-btn{
+  padding:6px 14px;min-height:44px;border-radius:20px;cursor:pointer;
+  font-family:Cinzel,serif;font-size:10px;letter-spacing:0.12em;
+  color:var(--text-mute);border:1px solid rgba(255,255,255,0.1);
+  background:rgba(255,255,255,0.03);transition:all 0.2s;
+  display:flex;align-items:center;
+}
+.filter-btn.on{color:var(--gold);border-color:rgba(201,168,76,0.4);background:rgba(201,168,76,0.07);}
+
+/* Сетка карт */
+.cards-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+  gap:12px;
+}
+
+.card{
+  border:1px solid rgba(201,168,76,0.12);border-radius:12px;
+  padding:14px 10px;text-align:center;
+  background:rgba(201,168,76,0.02);
+  transition:all 0.3s;cursor:pointer;position:relative;overflow:hidden;
+}
+.card::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 0%,rgba(201,168,76,0.04),transparent 70%);
+  pointer-events:none;
+}
+.card.owned{
+  border-color:rgba(201,168,76,0.35);
+  background:rgba(201,168,76,0.06);
+}
+.card.locked{opacity:0.4;filter:grayscale(0.6);}
+.card:hover{border-color:rgba(201,168,76,0.5);transform:translateY(-2px);}
+
+.card-el{font-size:clamp(24px,6vw,32px);margin-bottom:6px;}
+.card-name{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(12px,3vw,14px);color:var(--text);
+  line-height:1.3;margin-bottom:4px;
+}
+.card-matrix{
+  font-size:8px;letter-spacing:0.12em;color:rgba(201,168,76,0.45);
+  margin-bottom:6px;
+}
+.card-element{
+  font-size:8px;letter-spacing:0.1em;color:var(--text-mute);
+}
+.card-badge{
+  position:absolute;top:6px;right:6px;
+  font-size:8px;padding:2px 6px;border-radius:10px;
+  background:rgba(201,168,76,0.15);color:var(--gold);
+  font-family:'JetBrains Mono',monospace;
+}
+.card-locked-ico{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  font-size:20px;opacity:0.3;
+}
+
+/* Попап карты */
+#card-popup{
+  position:fixed;top:0;left:0;right:0;bottom:0;z-index:100;
+  background:rgba(2,1,8,0.9);display:none;
+  align-items:center;justify-content:center;padding:20px;
+}
+#card-popup.show{display:flex;}
+.popup-card{
+  width:min(340px,90vw);padding:28px 24px;border-radius:16px;
+  background:rgba(6,4,18,0.98);border:1px solid rgba(201,168,76,0.3);
+  text-align:center;position:relative;
+}
+.popup-ico{font-size:48px;margin-bottom:12px;}
+.popup-name{
+  font-family:'Cinzel',serif;font-size:20px;color:var(--gold);
+  letter-spacing:0.1em;margin-bottom:6px;
+}
+.popup-matrix{font-size:10px;letter-spacing:0.15em;color:var(--text-mute);margin-bottom:14px;}
+.popup-row{
+  display:flex;justify-content:space-between;padding:5px 0;
+  border-bottom:1px solid rgba(201,168,76,0.06);
+  font-size:12px;
+}
+.popup-lbl{color:var(--text-mute);font-size:9px;letter-spacing:0.1em;}
+.popup-val{color:var(--text);font-family:'Cormorant Garamond',serif;font-size:14px;}
+.popup-close{
+  margin-top:16px;padding:10px 28px;min-height:44px;
+  border:1px solid rgba(201,168,76,0.3);border-radius:8px;
+  background:rgba(201,168,76,0.06);color:var(--gold);
+  font-family:Cinzel,serif;font-size:10px;letter-spacing:0.15em;cursor:pointer;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <a class="back-link" href="index.html">← ЛОББИ</a>
+    <div style="font-family:Cinzel,serif;font-size:9px;letter-spacing:0.15em;color:var(--text-mute);">AWARA</div>
+  </div>
+
+  <div class="page-title">КОЛОДА КАРТ</div>
+  <div class="page-sub">21 АГЕНТ × 3 МАТРИЦЫ = 63 КАРТЫ</div>
+  <div class="counter" id="counter">Собрано: <b>0</b> / 63</div>
+
+  <div class="filter-row" id="filters"></div>
+  <div class="cards-grid" id="cards-grid"></div>
+</div>
+
+<!-- Попап -->
+<div id="card-popup" onclick="if(event.target===this)this.classList.remove('show')">
+  <div class="popup-card">
+    <div class="popup-ico" id="pop-ico"></div>
+    <div class="popup-name" id="pop-name"></div>
+    <div class="popup-matrix" id="pop-matrix"></div>
+    <div class="popup-row"><span class="popup-lbl">СТИХИЯ</span><span class="popup-val" id="pop-el"></span></div>
+    <div class="popup-row"><span class="popup-lbl">ВАСТУ-ЗОНА</span><span class="popup-val" id="pop-zone"></span></div>
+    <div class="popup-row"><span class="popup-lbl">ЭФФЕКТ</span><span class="popup-val" id="pop-effect"></span></div>
+    <div class="popup-row"><span class="popup-lbl">СТАТУС</span><span class="popup-val" id="pop-status"></span></div>
+    <button class="popup-close" onclick="document.getElementById('card-popup').classList.remove('show')">ЗАКРЫТЬ</button>
+  </div>
+</div>
+
+<script>
+var MATRICES = ['Ведическая','Славянская','Каббалистическая'];
+var MATRIX_EFFECTS = {
+  'Ведическая':   '+1 ✦ свет/час',
+  'Славянская':    '+5% шанс ключа',
+  'Каббалистическая': '+1 🔑 при streak 7'
+};
+var EL_ICO = {
+  'Огонь':'🔥','Вода':'🌊','Земля':'🌱','Воздух':'💨','Эфир':'✦'
+};
+
+var agents = [];
+var collected = {};
+
+function loadCollected(){
+  try { collected = JSON.parse(localStorage.getItem('awara_cards')||'{}'); } catch(e){ collected={}; }
+}
+function saveCollected(){
+  try { localStorage.setItem('awara_cards', JSON.stringify(collected)); } catch(e){}
+}
+
+function cardId(agentSlug, matrix){ return agentSlug + '__' + matrix; }
+
+async function init(){
+  loadCollected();
+
+  try {
+    agents = await fetch('data/agents.json').then(function(r){return r.json();});
+  } catch(e){ console.warn('cards: agents.json error', e); return; }
+
+  renderFilters();
+  renderCards('all');
+  updateCounter();
+}
+
+var activeFilter = 'all';
+
+function renderFilters(){
+  var el = document.getElementById('filters');
+  var btns = [{label:'ВСЕ',val:'all'}];
+  MATRICES.forEach(function(m){ btns.push({label:m.toUpperCase(),val:m}); });
+  el.innerHTML = btns.map(function(b){
+    return '<div class="filter-btn'+(b.val===activeFilter?' on':'')+'" onclick="setFilter(\''+b.val+'\')">'+b.label+'</div>';
+  }).join('');
+}
+
+function setFilter(f){
+  activeFilter = f;
+  renderFilters();
+  renderCards(f);
+}
+
+function renderCards(filter){
+  var grid = document.getElementById('cards-grid');
+  var html = '';
+  agents.forEach(function(a){
+    MATRICES.forEach(function(m){
+      if(filter !== 'all' && filter !== m) return;
+      var cid = cardId(a.slug, m);
+      var owned = !!collected[cid];
+      var elIcon = EL_ICO[a.element] || '✦';
+      html += '<div class="card '+(owned?'owned':'locked')+'" onclick="showCard(\''+a.slug+'\',\''+m+'\')">' +
+        (owned ? '<div class="card-badge">✦</div>' : '<div class="card-locked-ico">🔒</div>') +
+        '<div class="card-el">'+elIcon+'</div>' +
+        '<div class="card-name">'+(owned ? a.name : '???')+'</div>' +
+        '<div class="card-matrix">'+m.toUpperCase()+'</div>' +
+        '<div class="card-element">'+a.element+'</div>' +
+        '</div>';
+    });
+  });
+  grid.innerHTML = html;
+}
+
+function showCard(slug, matrix){
+  var a = agents.find(function(x){return x.slug===slug;});
+  if(!a) return;
+  var cid = cardId(slug, matrix);
+  var owned = !!collected[cid];
+
+  document.getElementById('pop-ico').textContent = EL_ICO[a.element] || '✦';
+  document.getElementById('pop-name').textContent = owned ? a.name : '???';
+  document.getElementById('pop-matrix').textContent = matrix.toUpperCase();
+  document.getElementById('pop-el').textContent = a.element;
+  document.getElementById('pop-zone').textContent = a.vastu_zone || '—';
+  document.getElementById('pop-effect').textContent = MATRIX_EFFECTS[matrix] || '—';
+  document.getElementById('pop-status').textContent = owned ? '✦ В КОЛЛЕКЦИИ' : '🔒 НЕ НАЙДЕНА';
+  document.getElementById('pop-status').style.color = owned ? '#c9a84c' : 'rgba(255,255,255,0.3)';
+
+  document.getElementById('card-popup').classList.add('show');
+}
+
+function updateCounter(){
+  var total = agents.length * MATRICES.length;
+  var count = Object.keys(collected).length;
+  document.getElementById('counter').innerHTML = 'Собрано: <b>'+count+'</b> / '+total;
+}
+
+init();
+</script>
+</body>
+</html>

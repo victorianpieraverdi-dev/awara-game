@@ -762,6 +762,27 @@ window.applyMatrixTheme = function(mid) {
         white-space:nowrap;flex-shrink:0;">🪷 ОТКРЫТЬ</div>
     </div>
 
+    <!-- 2.8. КОЛОДА КАРТ -->
+    <div ontouchstart="this.click()" onclick="window.location.href='cards.html'" style="
+      padding:clamp(6px,1.5vw,9px) clamp(10px,2.5vw,12px);border-radius:10px;cursor:pointer;
+      background:linear-gradient(135deg,rgba(220,180,60,0.07),rgba(200,160,40,0.04));
+      border:1px solid rgba(220,180,60,0.22);
+      display:flex;align-items:center;gap:12px;transition:all 0.3s;
+    "
+    onmouseenter="this.style.borderColor='rgba(220,180,60,0.55)';this.style.background='linear-gradient(135deg,rgba(220,180,60,0.14),rgba(200,160,40,0.08))'"
+    onmouseleave="this.style.borderColor='rgba(220,180,60,0.22)';this.style.background='linear-gradient(135deg,rgba(220,180,60,0.07),rgba(200,160,40,0.04))'">
+      <div style="font-size:clamp(16px,4vw,20px);flex-shrink:0;filter:drop-shadow(0 0 8px rgba(220,180,60,0.6));">🃏</div>
+      <div style="flex:1;text-align:center;">
+        <div style="font-family:'Cinzel',serif;font-size:clamp(12px,3vw,14px);color:rgba(220,180,60,0.9);letter-spacing:0.2em;">КОЛОДА КАРТ</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:clamp(9px,2vw,10px);color:rgba(220,180,60,0.4);margin-top:2px;">63 КАРТЫ · 21 АГЕНТ × 3 МАТРИЦЫ</div>
+      </div>
+      <div style="
+        font-family:'JetBrains Mono',monospace;font-size:10px;
+        color:rgba(220,180,60,0.7);padding:3px 10px;border-radius:20px;
+        background:rgba(220,180,60,0.06);border:1px solid rgba(220,180,60,0.2);
+        white-space:nowrap;flex-shrink:0;" id="cards-count-badge">0/63</div>
+    </div>
+
     <!-- 3. МАТРИЦА ВОСПРИЯТИЯ -->
     <div ontouchstart="this.click()" onclick="window.AWARA_SYS&&window.AWARA_SYS.PerceptionMatrix.open()" style="
       padding:clamp(6px,1.5vw,9px) clamp(10px,2.5vw,12px);border-radius:10px;cursor:pointer;
@@ -951,6 +972,16 @@ window.applyMatrixTheme = function(mid) {
     document.getElementById('streak-count').textContent = s.current + '/7';
     if (s.current >= 7) document.getElementById('streak-count').style.color = '#ffd700';
   } catch(e) { console.warn('streak:', e); }
+})();
+
+// Бейдж колоды карт
+(function(){
+  try {
+    var c = JSON.parse(localStorage.getItem('awara_cards')||'{}');
+    var n = Object.keys(c).length;
+    var el = document.getElementById('cards-count-badge');
+    if(el) el.textContent = n + '/63';
+  } catch(e){}
 })();
 </script>
 

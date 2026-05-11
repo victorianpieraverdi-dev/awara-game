@@ -318,23 +318,21 @@ var EL_COLORS = {earth:'74,103,65',water:'42,96,128',fire:'138,48,32',air:'96,10
 var EL_ICO = {earth:'🌱',water:'🌊',fire:'🔥',air:'💨',ether:'✦'};
 var EL_NAMES = {earth:'Земля',water:'Вода',fire:'Огонь',air:'Воздух',ether:'Эфир'};
 
-// Строения по стихиям (реальные из earth-space.html)
+// 9 базовых строений (1 на Васту-зону), стоимость: свет + ключи
 var BUILDINGS = [
-  {id:'field',  el:'earth', ico:'🌾', name:'Поле Света',     cost:50,  income:2,  desc:'Источник чистой световой энергии.'},
-  {id:'grove',  el:'earth', ico:'🌳', name:'Свами-Роща',    cost:120, income:4,  desc:'Место мудрости и размышлений.'},
-  {id:'meru',   el:'earth', ico:'⛰️',  name:'Гора Миру',     cost:300, income:8,  desc:'Священная ось мира.'},
-  {id:'garden', el:'earth', ico:'🌸', name:'Сад Дхармы',    cost:80,  income:3,  desc:'Пространство созерцания и практики.'},
-  {id:'island', el:'water', ico:'🏝️',  name:'Остров Мудрости',cost:200,income:6, desc:'Уединённое место постижения истины.'},
-  {id:'lake',   el:'water', ico:'💧', name:'Озеро Самадхи', cost:150, income:5,  desc:'Зерцало ума — отражает суть вещей.'},
-  {id:'river',  el:'water', ico:'🌊', name:'Река Жизни',    cost:90,  income:3,  desc:'Поток жизненной силы Праны.'},
-  {id:'stone',  el:'fire',  ico:'🪨', name:'Камень Незнания',cost:250,income:7, desc:'Место первобытной силы и испытаний.'},
-  {id:'temple', el:'fire',  ico:'🕌', name:'Храм Сознания',  cost:400, income:10, desc:'Обитель чистого осознания Атмана.'},
-  {id:'bridge', el:'air',   ico:'🌉', name:'Мост Дхармы',   cost:180, income:5,  desc:'Соединяет видимое и невидимое.'},
-  {id:'forge',  el:'ether', ico:'⚒️', name:'Кузница Воли',  cost:350, income:9,  desc:'Место создания магических артефактов.'},
-  {id:'ashram', el:'ether', ico:'🪷', name:'Ашрам Прамы',   cost:280, income:7,  desc:'Духовная школа света и истины.'},
-  {id:'bridge2',el:'air',   ico:'🏯', name:'Мост Мира',     cost:220, income:6,  desc:'Врата между мирами.'},
-  {id:'adam',   el:'earth', ico:'🗿', name:'Храм Адама',    cost:500, income:12, desc:'Первородная точка — центр Державы.'},
+  {id:'field',  el:'earth', zone:'В',   ico:'🌾', name:'Поле Света',     cost:50,  keys:0, income:2,  desc:'Источник чистой световой энергии. Зона Востока.'},
+  {id:'lake',   el:'water', zone:'С',   ico:'💧', name:'Озеро Самадхи', cost:80,  keys:1, income:3,  desc:'Зерцало ума. Зона Севера.'},
+  {id:'stone',  el:'fire',  zone:'ЮВ',  ico:'🪨', name:'Камень Агни',   cost:120, keys:1, income:4,  desc:'Первобытная сила огня. Зона Юго-Востока.'},
+  {id:'bridge', el:'air',   zone:'СЗ',  ico:'🌉', name:'Мост Дхармы',   cost:150, keys:2, income:5,  desc:'Соединяет видимое и невидимое. Зона Северо-Запада.'},
+  {id:'forge',  el:'ether', zone:'СВ',  ico:'⚒️', name:'Кузница Воли',  cost:200, keys:2, income:6,  desc:'Место создания артефактов. Зона Северо-Востока.'},
+  {id:'grove',  el:'earth', zone:'З',   ico:'🌳', name:'Свами-Роща',    cost:250, keys:3, income:7,  desc:'Место мудрости. Зона Запада.'},
+  {id:'temple', el:'fire',  zone:'Ю',   ico:'🕌', name:'Храм Сознания', cost:300, keys:3, income:8,  desc:'Обитель осознания. Зона Юга.'},
+  {id:'ashram', el:'water', zone:'ЮЗ',  ico:'🪷', name:'Ашрам Прамы',   cost:400, keys:5, income:10, desc:'Духовная школа. Зона Юго-Запада.'},
+  {id:'meru',   el:'ether', zone:'ЦТР', ico:'⛰️', name:'Гора Меру',     cost:500, keys:7, income:12, desc:'Священная ось мира. Брахмастан.'},
 ];
+
+function getPlayerKeys(){ try { return parseInt(localStorage.getItem('awara_keys')||'0'); } catch(e){ return 0; } }
+function spendPlayerKeys(n){ try { var cur=getPlayerKeys(); localStorage.setItem('awara_keys', Math.max(0,cur-n)); } catch(e){} }
 
 // ══ СОСТОЯНИЕ ══
 var state = (function(){
@@ -378,14 +376,16 @@ function renderBuildGrid(filter){
   var list = filter==='all' ? BUILDINGS : BUILDINGS.filter(function(b){ return b.el===filter; });
   grid.innerHTML = list.map(function(b){
     var owned = state.structs[b.id];
-    var canAfford = state.coins >= b.cost;
+    var playerKeys = getPlayerKeys();
+    var canAfford = state.coins >= b.cost && playerKeys >= (b.keys||0);
     var col = EL_COLORS[b.el];
+    var costText = owned ? '✦ ВОЗВЕДЕНО' : '✦ '+b.cost+(b.keys?' · 🔑'+b.keys:'');
     return '<div class="bld-card'+(owned?' active':'')+(canAfford?'':' dimmed')+'" onclick="buyBuilding(\''+b.id+'\')"'+
       ' onmouseenter="showTip(\''+b.name+'\',\''+b.desc+'\',event)" onmouseleave="hideTip()"'+
       ' style="'+(owned?'border-color:rgba('+col+',.55);background:rgba('+col+',.08);':'')+'">'+
       '<div class="bld-ico">'+b.ico+'</div>'+
       '<div class="bld-name">'+b.name+'</div>'+
-      '<div class="bld-cost">'+(owned?'✦ ВОЗВЕДЕНО':'✦ '+b.cost)+'</div>'+
+      '<div class="bld-cost">'+costText+'</div>'+
       '<div class="bld-el">'+EL_ICO[b.el]+'</div>'+
       '</div>';
   }).join('');
@@ -397,8 +397,11 @@ function buyBuilding(id){
   if(state.structs[id]){
     showInfo(b); return;
   }
-  if(state.coins < b.cost){ showStatus('Недостаточно монет Света'); return; }
+  if(state.coins < b.cost){ showStatus('Недостаточно Света (нужно ✦'+b.cost+')'); return; }
+  var pk = getPlayerKeys();
+  if(pk < (b.keys||0)){ showStatus('Недостаточно Ключей (нужно 🔑'+b.keys+')'); return; }
   state.coins -= b.cost;
+  if(b.keys) spendPlayerKeys(b.keys);
   state.structs[id] = {el:b.el, level:1, income:b.income, built:Date.now()};
   saveState(); updateCoins(); updateElCounts();
   drawMap(); renderBuildGrid(document.querySelector('#build-tabs .bt.on')?.dataset?.filter || 'all');
@@ -500,7 +503,7 @@ function drawMap(){
     ctx.fillRect(x+1, y+1, g3-2, g3-2);
 
     // Если есть строение в этой зоне
-    var bInZone = BUILDINGS.filter(function(b){ return b.el===z.el && state.structs[b.id]; });
+    var bInZone = BUILDINGS.filter(function(b){ return b.zone===z.dir && state.structs[b.id]; });
     if(bInZone.length > 0){
       ctx.fillStyle = 'rgba('+col+',0.12)';
       ctx.fillRect(x+1, y+1, g3-2, g3-2);
@@ -648,8 +651,8 @@ function showZoneInfo(z) {
   document.getElementById('zi-planet').textContent = zd ? zd.planet : '—';
   document.getElementById('zi-quality').textContent = zd ? zd.quality : '—';
 
-  var state = loadState();
-  var bInZone = BUILDINGS.filter(function(b){ return b.el===z.el && state.structs[b.id]; });
+  var st = loadState();
+  var bInZone = BUILDINGS.filter(function(b){ return b.zone===z.dir && st.structs[b.id]; });
   document.getElementById('zi-buildings').textContent = bInZone.length > 0
     ? bInZone.map(function(b){ return b.ico + ' ' + b.name; }).join(', ')
     : 'нет';
