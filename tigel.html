@@ -532,6 +532,22 @@ body {
       <div class="hint-text">
         Опиши действия дня. Алгоритм автоматически распределит их по 5 стихиям У-Син и рассчитает баланс Ида/Пингала.
       </div>
+
+      <div style="margin-top:14px;padding:12px;border:1px solid rgba(201,168,76,0.28);border-radius:10px;background:rgba(201,168,76,0.045);">
+        <button onclick="synthesizeDay()" style="width:100%;min-height:48px;padding:13px;background:linear-gradient(135deg,rgba(201,168,76,0.24),rgba(180,130,40,0.14));border:1px solid rgba(201,168,76,0.6);border-radius:9px;color:#fff8d6;font-family:'Cinzel',serif;font-size:12px;letter-spacing:0.16em;cursor:pointer;">
+          СИНТЕЗИРОВАТЬ ДЕНЬ
+        </button>
+        <div id="tigel-result-panel" style="display:none;margin-top:12px;padding:12px;border-radius:9px;background:rgba(0,255,170,0.055);border:1px solid rgba(0,255,170,0.22);font-family:'Cormorant Garamond',serif;color:rgba(220,210,190,0.86);line-height:1.55;"></div>
+        <details style="margin-top:10px;">
+          <summary style="cursor:pointer;font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.14em;color:rgba(201,168,76,0.65);">ДОПОЛНИТЕЛЬНЫЕ ДЕЙСТВИЯ</summary>
+          <div style="display:grid;grid-template-columns:1fr;gap:8px;margin-top:10px;">
+            <button onclick="calculateToroid(); switchTab('balance');" style="width:100%;min-height:40px;padding:10px;background:transparent;border:1px solid rgba(201,168,76,0.35);border-radius:8px;color:#c9a84c;font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.12em;cursor:pointer;">РАССЧИТАТЬ БАЛАНС</button>
+            <button onclick="generateKey()" style="width:100%;min-height:40px;padding:10px;background:transparent;border:1px solid rgba(201,168,76,0.35);border-radius:8px;color:#c9a84c;font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.12em;cursor:pointer;">СГЕНЕРИРОВАТЬ КЛЮЧ</button>
+            <button onclick="saveKey()" style="width:100%;min-height:40px;padding:10px;background:transparent;border:1px solid rgba(0,255,170,0.28);border-radius:8px;color:rgba(0,255,170,0.82);font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.12em;cursor:pointer;">СОХРАНИТЬ ДЕНЬ</button>
+            <button onclick="copyLastOraclePrompt()" style="width:100%;min-height:40px;padding:10px;background:transparent;border:1px solid rgba(201,168,76,0.25);border-radius:8px;color:rgba(201,168,76,0.70);font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.12em;cursor:pointer;">СКОПИРОВАТЬ ПРОМПТ</button>
+          </div>
+        </details>
+      </div>
       
       <!-- Кнопка сбора опыта из сфер -->
       <button 
@@ -544,21 +560,6 @@ body {
       </button>
       <div class="hint-text" style="margin-top:8px;font-size:10px;color:rgba(201,168,76,0.4);">
         Подтянет записи из трёх сфер: Основа (Ноги), Сердце, Мечта (Голова)
-      </div>
-
-      <div style="display:grid;grid-template-columns:1fr;gap:10px;margin-top:14px;">
-        <button class="generate-btn" onclick="calculateToroid(); switchTab('balance');" style="width:100%;padding:12px;font-size:11px;">
-          РАССЧИТАТЬ БАЛАНС
-        </button>
-        <button class="generate-btn" onclick="generateKey()" style="width:100%;padding:12px;font-size:11px;">
-          СГЕНЕРИРОВАТЬ КЛЮЧ И ПРОМПТ ОРАКУЛА
-        </button>
-        <button class="save-btn" onclick="saveKey()" style="width:100%;padding:12px;font-size:11px;">
-          СОХРАНИТЬ ДЕНЬ В ТИГЕЛЬ
-        </button>
-        <button onclick="copyLastOraclePrompt()" style="width:100%;min-height:44px;padding:10px;background:transparent;border:1px solid rgba(201,168,76,0.3);border-radius:8px;color:rgba(201,168,76,0.78);font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.12em;cursor:pointer;">
-          СКОПИРОВАТЬ ПОСЛЕДНИЙ ПРОМПТ ОРАКУЛА
-        </button>
       </div>
 
       <!-- У-СИН ТЕГГЕР -->
@@ -1217,12 +1218,37 @@ function saveKey() {
     copyTextToClipboard(oraclePromptRecord.prompt);
   }
 
-  const oracleLine = oraclePromptRecord ? '\nПромпт Оракула сохранён и скопирован для AI.' : '';
-  const extraLine = cauldronResult ? '\n\nТигель: +' + cauldronResult.lightAwarded + ' света · ' + cauldronResult.dayEnergy + '\nПрактика: ' + cauldronResult.practiceTomorrow + oracleLine : '';
-  alert('✦ Ключ сохранён в инвентарь!' + extraLine + '\n\nМожешь вернуться в лобби — бейдж майнинга обновится автоматически.');
+  showTigelResult(cauldronResult, oraclePromptRecord);
   
-  // Возврат в лобби через 2 сек
-  setTimeout(() => { window.location.href = 'index.html'; }, 2000);
+}
+
+function synthesizeDay() {
+  calculateToroid();
+  generateKey();
+  saveKey();
+  switchTab('log');
+  setTimeout(function(){
+    var panel = document.getElementById('tigel-result-panel');
+    if(panel) panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 50);
+}
+
+function showTigelResult(cauldronResult, oraclePromptRecord) {
+  const panel = document.getElementById('tigel-result-panel');
+  if (!panel) return;
+  const keyName = generatedKey && generatedKey.key ? generatedKey.key.name : 'Ключ дня';
+  const light = cauldronResult ? cauldronResult.lightAwarded : 0;
+  const energy = cauldronResult ? cauldronResult.dayEnergy : '—';
+  const practice = cauldronResult ? cauldronResult.practiceTomorrow : 'Практика будет уточнена после следующей записи.';
+  panel.innerHTML =
+    '<div style="font-family:Cinzel,serif;letter-spacing:0.16em;color:#c9a84c;font-size:11px;margin-bottom:8px;">ИТОГ СИНТЕЗА</div>' +
+    '<div><b>Ключ:</b> ' + keyName + '</div>' +
+    '<div><b>Свет:</b> +' + light + '</div>' +
+    '<div><b>Стихия:</b> ' + energy + '</div>' +
+    '<div style="margin-top:6px;"><b>Практика:</b> ' + practice + '</div>' +
+    '<div style="margin-top:8px;color:rgba(201,168,76,0.72);">' + (oraclePromptRecord ? 'Промпт Оракула сохранён и скопирован.' : 'Промпт Оракула пока не создан.') + '</div>' +
+    "<button onclick=\"window.location.href='dashboard.html'\" style=\"margin-top:10px;width:100%;min-height:40px;border:1px solid rgba(201,168,76,0.35);border-radius:8px;background:rgba(201,168,76,0.08);color:#c9a84c;font-family:Cinzel,serif;font-size:10px;letter-spacing:0.14em;cursor:pointer;\">ПЕРЕЙТИ В ДАШБОРД</button>";
+  panel.style.display = 'block';
 }
 
 function copyTextToClipboard(text) {
