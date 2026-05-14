@@ -284,7 +284,7 @@ window.applyMatrixTheme = function(mid) {
     <canvas id="hiranya-canvas" width="140" height="140" style="display:block;max-width:min(140px,35vw);max-height:min(140px,35vw);"></canvas>
   </div>
 
-  <!-- Кнопки календаря и ориентира -->
+  <!-- Кнопки календаря и натальной карты -->
   <div class="fin d3" style="display:flex;justify-content:center;gap:12px;margin:8px 0;flex-wrap:wrap;">
     <button id="calendar-btn" onclick="openCalendarModal()" style="
       display:flex;align-items:center;gap:8px;
@@ -310,7 +310,7 @@ window.applyMatrixTheme = function(mid) {
       transition:all 0.3s;
     ">
       <span style="font-size:16px;">🧭</span>
-      <span id="compass-btn-info" style="font-size:9px;opacity:0.7;">ОРИЕНТИР</span>
+      <span id="compass-btn-info" style="font-size:9px;opacity:0.7;">НАТАЛЬНАЯ КАРТА</span>
     </button>
   </div>
 
@@ -642,42 +642,6 @@ window.applyMatrixTheme = function(mid) {
       <div style="font-family:'JetBrains Mono',monospace;font-size:clamp(9px,2vw,10px);color:rgba(100,180,255,0.45);letter-spacing:0.1em;">ПРОСТРАНСТВА · ЗЕМЛЯ · ВСЕЛЕННАЯ · МИРОЗДАНИЕ</div>
     </div>
 
-    <!-- КЛЮЧ ДНЯ -->
-    <div id="daily-key-card" style="
-      padding:clamp(10px,2.5vw,16px);border-radius:12px;
-      background:linear-gradient(135deg,rgba(201,168,76,0.10),rgba(180,140,50,0.05));
-      border:1px solid rgba(201,168,76,0.30);
-      display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;
-      transition:all 0.3s;position:relative;overflow:hidden;
-    ">
-      <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 30%,rgba(201,168,76,0.06),transparent 70%);pointer-events:none;"></div>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.2em;color:rgba(201,168,76,0.45);">КЛЮЧ ДНЯ</div>
-      <div id="dk-agent" style="font-family:'Cinzel',serif;font-size:clamp(14px,3.5vw,18px);color:rgba(255,248,214,0.9);letter-spacing:0.15em;">...</div>
-      <div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;">
-        <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
-          <div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:0.15em;color:rgba(201,168,76,0.35);">МАТРИЦА</div>
-          <div id="dk-matrix" style="font-family:'Cormorant Garamond',serif;font-size:clamp(11px,2.5vw,13px);color:rgba(201,168,76,0.8);">...</div>
-        </div>
-        <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
-          <div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:0.15em;color:rgba(201,168,76,0.35);">СТИХИЯ</div>
-          <div id="dk-element" style="font-family:'Cormorant Garamond',serif;font-size:clamp(11px,2.5vw,13px);color:rgba(201,168,76,0.8);">...</div>
-        </div>
-      </div>
-      <div id="dk-question" style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(12px,3vw,15px);color:rgba(220,210,190,0.7);line-height:1.5;margin-top:4px;">...</div>
-    </div>
-
-    <!-- STREAK 7 ДНЕЙ -->
-    <div id="streak-widget" style="
-      padding:8px 12px;border-radius:10px;
-      background:rgba(201,168,76,0.04);
-      border:1px solid rgba(201,168,76,0.15);
-      display:flex;align-items:center;gap:10px;justify-content:center;
-    ">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:0.15em;color:rgba(201,168,76,0.4);">СЕРИЯ</div>
-      <div id="streak-dots" style="display:flex;gap:6px;align-items:center;"></div>
-      <div id="streak-count" style="font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(201,168,76,0.7);min-width:20px;text-align:center;">0</div>
-    </div>
-
     <!-- 2. СМЫСЛ ДНЯ -->
     <div id="daily-meaning-btn" ontouchstart="this.click()" onclick="window.openDailyMeaning()" style="
       padding:clamp(6px,1.5vw,9px) clamp(10px,2.5vw,12px);border-radius:10px;cursor:pointer;
@@ -687,7 +651,7 @@ window.applyMatrixTheme = function(mid) {
     "
     onmouseenter="this.style.borderColor='rgba(128,223,255,0.6)';this.style.background='linear-gradient(135deg,rgba(128,223,255,0.14),rgba(100,180,255,0.1))'"
     onmouseleave="this.style.borderColor='rgba(128,223,255,0.25)';this.style.background='linear-gradient(135deg,rgba(128,223,255,0.06),rgba(100,180,255,0.04))'">
-      <div style="font-size:clamp(16px,4vw,20px);flex-shrink:0;filter:drop-shadow(0 0 8px rgba(128,223,255,0.6));">✨</div>
+      <div style="width:72px;text-align:center;font-size:clamp(16px,4vw,20px);flex-shrink:0;filter:drop-shadow(0 0 8px rgba(128,223,255,0.6));">✨</div>
       <div style="flex:1;text-align:center;">
         <div style="font-family:'Cinzel',serif;font-size:clamp(12px,3vw,14px);color:rgba(128,223,255,0.9);letter-spacing:0.2em;">СМЫСЛ ДНЯ</div>
         <div style="font-family:'JetBrains Mono',monospace;font-size:clamp(9px,2vw,10px);color:rgba(128,223,255,0.4);margin-top:2px;">ПОСЛАНИЕ · КВЕСТ · ПРАКТИКА</div>
@@ -696,7 +660,7 @@ window.applyMatrixTheme = function(mid) {
         font-family:'JetBrains Mono',monospace;font-size:10px;
         color:rgba(128,223,255,0.6);padding:3px 10px;border-radius:20px;
         background:rgba(128,223,255,0.06);border:1px solid rgba(128,223,255,0.2);
-        white-space:nowrap;flex-shrink:0;">✦ ОТКРЫТЬ</div>
+        white-space:nowrap;flex-shrink:0;width:72px;text-align:center;">✦ ОТКРЫТЬ</div>
     </div>
 
     <!-- 2.5. ВЕЧЕРНИЙ ТИГЕЛЬ -->
@@ -708,7 +672,7 @@ window.applyMatrixTheme = function(mid) {
     "
     onmouseenter="this.style.borderColor='rgba(201,168,76,0.55)';this.style.background='linear-gradient(135deg,rgba(201,168,76,0.14),rgba(180,130,40,0.08))'"
     onmouseleave="this.style.borderColor='rgba(201,168,76,0.22)';this.style.background='linear-gradient(135deg,rgba(201,168,76,0.07),rgba(180,130,40,0.04))'">
-      <div style="font-size:clamp(16px,4vw,20px);flex-shrink:0;filter:drop-shadow(0 0 8px rgba(201,168,76,0.6));">🔥</div>
+      <div style="width:72px;text-align:center;font-size:clamp(16px,4vw,20px);flex-shrink:0;filter:drop-shadow(0 0 8px rgba(201,168,76,0.6));">🔥</div>
       <div style="flex:1;text-align:center;">
         <div style="font-family:'Cinzel',serif;font-size:clamp(12px,3vw,14px);color:rgba(201,168,76,0.9);letter-spacing:0.2em;">ВЕЧЕРНИЙ ТИГЕЛЬ</div>
         <div style="font-family:'JetBrains Mono',monospace;font-size:clamp(9px,2vw,10px);color:rgba(201,168,76,0.4);margin-top:2px;">ЛОГ ДНЯ · КЛЮЧ · ТОРОИДАЛЬНЫЙ БАЛАНС</div>
@@ -717,7 +681,7 @@ window.applyMatrixTheme = function(mid) {
         font-family:'JetBrains Mono',monospace;font-size:10px;
         color:rgba(201,168,76,0.65);padding:3px 10px;border-radius:20px;
         background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.18);
-        white-space:nowrap;flex-shrink:0;">×1.0</div>
+        white-space:nowrap;flex-shrink:0;width:72px;text-align:center;">×1.0</div>
     </div>
 
     <!-- 2.6. ДАШБОРД -->
@@ -729,7 +693,7 @@ window.applyMatrixTheme = function(mid) {
     "
     onmouseenter="this.style.borderColor='rgba(255,224,128,0.55)';this.style.background='linear-gradient(135deg,rgba(255,224,128,0.14),rgba(201,168,76,0.08))'"
     onmouseleave="this.style.borderColor='rgba(255,224,128,0.22)';this.style.background='linear-gradient(135deg,rgba(255,224,128,0.07),rgba(201,168,76,0.04))'">
-      <div style="font-size:clamp(16px,4vw,20px);flex-shrink:0;filter:drop-shadow(0 0 8px rgba(255,224,128,0.6));">✦</div>
+      <div style="width:72px;text-align:center;font-size:clamp(16px,4vw,20px);flex-shrink:0;filter:drop-shadow(0 0 8px rgba(255,224,128,0.6));">✦</div>
       <div style="flex:1;text-align:center;">
         <div style="font-family:'Cinzel',serif;font-size:clamp(12px,3vw,14px);color:rgba(255,224,128,0.9);letter-spacing:0.2em;">ДАШБОРД</div>
         <div style="font-family:'JetBrains Mono',monospace;font-size:clamp(9px,2vw,10px);color:rgba(255,224,128,0.4);margin-top:2px;">СВЕТКОИН · ВКЛАД · ТОП ДЕРЖАВЫ РА</div>
@@ -738,7 +702,7 @@ window.applyMatrixTheme = function(mid) {
         font-family:'JetBrains Mono',monospace;font-size:10px;
         color:rgba(255,224,128,0.7);padding:3px 10px;border-radius:20px;
         background:rgba(255,224,128,0.06);border:1px solid rgba(255,224,128,0.2);
-        white-space:nowrap;flex-shrink:0;">✦ ОТКРЫТЬ</div>
+        white-space:nowrap;flex-shrink:0;width:72px;text-align:center;">✦ ОТКРЫТЬ</div>
     </div>
 
     <!-- 2.7. ПАСПОРТ ДУШИ -->
@@ -750,7 +714,7 @@ window.applyMatrixTheme = function(mid) {
     "
     onmouseenter="this.style.borderColor='rgba(180,140,255,0.55)';this.style.background='linear-gradient(135deg,rgba(180,140,255,0.14),rgba(140,100,200,0.08))'"
     onmouseleave="this.style.borderColor='rgba(180,140,255,0.22)';this.style.background='linear-gradient(135deg,rgba(180,140,255,0.07),rgba(140,100,200,0.04))'">
-      <div style="font-size:clamp(16px,4vw,20px);flex-shrink:0;filter:drop-shadow(0 0 8px rgba(180,140,255,0.6));">🪷</div>
+      <div style="width:72px;text-align:center;font-size:clamp(16px,4vw,20px);flex-shrink:0;filter:drop-shadow(0 0 8px rgba(180,140,255,0.6));">🪷</div>
       <div style="flex:1;text-align:center;">
         <div style="font-family:'Cinzel',serif;font-size:clamp(12px,3vw,14px);color:rgba(180,140,255,0.9);letter-spacing:0.2em;">ПАСПОРТ ДУШИ</div>
         <div style="font-family:'JetBrains Mono',monospace;font-size:clamp(9px,2vw,10px);color:rgba(180,140,255,0.4);margin-top:2px;">АГЕНТ · МАТРИЦА · ДУХ · СЕРИЯ</div>
@@ -759,7 +723,7 @@ window.applyMatrixTheme = function(mid) {
         font-family:'JetBrains Mono',monospace;font-size:10px;
         color:rgba(180,140,255,0.7);padding:3px 10px;border-radius:20px;
         background:rgba(180,140,255,0.06);border:1px solid rgba(180,140,255,0.2);
-        white-space:nowrap;flex-shrink:0;">🪷 ОТКРЫТЬ</div>
+        white-space:nowrap;flex-shrink:0;width:72px;text-align:center;">🪷 ОТКРЫТЬ</div>
     </div>
 
     <!-- 2.8. КОЛОДА КАРТ -->
@@ -771,7 +735,7 @@ window.applyMatrixTheme = function(mid) {
     "
     onmouseenter="this.style.borderColor='rgba(220,180,60,0.55)';this.style.background='linear-gradient(135deg,rgba(220,180,60,0.14),rgba(200,160,40,0.08))'"
     onmouseleave="this.style.borderColor='rgba(220,180,60,0.22)';this.style.background='linear-gradient(135deg,rgba(220,180,60,0.07),rgba(200,160,40,0.04))'">
-      <div style="font-size:clamp(16px,4vw,20px);flex-shrink:0;filter:drop-shadow(0 0 8px rgba(220,180,60,0.6));">🃏</div>
+      <div style="width:72px;text-align:center;font-size:clamp(16px,4vw,20px);flex-shrink:0;filter:drop-shadow(0 0 8px rgba(220,180,60,0.6));">🃏</div>
       <div style="flex:1;text-align:center;">
         <div style="font-family:'Cinzel',serif;font-size:clamp(12px,3vw,14px);color:rgba(220,180,60,0.9);letter-spacing:0.2em;">КОЛОДА КАРТ</div>
         <div style="font-family:'JetBrains Mono',monospace;font-size:clamp(9px,2vw,10px);color:rgba(220,180,60,0.4);margin-top:2px;">63 КАРТЫ · 21 АГЕНТ × 3 МАТРИЦЫ</div>
@@ -780,28 +744,7 @@ window.applyMatrixTheme = function(mid) {
         font-family:'JetBrains Mono',monospace;font-size:10px;
         color:rgba(220,180,60,0.7);padding:3px 10px;border-radius:20px;
         background:rgba(220,180,60,0.06);border:1px solid rgba(220,180,60,0.2);
-        white-space:nowrap;flex-shrink:0;" id="cards-count-badge">0/63</div>
-    </div>
-
-    <!-- 2.9. НАТАЛЬНАЯ КАРТА -->
-    <div ontouchstart="this.click()" onclick="window.location.href='natal.html'" style="
-      padding:clamp(6px,1.5vw,9px) clamp(10px,2.5vw,12px);border-radius:10px;cursor:pointer;
-      background:linear-gradient(135deg,rgba(100,160,255,0.07),rgba(80,120,220,0.04));
-      border:1px solid rgba(100,160,255,0.22);
-      display:flex;align-items:center;gap:12px;transition:all 0.3s;
-    "
-    onmouseenter="this.style.borderColor='rgba(100,160,255,0.55)';this.style.background='linear-gradient(135deg,rgba(100,160,255,0.14),rgba(80,120,220,0.08))'"
-    onmouseleave="this.style.borderColor='rgba(100,160,255,0.22)';this.style.background='linear-gradient(135deg,rgba(100,160,255,0.07),rgba(80,120,220,0.04))'">
-      <div style="font-size:clamp(16px,4vw,20px);flex-shrink:0;filter:drop-shadow(0 0 8px rgba(100,160,255,0.6));">&#9789;</div>
-      <div style="flex:1;text-align:center;">
-        <div style="font-family:'Cinzel',serif;font-size:clamp(12px,3vw,14px);color:rgba(100,160,255,0.9);letter-spacing:0.2em;">НАТАЛЬНАЯ КАРТА</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:clamp(9px,2vw,10px);color:rgba(100,160,255,0.4);margin-top:2px;">ДАТА · ВРЕМЯ · МЕСТО РОЖДЕНИЯ</div>
-      </div>
-      <div style="
-        font-family:'JetBrains Mono',monospace;font-size:10px;
-        color:rgba(100,160,255,0.7);padding:3px 10px;border-radius:20px;
-        background:rgba(100,160,255,0.06);border:1px solid rgba(100,160,255,0.2);
-        white-space:nowrap;flex-shrink:0;">&#9789; ОТКРЫТЬ</div>
+        white-space:nowrap;flex-shrink:0;width:72px;text-align:center;" id="cards-count-badge">0/63</div>
     </div>
 
     <!-- 2.10. ОРАКУЛ -->
@@ -813,7 +756,7 @@ window.applyMatrixTheme = function(mid) {
     "
     onmouseenter="this.style.borderColor='rgba(180,120,255,0.55)';this.style.background='linear-gradient(135deg,rgba(180,120,255,0.14),rgba(140,80,220,0.08))'"
     onmouseleave="this.style.borderColor='rgba(180,120,255,0.22)';this.style.background='linear-gradient(135deg,rgba(180,120,255,0.07),rgba(140,80,220,0.04))'">
-      <div style="font-size:clamp(16px,4vw,20px);flex-shrink:0;filter:drop-shadow(0 0 8px rgba(180,120,255,0.6));">&#128302;</div>
+      <div style="width:72px;text-align:center;font-size:clamp(16px,4vw,20px);flex-shrink:0;filter:drop-shadow(0 0 8px rgba(180,120,255,0.6));">&#128302;</div>
       <div style="flex:1;text-align:center;">
         <div style="font-family:'Cinzel',serif;font-size:clamp(12px,3vw,14px);color:rgba(180,120,255,0.9);letter-spacing:0.2em;">ОРАКУЛ</div>
         <div style="font-family:'JetBrains Mono',monospace;font-size:clamp(9px,2vw,10px);color:rgba(180,120,255,0.4);margin-top:2px;">МУДРОСТЬ ДРЕВНИХ ТРАДИЦИЙ</div>
@@ -822,7 +765,7 @@ window.applyMatrixTheme = function(mid) {
         font-family:'JetBrains Mono',monospace;font-size:10px;
         color:rgba(180,120,255,0.7);padding:3px 10px;border-radius:20px;
         background:rgba(180,120,255,0.06);border:1px solid rgba(180,120,255,0.2);
-        white-space:nowrap;flex-shrink:0;">&#128302; ОТКРЫТЬ</div>
+        white-space:nowrap;flex-shrink:0;width:72px;text-align:center;">&#128302; ОТКРЫТЬ</div>
     </div>
 
     <!-- 2.9b. ПЕРЕКЛЮЧАТЕЛЬ МАТРИЦЫ (быстрый) -->
@@ -869,11 +812,48 @@ window.applyMatrixTheme = function(mid) {
     "
     onmouseenter="this.style.borderColor='rgba(201,168,76,0.6)';this.style.background='linear-gradient(135deg,rgba(201,168,76,0.16),rgba(180,130,40,0.08))'"
     onmouseleave="this.style.borderColor='rgba(201,168,76,0.3)';this.style.background='linear-gradient(135deg,rgba(201,168,76,0.08),rgba(180,130,40,0.04))'">
-      <div style="font-size:clamp(16px,4vw,20px);flex-shrink:0;filter:drop-shadow(0 0 8px rgba(201,168,76,0.6));">📊</div>
+      <div style="width:72px;text-align:center;font-size:clamp(16px,4vw,20px);flex-shrink:0;filter:drop-shadow(0 0 8px rgba(201,168,76,0.6));">📊</div>
       <div style="flex:1;text-align:center;">
         <div style="font-family:'Cinzel',serif;font-size:clamp(12px,3vw,14px);color:rgba(201,168,76,0.9);letter-spacing:0.2em;">НАКОПЛЕНИЯ</div>
         <div style="font-family:'JetBrains Mono',monospace;font-size:clamp(9px,2vw,10px);color:rgba(201,168,76,0.4);margin-top:2px;">ТРОФЕИ · КВЕСТЫ · ОРАКУЛ · МЕДИТАЦИЯ · КАРМА</div>
       </div>
+      <div style="width:72px;flex-shrink:0;"></div>
+    </div>
+
+    <!-- КЛЮЧ ДНЯ -->
+    <div id="daily-key-card" style="
+      padding:clamp(10px,2.5vw,16px);border-radius:12px;
+      background:linear-gradient(135deg,rgba(201,168,76,0.10),rgba(180,140,50,0.05));
+      border:1px solid rgba(201,168,76,0.30);
+      display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;
+      transition:all 0.3s;position:relative;overflow:hidden;
+    ">
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 30%,rgba(201,168,76,0.06),transparent 70%);pointer-events:none;"></div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:0.2em;color:rgba(201,168,76,0.45);">КЛЮЧ ДНЯ</div>
+      <div id="dk-agent" style="font-family:'Cinzel',serif;font-size:clamp(14px,3.5vw,18px);color:rgba(255,248,214,0.9);letter-spacing:0.15em;">...</div>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:0.15em;color:rgba(201,168,76,0.35);">МАТРИЦА</div>
+          <div id="dk-matrix" style="font-family:'Cormorant Garamond',serif;font-size:clamp(11px,2.5vw,13px);color:rgba(201,168,76,0.8);">...</div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:0.15em;color:rgba(201,168,76,0.35);">СТИХИЯ</div>
+          <div id="dk-element" style="font-family:'Cormorant Garamond',serif;font-size:clamp(11px,2.5vw,13px);color:rgba(201,168,76,0.8);">...</div>
+        </div>
+      </div>
+      <div id="dk-question" style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(12px,3vw,15px);color:rgba(220,210,190,0.7);line-height:1.5;margin-top:4px;">...</div>
+    </div>
+
+    <!-- STREAK 7 ДНЕЙ -->
+    <div id="streak-widget" style="
+      padding:8px 12px;border-radius:10px;
+      background:rgba(201,168,76,0.04);
+      border:1px solid rgba(201,168,76,0.15);
+      display:flex;align-items:center;gap:10px;justify-content:center;
+    ">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:0.15em;color:rgba(201,168,76,0.4);">СЕРИЯ</div>
+      <div id="streak-dots" style="display:flex;gap:6px;align-items:center;"></div>
+      <div id="streak-count" style="font-family:'JetBrains Mono',monospace;font-size:11px;color:rgba(201,168,76,0.7);min-width:20px;text-align:center;">0</div>
     </div>
 
     <!-- 4. НИЖНИЙ РЯД: ОБМЕН / КЛЮЧИ / ЯЗЫК -->
