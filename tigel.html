@@ -546,6 +546,21 @@ body {
         Подтянет записи из трёх сфер: Основа (Ноги), Сердце, Мечта (Голова)
       </div>
 
+      <div style="display:grid;grid-template-columns:1fr;gap:10px;margin-top:14px;">
+        <button class="generate-btn" onclick="calculateToroid(); switchTab('balance');" style="width:100%;padding:12px;font-size:11px;">
+          РАССЧИТАТЬ БАЛАНС
+        </button>
+        <button class="generate-btn" onclick="generateKey()" style="width:100%;padding:12px;font-size:11px;">
+          СГЕНЕРИРОВАТЬ КЛЮЧ И ПРОМПТ ОРАКУЛА
+        </button>
+        <button class="save-btn" onclick="saveKey()" style="width:100%;padding:12px;font-size:11px;">
+          СОХРАНИТЬ ДЕНЬ В ТИГЕЛЬ
+        </button>
+        <button onclick="copyLastOraclePrompt()" style="width:100%;min-height:44px;padding:10px;background:transparent;border:1px solid rgba(201,168,76,0.3);border-radius:8px;color:rgba(201,168,76,0.78);font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.12em;cursor:pointer;">
+          СКОПИРОВАТЬ ПОСЛЕДНИЙ ПРОМПТ ОРАКУЛА
+        </button>
+      </div>
+
       <!-- У-СИН ТЕГГЕР -->
       <div style="margin-top:20px;">
         <div class="card-title" style="font-size:10px; margin-bottom:8px;">
@@ -711,7 +726,9 @@ body {
 <!-- ══ PLAYERSTATE ══ -->
 <script type="module">
 import { getState, saveState } from './js/playerState.js';
-window._playerState = { getState, saveState };
+import { analyzeCauldronEntry, applyCauldronResult } from './js/cauldronEngine.js';
+import { buildOraclePrompt, saveOraclePrompt } from './js/oraclePromptBuilder.js';
+window._playerState = { getState, saveState, analyzeCauldronEntry, applyCauldronResult, buildOraclePrompt, saveOraclePrompt };
 </script>
 
 <!-- ══ ДВИЖКИ ══ -->
@@ -1085,6 +1102,7 @@ function generateKey() {
 // ОТОБРАЖЕНИЕ КЛЮЧА
 // ══════════════════════════════════════════════════════════════════
 function displayKey(key) {
+  switchTab('alchemy');
   const resultEl = document.getElementById('key-result');
   resultEl.classList.add('visible');
 
@@ -1161,10 +1179,75 @@ function saveKey() {
     ToroidIntegration.saveSnapshot(wuXingState);
   }
 
-  alert('✦ Ключ сохранён в инвентарь!\n\nМожешь вернуться в лобби — бейдж майнинга обновится автоматически.');
+  let cauldronResult = null;
+  let oraclePromptRecord = null;
+  try {
+    if (window._playerState && window._playerState.analyzeCauldronEntry && window._playerState.applyCauldronResult) {
+      const logText = document.getElementById('log-input').value.trim();
+      cauldronResult = window._playerState.analyzeCauldronEntry(logText, {
+        toroidLight: generatedKey && generatedKey.key ? generatedKey.key.light_total : 0
+      });
+      const currentState = window._playerState.getState();
+      const nextState = window._playerState.applyCauldronResult(currentState, cauldronResult);
+      nextState.cauldron = {
+        entriesCount: Number(currentState.cauldron && currentState.cauldron.entriesCount || 0) + 1,
+        lastEntryAt: cauldronResult.createdAt,
+        lastResult: cauldronResult
+      };
+      window._playerState.saveState(nextState);
+      if (window._playerState.buildOraclePrompt && window._playerState.saveOraclePrompt) {
+        const oraclePrompt = window._playerState.buildOraclePrompt({
+          entryText: logText,
+          cauldronResult,
+          playerState: nextState,
+          generatedKey
+        });
+        oraclePromptRecord = window._playerState.saveOraclePrompt(oraclePrompt, {
+          cauldronResultId: cauldronResult.id,
+          keyName: generatedKey && generatedKey.key ? generatedKey.key.name : null
+        });
+      }
+    }
+  } catch(e) {
+    console.warn('Не удалось сохранить результат Тигля в playerState:', e);
+  }
+
+  if (oraclePromptRecord) {
+    window._lastOraclePromptText = oraclePromptRecord.prompt;
+    copyTextToClipboard(oraclePromptRecord.prompt);
+  }
+
+  const oracleLine = oraclePromptRecord ? '\nПромпт Оракула сохранён и скопирован для AI.' : '';
+  const extraLine = cauldronResult ? '\n\nТигель: +' + cauldronResult.lightAwarded + ' света · ' + cauldronResult.dayEnergy + '\nПрактика: ' + cauldronResult.practiceTomorrow + oracleLine : '';
+  alert('✦ Ключ сохранён в инвентарь!' + extraLine + '\n\nМожешь вернуться в лобби — бейдж майнинга обновится автоматически.');
   
   // Возврат в лобби через 2 сек
   setTimeout(() => { window.location.href = 'index.html'; }, 2000);
+}
+
+function copyTextToClipboard(text) {
+  if (!text) return;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).catch(function(e) {
+      console.warn('Не удалось скопировать промпт Оракула:', e);
+    });
+  }
+}
+
+function copyLastOraclePrompt() {
+  let record = null;
+  try {
+    record = JSON.parse(localStorage.getItem('awara_last_oracle_prompt') || 'null');
+  } catch(e) {
+    console.warn('Не удалось прочитать последний промпт Оракула:', e);
+  }
+  const prompt = record && record.prompt ? record.prompt : window._lastOraclePromptText;
+  if (!prompt) {
+    alert('Промпт Оракула ещё не создан. Сначала сгенерируй ключ и сохрани день в Тигель.');
+    return;
+  }
+  copyTextToClipboard(prompt);
+  alert('Промпт Оракула скопирован. Вставь его в выбранный AI, чтобы получить живой ответ.');
 }
 
 // ══ ДОПОЛНИТЕЛЬНЫЕ ФУНКЦИИ ══
