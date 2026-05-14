@@ -183,7 +183,7 @@ body{
   </div>
 
   <div class="page-title">КОЛОДА КАРТ</div>
-  <div class="page-sub">21 АГЕНТ × 3 МАТРИЦЫ = 63 КАРТЫ</div>
+  <div class="page-sub">ОСНОВНЫЕ КАРТЫ + ПУТЬ МОНАДЫ + ДОМЕНЫ АГЕНТОВ + ВЕДИЧЕСКИЕ ЛОКИ И ИХ СИЛЫ + МИФОЛОГИЧЕСКИЕ СУЩЕСТВА, ЛОКАЦИИ И РЕЛИКВИИ</div>
   <div class="counter" id="counter">Собрано: <b>0</b> / 63</div>
 
   <div class="filter-row" id="filters"></div>
@@ -206,7 +206,7 @@ body{
 </div>
 
 <script>
-var MATRICES = ['Ведическая','Славянская','Каббалистическая'];
+var MATRICES = [];
 var MATRIX_EFFECTS = {
   'Ведическая':   '+1 ✦ свет/час',
   'Славянская':    '+5% шанс ключа',
@@ -218,9 +218,25 @@ var EL_ICO = {
 var RARITY_LABELS = {
   common:'ЗЕМНАЯ', uncommon:'КУЛЬТУРНАЯ', rare:'АГЕНТСКАЯ', epic:'АРТЕФАКТНАЯ', legendary:'БОЖЕСТВЕННАЯ'
 };
+var TYPE_LABELS = {
+  core:'ЯДРО',
+  monad_path:'МОНАДА',
+  agent_domain:'ДОМЕНЫ',
+  vedic_loka:'ЛОКИ',
+  vedic_loka_being:'СИЛЫ ЛОК',
+  extra_being:'СУЩЕСТВА',
+  mythic_location:'ЛОКАЦИИ',
+  mythic_relic:'РЕЛИКВИИ'
+};
 
 var agents = [];
+var matrices = [];
 var cardPrompts = {};
+var extraCards = [];
+var domainCards = [];
+var lokaCards = [];
+var lokaBeingCards = [];
+var monadCards = [];
 var collected = {};
 
 function loadCollected(){
@@ -230,7 +246,7 @@ function saveCollected(){
   try { localStorage.setItem('awara_cards', JSON.stringify(collected)); } catch(e){}
 }
 
-function cardId(agentSlug, matrix){ return agentSlug + '__' + matrix; }
+function cardId(agentSlug, matrixSlug){ return agentSlug + '__' + matrixSlug; }
 
 async function init(){
   loadCollected();
@@ -239,9 +255,28 @@ async function init(){
     agents = await fetch('data/agents.json').then(function(r){return r.json();});
   } catch(e){ console.warn('cards: agents.json error', e); return; }
   try {
+    matrices = await fetch('data/matrices.json').then(function(r){return r.json();});
+    MATRICES = matrices.map(function(m){ return m.name; });
+  } catch(e){ console.warn('cards: matrices.json error', e); matrices = []; MATRICES = []; }
+  try {
     var prompts = await fetch('data/card_prompts.json').then(function(r){return r.json();});
     prompts.forEach(function(p){ cardPrompts[p.card_id] = p; });
   } catch(e){ console.warn('cards: card_prompts.json error', e); }
+  try {
+    extraCards = await fetch('data/extra_card_prompts.json').then(function(r){return r.json();});
+  } catch(e){ console.warn('cards: extra_card_prompts.json error', e); extraCards = []; }
+  try {
+    domainCards = await fetch('data/domain_cards.json').then(function(r){return r.json();});
+  } catch(e){ console.warn('cards: domain_cards.json error', e); domainCards = []; }
+  try {
+    lokaCards = await fetch('data/vedic_loka_cards.json').then(function(r){return r.json();});
+  } catch(e){ console.warn('cards: vedic_loka_cards.json error', e); lokaCards = []; }
+  try {
+    lokaBeingCards = await fetch('data/vedic_loka_being_cards.json').then(function(r){return r.json();});
+  } catch(e){ console.warn('cards: vedic_loka_being_cards.json error', e); lokaBeingCards = []; }
+  try {
+    monadCards = await fetch('data/monad_path_cards.json').then(function(r){return r.json();});
+  } catch(e){ console.warn('cards: monad_path_cards.json error', e); monadCards = []; }
 
   renderFilters();
   renderCards('all');
@@ -250,18 +285,24 @@ async function init(){
 
 var activeFilter = 'all';
 var activeRarity = 'all';
+var activeType = 'all';
 
 function renderFilters(){
   var el = document.getElementById('filters');
   var btns = [{label:'ВСЕ',val:'all'}];
-  MATRICES.forEach(function(m){ btns.push({label:m.toUpperCase(),val:m}); });
+  matrices.forEach(function(m){ btns.push({label:m.name.toUpperCase(),val:m.slug}); });
   var rarityBtns = [{label:'ЛЮБАЯ РАРНОСТЬ',val:'all'}].concat(Object.keys(RARITY_LABELS).map(function(r){
     return {label:RARITY_LABELS[r],val:r};
+  }));
+  var typeBtns = [{label:'ВСЕ ТИПЫ',val:'all'}].concat(Object.keys(TYPE_LABELS).map(function(t){
+    return {label:TYPE_LABELS[t],val:t};
   }));
   el.innerHTML = btns.map(function(b){
     return '<div class="filter-btn'+(b.val===activeFilter?' on':'')+'" onclick="setFilter(\''+b.val+'\')">'+b.label+'</div>';
   }).join('') + rarityBtns.map(function(b){
     return '<div class="filter-btn'+(b.val===activeRarity?' on':'')+'" onclick="setRarityFilter(\''+b.val+'\')">'+b.label+'</div>';
+  }).join('') + typeBtns.map(function(b){
+    return '<div class="filter-btn'+(b.val===activeType?' on':'')+'" onclick="setTypeFilter(\''+b.val+'\')">'+b.label+'</div>';
   }).join('');
 }
 
@@ -277,54 +318,214 @@ function setRarityFilter(f){
   renderCards(activeFilter);
 }
 
+function setTypeFilter(f){
+  activeType = f;
+  renderFilters();
+  renderCards(activeFilter);
+}
+
 function renderCards(filter){
   var grid = document.getElementById('cards-grid');
   var html = '';
-  agents.forEach(function(a){
-    MATRICES.forEach(function(m){
-      if(filter !== 'all' && filter !== m) return;
-      var cid = cardId(a.slug, m);
-      var prompt = cardPrompts[cid] || {};
-      var rarity = prompt.rarity || 'common';
-      if(activeRarity !== 'all' && activeRarity !== rarity) return;
-      var owned = !!collected[cid];
-      var elIcon = EL_ICO[a.element] || '✦';
-      html += '<div class="card rarity-'+rarity+' '+(owned?'owned':'locked')+'" onclick="showCard(\''+a.slug+'\',\''+m+'\')">' +
-        '<div class="rarity-badge '+rarity+'">'+(RARITY_LABELS[rarity] || rarity).slice(0,4)+'</div>' +
-        (owned ? '<div class="card-badge">✦</div>' : '<div class="card-locked-ico">🔒</div>') +
-        '<div class="card-el">'+elIcon+'</div>' +
-        '<div class="card-name">'+(owned ? a.name : '???')+'</div>' +
-        '<div class="card-matrix">'+m.toUpperCase()+'</div>' +
-        '<div class="card-element">'+a.element+'</div>' +
-        '</div>';
+  if(activeType === 'all' || activeType === 'core'){
+    agents.forEach(function(a){
+      MATRICES.forEach(function(m){
+        var matrix = matrices.find(function(x){ return x.name === m; }) || {};
+        if(filter !== 'all' && filter !== matrix.slug) return;
+        var cid = cardId(a.slug, matrix.slug);
+        var prompt = cardPrompts[cid] || {};
+        var rarity = prompt.rarity || 'common';
+        if(activeRarity !== 'all' && activeRarity !== rarity) return;
+        var owned = !!collected[cid];
+        var elIcon = EL_ICO[a.element] || '✦';
+        html += '<div class="card rarity-'+rarity+' '+(owned?'owned':'locked')+'" onclick="showCoreCard(\''+a.slug+'\',\''+matrix.slug+'\')">' +
+          '<div class="rarity-badge '+rarity+'">'+(RARITY_LABELS[rarity] || rarity).slice(0,4)+'</div>' +
+          (owned ? '<div class="card-badge">✦</div>' : '<div class="card-locked-ico">🔒</div>') +
+          '<div class="card-el">'+elIcon+'</div>' +
+          '<div class="card-name">'+(owned ? a.name : '???')+'</div>' +
+          '<div class="card-matrix">'+m.toUpperCase()+'</div>' +
+          '<div class="card-element">ЯДРО · '+a.element+'</div>' +
+          '</div>';
+      });
     });
+  }
+  monadCards.forEach(function(c){
+    if(activeType !== 'all' && activeType !== c.card_type) return;
+    if(activeRarity !== 'all' && activeRarity !== c.rarity) return;
+    var owned = !!collected[c.card_id];
+    html += '<div class="card rarity-'+c.rarity+' '+(owned?'owned':'locked')+'" onclick="showMonadCard(\''+c.card_id+'\')">' +
+      '<div class="rarity-badge '+c.rarity+'">'+(RARITY_LABELS[c.rarity] || c.rarity).slice(0,4)+'</div>' +
+      (owned ? '<div class="card-badge">✦</div>' : '<div class="card-locked-ico">🔒</div>') +
+      '<div class="card-el">🌀</div>' +
+      '<div class="card-name">'+(owned ? c.display_name : '???')+'</div>' +
+      '<div class="card-matrix">ПУТЬ МОНАДЫ</div>' +
+      '<div class="card-element">'+String(c.category || '').toUpperCase()+' · '+(c.element || 'Эфир')+'</div>' +
+      '</div>';
+  });
+  domainCards.forEach(function(c){
+    if(activeType !== 'all' && activeType !== c.card_type) return;
+    if(activeRarity !== 'all' && activeRarity !== c.rarity) return;
+    var owned = !!collected[c.card_id];
+    html += '<div class="card rarity-'+c.rarity+' '+(owned?'owned':'locked')+'" onclick="showDomainCard(\''+c.card_id+'\')">' +
+      '<div class="rarity-badge '+c.rarity+'">'+(RARITY_LABELS[c.rarity] || c.rarity).slice(0,4)+'</div>' +
+      (owned ? '<div class="card-badge">✦</div>' : '<div class="card-locked-ico">🔒</div>') +
+      '<div class="card-el">🌌</div>' +
+      '<div class="card-name">'+(owned ? c.display_name : '???')+'</div>' +
+      '<div class="card-matrix">'+String(c.agent_name || '').toUpperCase()+'</div>' +
+      '<div class="card-element">ДОМЕН · '+(c.element || 'Эфир')+'</div>' +
+      '</div>';
+  });
+  lokaCards.forEach(function(c){
+    if(activeType !== 'all' && activeType !== c.card_type) return;
+    if(activeRarity !== 'all' && activeRarity !== c.rarity) return;
+    if(filter !== 'all' && filter !== c.matrix_slug) return;
+    var owned = !!collected[c.card_id];
+    html += '<div class="card rarity-'+c.rarity+' '+(owned?'owned':'locked')+'" onclick="showLokaCard(\''+c.card_id+'\')">' +
+      '<div class="rarity-badge '+c.rarity+'">'+(RARITY_LABELS[c.rarity] || c.rarity).slice(0,4)+'</div>' +
+      (owned ? '<div class="card-badge">✦</div>' : '<div class="card-locked-ico">🔒</div>') +
+      '<div class="card-el">🪷</div>' +
+      '<div class="card-name">'+(owned ? c.display_name : '???')+'</div>' +
+      '<div class="card-matrix">'+String(c.matrix_name || '').toUpperCase()+'</div>' +
+      '<div class="card-element">ЛОКА · '+(c.element || 'Эфир')+'</div>' +
+      '</div>';
+  });
+  lokaBeingCards.forEach(function(c){
+    if(activeType !== 'all' && activeType !== c.card_type) return;
+    if(activeRarity !== 'all' && activeRarity !== c.rarity) return;
+    if(filter !== 'all' && filter !== c.matrix_slug) return;
+    var owned = !!collected[c.card_id];
+    html += '<div class="card rarity-'+c.rarity+' '+(owned?'owned':'locked')+'" onclick="showLokaBeingCard(\''+c.card_id+'\')">' +
+      '<div class="rarity-badge '+c.rarity+'">'+(RARITY_LABELS[c.rarity] || c.rarity).slice(0,4)+'</div>' +
+      (owned ? '<div class="card-badge">✦</div>' : '<div class="card-locked-ico">🔒</div>') +
+      '<div class="card-el">🐍</div>' +
+      '<div class="card-name">'+(owned ? c.display_name : '???')+'</div>' +
+      '<div class="card-matrix">'+String(c.loka_name || '').toUpperCase()+'</div>' +
+      '<div class="card-element">СИЛА ЛОКИ · '+(c.element || 'Эфир')+'</div>' +
+      '</div>';
+  });
+  extraCards.forEach(function(c){
+    if(activeType !== 'all' && activeType !== c.card_type) return;
+    if(activeRarity !== 'all' && activeRarity !== c.rarity) return;
+    if(filter !== 'all' && filter !== c.matrix_slug) return;
+    var owned = !!collected[c.card_id];
+    var elIcon = c.card_type === 'mythic_location' ? '⛰️' : c.card_type === 'mythic_relic' ? '🔱' : (EL_ICO[c.element] || '✦');
+    html += '<div class="card rarity-'+c.rarity+' '+(owned?'owned':'locked')+'" onclick="showExtraCard(\''+c.card_id+'\')">' +
+      '<div class="rarity-badge '+c.rarity+'">'+(RARITY_LABELS[c.rarity] || c.rarity).slice(0,4)+'</div>' +
+      (owned ? '<div class="card-badge">✦</div>' : '<div class="card-locked-ico">🔒</div>') +
+      '<div class="card-el">'+elIcon+'</div>' +
+      '<div class="card-name">'+(owned ? c.display_name : '???')+'</div>' +
+      '<div class="card-matrix">'+String(c.matrix_name || '').toUpperCase()+'</div>' +
+      '<div class="card-element">'+(TYPE_LABELS[c.card_type] || c.card_type)+' · '+(c.element || 'Эфир')+'</div>' +
+      '</div>';
   });
   grid.innerHTML = html;
 }
 
-function showCard(slug, matrix){
+function showCoreCard(slug, matrixSlug){
   var a = agents.find(function(x){return x.slug===slug;});
   if(!a) return;
-  var cid = cardId(slug, matrix);
+  var matrix = matrices.find(function(x){return x.slug===matrixSlug;}) || {};
+  var matrixName = matrix.name || matrixSlug;
+  var cid = cardId(slug, matrixSlug);
   var prompt = cardPrompts[cid] || {};
   var rarity = prompt.rarity || 'common';
   var owned = !!collected[cid];
 
   document.getElementById('pop-ico').textContent = EL_ICO[a.element] || '✦';
   document.getElementById('pop-name').textContent = owned ? a.name : '???';
-  document.getElementById('pop-matrix').textContent = matrix.toUpperCase();
+  document.getElementById('pop-matrix').textContent = matrixName.toUpperCase();
   document.getElementById('pop-el').textContent = a.element;
   document.getElementById('pop-zone').textContent = a.vastu_zone || '—';
   document.getElementById('pop-rarity').textContent = RARITY_LABELS[rarity] || rarity;
-  document.getElementById('pop-effect').textContent = MATRIX_EFFECTS[matrix] || '—';
+  document.getElementById('pop-effect').textContent = MATRIX_EFFECTS[matrixName] || '—';
   document.getElementById('pop-status').textContent = owned ? '✦ В КОЛЛЕКЦИИ' : '🔒 НЕ НАЙДЕНА';
   document.getElementById('pop-status').style.color = owned ? '#c9a84c' : 'rgba(255,255,255,0.3)';
 
   document.getElementById('card-popup').classList.add('show');
 }
 
+function showExtraCard(cardId){
+  var c = extraCards.find(function(x){return x.card_id===cardId;});
+  if(!c) return;
+  var owned = !!collected[cardId];
+  document.getElementById('pop-ico').textContent = c.card_type === 'mythic_location' ? '⛰️' : c.card_type === 'mythic_relic' ? '🔱' : (EL_ICO[c.element] || '✦');
+  document.getElementById('pop-name').textContent = owned ? c.display_name : '???';
+  document.getElementById('pop-matrix').textContent = String(c.matrix_name || '').toUpperCase();
+  document.getElementById('pop-el').textContent = c.element || 'Эфир';
+  document.getElementById('pop-zone').textContent = TYPE_LABELS[c.card_type] || c.card_type;
+  document.getElementById('pop-rarity').textContent = RARITY_LABELS[c.rarity] || c.rarity;
+  document.getElementById('pop-effect').textContent = c.game_significance && c.game_significance.significance_tier ? c.game_significance.significance_tier : 'квестовая карта';
+  document.getElementById('pop-status').textContent = owned ? '✦ В КОЛЛЕКЦИИ' : '🔒 НЕ НАЙДЕНА';
+  document.getElementById('pop-status').style.color = owned ? '#c9a84c' : 'rgba(255,255,255,0.3)';
+  document.getElementById('card-popup').classList.add('show');
+}
+
+function showMonadCard(cardId){
+  var c = monadCards.find(function(x){return x.card_id===cardId;});
+  if(!c) return;
+  var owned = !!collected[cardId];
+  document.getElementById('pop-ico').textContent = '🌀';
+  document.getElementById('pop-name').textContent = owned ? c.display_name : '???';
+  document.getElementById('pop-matrix').textContent = 'ПУТЬ МОНАДЫ';
+  document.getElementById('pop-el').textContent = c.element || 'Эфир';
+  document.getElementById('pop-zone').textContent = String(c.arc_phase || c.category || '').toUpperCase();
+  document.getElementById('pop-rarity').textContent = RARITY_LABELS[c.rarity] || c.rarity;
+  document.getElementById('pop-effect').textContent = c.game_significance && c.game_significance.significance_tier ? c.game_significance.significance_tier : 'эволюционная карта';
+  document.getElementById('pop-status').textContent = owned ? '✦ В КОЛЛЕКЦИИ' : '🔒 НЕ НАЙДЕНА';
+  document.getElementById('pop-status').style.color = owned ? '#c9a84c' : 'rgba(255,255,255,0.3)';
+  document.getElementById('card-popup').classList.add('show');
+}
+
+function showDomainCard(cardId){
+  var c = domainCards.find(function(x){return x.card_id===cardId;});
+  if(!c) return;
+  var owned = !!collected[cardId];
+  document.getElementById('pop-ico').textContent = '🌌';
+  document.getElementById('pop-name').textContent = owned ? c.display_name : '???';
+  document.getElementById('pop-matrix').textContent = String(c.agent_name || '').toUpperCase();
+  document.getElementById('pop-el').textContent = c.element || 'Эфир';
+  document.getElementById('pop-zone').textContent = c.vastu_zone || 'ДОМЕН';
+  document.getElementById('pop-rarity').textContent = RARITY_LABELS[c.rarity] || c.rarity;
+  document.getElementById('pop-effect').textContent = c.game_significance && c.game_significance.significance_tier ? c.game_significance.significance_tier : 'доменная вселенная';
+  document.getElementById('pop-status').textContent = owned ? '✦ В КОЛЛЕКЦИИ' : '🔒 НЕ НАЙДЕНА';
+  document.getElementById('pop-status').style.color = owned ? '#c9a84c' : 'rgba(255,255,255,0.3)';
+  document.getElementById('card-popup').classList.add('show');
+}
+
+function showLokaCard(cardId){
+  var c = lokaCards.find(function(x){return x.card_id===cardId;});
+  if(!c) return;
+  var owned = !!collected[cardId];
+  document.getElementById('pop-ico').textContent = '🪷';
+  document.getElementById('pop-name').textContent = owned ? c.display_name : '???';
+  document.getElementById('pop-matrix').textContent = String(c.matrix_name || '').toUpperCase();
+  document.getElementById('pop-el').textContent = c.element || 'Эфир';
+  document.getElementById('pop-zone').textContent = c.axis === 'upper' ? 'ВЫСШАЯ ЛОКА' : c.axis === 'lower' ? 'НИЖНЯЯ ЛОКА' : 'СРЕДИННАЯ ЛОКА';
+  document.getElementById('pop-rarity').textContent = RARITY_LABELS[c.rarity] || c.rarity;
+  document.getElementById('pop-effect').textContent = c.game_significance && c.game_significance.significance_tier ? c.game_significance.significance_tier : 'космологическая карта';
+  document.getElementById('pop-status').textContent = owned ? '✦ В КОЛЛЕКЦИИ' : '🔒 НЕ НАЙДЕНА';
+  document.getElementById('pop-status').style.color = owned ? '#c9a84c' : 'rgba(255,255,255,0.3)';
+  document.getElementById('card-popup').classList.add('show');
+}
+
+function showLokaBeingCard(cardId){
+  var c = lokaBeingCards.find(function(x){return x.card_id===cardId;});
+  if(!c) return;
+  var owned = !!collected[cardId];
+  document.getElementById('pop-ico').textContent = '🐍';
+  document.getElementById('pop-name').textContent = owned ? c.display_name : '???';
+  document.getElementById('pop-matrix').textContent = String(c.loka_name || '').toUpperCase();
+  document.getElementById('pop-el').textContent = c.element || 'Эфир';
+  document.getElementById('pop-zone').textContent = c.hierarchy_role === 'ruler' ? 'ПРАВИТЕЛЬ' : c.hierarchy_role === 'law' ? 'ЗАКОН МИРА' : 'ОБИТАТЕЛИ';
+  document.getElementById('pop-rarity').textContent = RARITY_LABELS[c.rarity] || c.rarity;
+  document.getElementById('pop-effect').textContent = c.game_significance && c.game_significance.significance_tier ? c.game_significance.significance_tier : 'сила локи';
+  document.getElementById('pop-status').textContent = owned ? '✦ В КОЛЛЕКЦИИ' : '🔒 НЕ НАЙДЕНА';
+  document.getElementById('pop-status').style.color = owned ? '#c9a84c' : 'rgba(255,255,255,0.3)';
+  document.getElementById('card-popup').classList.add('show');
+}
+
 function updateCounter(){
-  var total = agents.length * MATRICES.length;
+  var total = agents.length * MATRICES.length + extraCards.length + domainCards.length + lokaCards.length + lokaBeingCards.length + monadCards.length;
   var count = Object.keys(collected).length;
   document.getElementById('counter').innerHTML = 'Собрано: <b>'+count+'</b> / '+total;
 }
