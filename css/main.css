@@ -1446,9 +1446,10 @@ canvas#bg{position:fixed;inset:0;z-index:0;}
 
             #s-void {
                 z-index: 1200 !important;
-                background: radial-gradient(circle at 38% 32%, rgba(255,255,255,1) 0%, rgba(210,170,255,0.95) 18%, rgba(125,55,230,0.95) 54%, rgba(20,0,58,1) 100%) !important;
-                border: 1px solid rgba(210,160,255,0.78) !important;
-                box-shadow: 0 0 18px rgba(170,80,255,0.9), 0 0 44px rgba(100,40,220,0.42), inset 0 0 18px rgba(235,210,255,0.36) !important;
+                opacity: 0.58 !important;
+                background: radial-gradient(circle at 38% 32%, rgba(235,220,255,0.68) 0%, rgba(165,105,230,0.58) 24%, rgba(72,22,150,0.72) 62%, rgba(12,0,36,0.88) 100%) !important;
+                border: 1px solid rgba(180,120,255,0.38) !important;
+                box-shadow: 0 0 8px rgba(150,70,255,0.45), 0 0 20px rgba(90,35,210,0.22), inset 0 0 10px rgba(220,190,255,0.18) !important;
             }
 
             /* Панели — скрыты по умолчанию на мобиле */

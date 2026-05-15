@@ -12011,11 +12011,11 @@ const loop = () => {
             // Матрица — левее и ниже от орбит (не по центру)
             // На 6 часов (вниз), ещё ниже — 3 сферы от предыдущего (~+150px)
             const voidR = mobileScene
-                ? 700 * sceneScale
+                ? 820 * sceneScale
                 : ((RADII[0] + 425) / 2 + 20 + 300) * sceneScale; // ~752px вниз
             x = 0;
             y = voidR * state.ringTilt; // вниз (6 часов)
-            size = mobileScene ? 38 : 48;
+            size = mobileScene ? 20 : 48;
             el.style.opacity = '1';
             el.style.pointerEvents = 'all';
             // Частицы вокруг сингулярности (для pctx)
