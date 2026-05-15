@@ -11815,17 +11815,18 @@ const loop = () => {
             bgCtx.strokeStyle = col + '55';
             bgCtx.lineWidth = 1.1;
             bgCtx.stroke();
-            // Точка-маркер (движется по орбите)
-            const markerAngle = state.t * (0.07 + i * 0.01) * (i % 2 === 0 ? 1 : -1);
-            const mx = cX + Math.cos(markerAngle) * rad;
-            const my = cY + Math.sin(markerAngle) * rad * state.ringTilt;
-            bgCtx.beginPath();
-            bgCtx.arc(mx, my, 2.5, 0, Math.PI * 2);
-            bgCtx.fillStyle = col + 'cc';
-            bgCtx.shadowBlur = 10;
-            bgCtx.shadowColor = col;
-            bgCtx.fill();
-            bgCtx.shadowBlur = 0;
+            if (!mobileScene) {
+                const markerAngle = state.t * (0.07 + i * 0.01) * (i % 2 === 0 ? 1 : -1);
+                const mx = cX + Math.cos(markerAngle) * rad;
+                const my = cY + Math.sin(markerAngle) * rad * state.ringTilt;
+                bgCtx.beginPath();
+                bgCtx.arc(mx, my, 2.5, 0, Math.PI * 2);
+                bgCtx.fillStyle = col + 'cc';
+                bgCtx.shadowBlur = 10;
+                bgCtx.shadowColor = col;
+                bgCtx.fill();
+                bgCtx.shadowBlur = 0;
+            }
         });
     }
 
@@ -11969,19 +11970,23 @@ const loop = () => {
                 // (стартовых стихий нет)
                 el.style.opacity = '0'; el.style.pointerEvents = 'none';
             } else {
+                if (mobileScene) {
+                    el.style.opacity = '0';
+                    el.style.pointerEvents = 'none';
+                    return;
+                }
                 // 12 ОТКРЫТЫХ СФЕР — строго на краю shell-outer через реальные координаты
                 const shellEl = document.getElementById('shell-outer');
                 let outerR = 425; // fallback
                 if(shellEl) {
                     outerR = parseInt(getComputedStyle(shellEl).width, 10) / 2;
                 }
-                if (mobileScene) outerR *= 0.82;
                 const angle = (s.index / 12) * Math.PI * 2 + state.t * 0.025;
                 const breath = Math.sin(state.t * 1.5 + s.index) * 3;
                 // Позиция относительно центра сцены (cX, cY)
                 x = Math.cos(angle) * (outerR + breath);
                 y = Math.sin(angle) * (outerR + breath) * state.ringTilt;
-                size = mobileScene ? 24 + data.circle * 5 : 22 + data.circle * 8;
+                size = 22 + data.circle * 8;
                 el.style.opacity = '1'; el.style.pointerEvents = 'all';
             }
         } else if (s.type === 'void') {
