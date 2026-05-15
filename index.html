@@ -11748,12 +11748,8 @@ const loop = () => {
         const st=m?56:0, sb=m?60:0, vh=m?Math.max(1,h-st-sb):h;
         return {w:w,h:h,mobile:m,zoom:z,sceneScale:m?Math.max(0.62,Math.min(0.86,w/560))*z:1,cx:w/2,cy:m?(st+vh/2):h/2};
     })());
-    const w = M.w, h = M.h, cX = M.cx, cY = M.cy;
+    const w = M.w, h = M.h, cX = M.cx, cY = M.cy, sceneScale = M.sceneScale;
     const mobileScene = M.mobile;
-    const sceneScale = M.sceneScale;
-    // Позиция сингулярности (относительно центра)
-    const bhPos = { x: -(cX - 140) * 0.7, y: (cY - 140) * 0.7 };
-
     const bgCtx = document.getElementById('bg-arch-canvas')?.getContext('2d');
     const fctx = document.getElementById('fx-canvas')?.getContext('2d');
     const pctx = document.getElementById('particles-canvas')?.getContext('2d');
@@ -11774,6 +11770,15 @@ const loop = () => {
 
     // 2. Торроид (Энергетическое поле)
     if (tctx) drawTorus(tctx, w, h, state.t);
+
+    const raAnchor = document.getElementById('ra-anchor');
+    if (raAnchor) {
+        raAnchor.style.left = cX + 'px';
+        raAnchor.style.top = cY + 'px';
+        raAnchor.style.marginLeft = '0';
+        raAnchor.style.marginTop = '0';
+        raAnchor.style.transform = 'none';
+    }
 
     // 3. Орбитальные кольца
     if (bgCtx) {
