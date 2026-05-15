@@ -4165,6 +4165,22 @@ setTimeout(()=>{ if(typeof Keys!=='undefined') Keys.updateUI(); },500);
     <div id="great-moon"></div>
 </div>
 
+<div id="mobile-universe-focus" aria-hidden="true">
+  <div class="muf-card">
+    <div class="muf-kicker">ВСЕЛЕННАЯ ИГРОКА</div>
+    <div class="muf-sun">☀</div>
+    <div class="muf-title">ЦЕНТР РА</div>
+    <div class="muf-sub">свет · орбиты · три уровня пути</div>
+    <div class="muf-actions">
+      <button type="button" onclick="window.setUniverseMobileMode&&window.setUniverseMobileMode('overview')">ОБЗОР КАРТЫ</button>
+      <button type="button" onclick="document.getElementById('quests-panel')&&document.getElementById('quests-panel').classList.toggle('collapsed')">КВЕСТЫ</button>
+      <button type="button" onclick="document.getElementById('progress-panel')&&document.getElementById('progress-panel').classList.toggle('collapsed')">ПРОГРЕСС</button>
+    </div>
+  </div>
+</div>
+
+<button id="mobile-universe-focus-btn" type="button" onclick="window.setUniverseMobileMode&&window.setUniverseMobileMode('focus')">ЦЕНТР РА</button>
+
 <!-- ИНДИКАТОР СВЕТА РА -->
 <div id="ra-light-indicator">
     <div id="ra-light-ring">
@@ -15916,9 +15932,18 @@ function toggleNakopPanel() {
     var btn = document.getElementById('universe-camera-reset');
     var hint = document.getElementById('universe-camera-hint');
     var app = document.getElementById('awara-app');
-    var visible = app && app.style.display !== 'none' && isPhone();
+    var visible = app && app.style.display !== 'none' && isPhone() && app.classList.contains('mobile-overview');
     if (btn) btn.style.display = visible ? 'block' : 'none';
     if (hint) hint.style.display = visible ? 'block' : 'none';
+  }
+
+  function setMode(mode) {
+    var app = document.getElementById('awara-app');
+    if (!app) return;
+    app.classList.toggle('mobile-focus', mode === 'focus');
+    app.classList.toggle('mobile-overview', mode === 'overview');
+    if (mode === 'focus') resetCamera();
+    refreshResetButton();
   }
 
   function bindCamera() {
@@ -15971,14 +15996,18 @@ function toggleNakopPanel() {
   }
 
   window.resetUniverseCamera = resetCamera;
+  window.setUniverseMobileMode = setMode;
   document.addEventListener('DOMContentLoaded', function() {
     installResetButton();
     installHint();
     bindCamera();
     refreshResetButton();
+    if (isPhone()) setMode('focus');
     setInterval(function() {
       bindCamera();
       refreshResetButton();
+      var app = document.getElementById('awara-app');
+      if (app && isPhone() && !app.classList.contains('mobile-focus') && !app.classList.contains('mobile-overview')) setMode('focus');
     }, 1000);
   });
 })();
