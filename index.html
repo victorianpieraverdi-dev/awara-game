@@ -11705,6 +11705,23 @@ const drawTorus = (ctx, w, h, t) => {
 	// 🔄 ГЛАВНЫЙ ЦИКЛ
 // ═══════════════════════════════════════════════════════════════
 
+window.getUniverseSceneMetrics = function() {
+    var v = document.getElementById('view');
+    var w = v ? v.offsetWidth : window.innerWidth;
+    var h = v ? v.offsetHeight : window.innerHeight;
+    var mobile = window.matchMedia && window.matchMedia('(max-width: 640px)').matches;
+    var zoom = mobile ? (window.universeMobileSceneZoom || 1) : 1;
+    var safeTop = mobile ? 56 : 0;
+    var safeBottom = mobile ? 60 : 0;
+    var visualH = mobile ? Math.max(1, h - safeTop - safeBottom) : h;
+    return {
+        view: v, w: w, h: h, mobile: mobile, zoom: zoom,
+        sceneScale: mobile ? Math.max(0.62, Math.min(0.86, w / 560)) * zoom : 1,
+        cx: w / 2,
+        cy: mobile ? (safeTop + visualH / 2) : h / 2
+    };
+};
+
 const loop = () => {
     state.speed += (state.targetSpeed - state.speed) * 0.05;
     state.t += 0.016 * state.speed;
