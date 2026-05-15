@@ -7837,10 +7837,16 @@ const render = () => {
         }
     });
 
-    // РА
+    // РА — позиция; центрирование через margin делает updateRaCore по реальному размеру
     const ra = document.getElementById('ra-anchor');
-    ra.style.left = cX + 'px'; ra.style.top = cY + 'px';
-    ra.style.marginLeft = '-60px'; ra.style.marginTop = '-60px';
+    if (ra) {
+        ra.style.left = cX + 'px';
+        ra.style.top  = cY + 'px';
+        const raSizeStr = ra.style.getPropertyValue('--ra-size') || '40px';
+        const raSize = parseInt(raSizeStr, 10) || 40;
+        ra.style.marginLeft = -(raSize / 2) + 'px';
+        ra.style.marginTop  = -(raSize / 2) + 'px';
+    }
 
     // Панель сфер
     const sphereEl = document.getElementById('sphere-stats');
