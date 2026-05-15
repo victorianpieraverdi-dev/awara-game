@@ -185,6 +185,47 @@ body{
   background:rgba(201,168,76,0.06);color:var(--gold);
   font-family:Cinzel,serif;font-size:10px;letter-spacing:0.15em;cursor:pointer;
 }
+@media(max-width:560px){
+  body{
+    padding:10px 8px 34px;
+    background:
+      radial-gradient(ellipse at 18% 28%, rgba(116,42,180,0.30), transparent 40%),
+      radial-gradient(ellipse at 82% 72%, rgba(216,115,42,0.20), transparent 42%),
+      radial-gradient(ellipse at 50% -10%, rgba(201,168,76,0.14), transparent 55%),
+      var(--bg);
+  }
+  .wrap{
+    width:min(430px,100%);
+    max-width:none;
+    padding:14px;
+    border:1px solid rgba(201,168,76,0.26);
+    border-radius:30px;
+    background:linear-gradient(180deg,rgba(8,4,24,0.58),rgba(3,2,12,0.68));
+    box-shadow:0 0 0 1px rgba(255,215,80,0.08),0 30px 120px rgba(0,0,0,0.65),inset 0 0 48px rgba(201,168,76,0.04);
+    backdrop-filter:blur(4px);
+    -webkit-backdrop-filter:blur(4px);
+  }
+  .topbar{margin-bottom:18px}
+  .back-link{padding:11px 14px;border-radius:12px;font-size:12px;background:rgba(2,1,10,0.45)}
+  .page-title{font-size:22px;letter-spacing:0.12em}
+  .page-sub{font-size:10px;letter-spacing:0.12em;line-height:1.5}
+  .counter{font-size:12px}
+  .filter-panel{
+    max-width:100%;
+    padding:14px;
+    border-radius:18px;
+    background:linear-gradient(135deg,rgba(18,14,30,0.72),rgba(8,5,18,0.62));
+  }
+  .filter-control{min-height:48px;padding:12px;font-size:12px;border-radius:12px}
+  .filter-line{grid-template-columns:1fr}
+  .filter-btn{min-height:42px;border-radius:14px;padding:8px 12px}
+  .cards-grid{grid-template-columns:1fr;gap:12px}
+  .card{min-height:156px;padding:18px 14px;border-radius:18px;background:linear-gradient(135deg,rgba(18,14,30,0.72),rgba(8,5,18,0.62))}
+  .card-el{font-size:38px}
+  .card-name{font-size:19px}
+  .card-matrix,.card-element{font-size:10px}
+  .popup-card{width:min(390px,94vw);border-radius:22px;background:linear-gradient(180deg,rgba(8,4,24,0.98),rgba(3,2,12,0.98))}
+}
 </style>
 </head>
 <body>
