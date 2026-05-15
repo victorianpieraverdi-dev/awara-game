@@ -1378,6 +1378,8 @@ canvas#bg{position:fixed;inset:0;z-index:0;}
                 line-height: 1;
             }
 
+            body.universe-mobile-overview #side-panel,
+            body.universe-mobile-overview #guild-resonance,
             body.universe-mobile-focus #quests-panel,
             body.universe-mobile-focus #progress-panel,
             body.universe-mobile-focus #universes-panel-wrap,
