@@ -66,6 +66,19 @@ body{
 .filter-row{
   display:flex;gap:6px;justify-content:center;margin-bottom:20px;flex-wrap:wrap;
 }
+.filter-panel{
+  display:grid;gap:10px;margin:14px auto 18px;max-width:680px;
+  padding:12px;border:1px solid rgba(201,168,76,0.16);border-radius:12px;
+  background:rgba(201,168,76,0.035);
+}
+.filter-control{
+  width:100%;min-height:42px;padding:9px 12px;border-radius:9px;
+  border:1px solid rgba(201,168,76,0.22);background:rgba(2,1,10,0.65);
+  color:var(--text);font-family:'JetBrains Mono',monospace;font-size:11px;outline:none;
+}
+.filter-control:focus{border-color:rgba(201,168,76,0.5)}
+.filter-line{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+@media(max-width:560px){.filter-line{grid-template-columns:1fr}}
 .filter-btn{
   padding:6px 14px;min-height:44px;border-radius:20px;cursor:pointer;
   font-family:Cinzel,serif;font-size:10px;letter-spacing:0.12em;
@@ -183,10 +196,23 @@ body{
   </div>
 
   <div class="page-title">КОЛОДА КАРТ</div>
+  <div style="text-align:center;margin:-6px 0 8px;font-size:9px;letter-spacing:0.14em;color:rgba(255,248,214,0.35);">BUILD: CARDS-1500-UNLOCK-v2</div>
   <div class="page-sub">ОСНОВНЫЕ КАРТЫ + ПУТЬ МОНАДЫ + ДОМЕНЫ АГЕНТОВ + ВЕДИЧЕСКИЕ ЛОКИ И ИХ СИЛЫ + МИФОЛОГИЧЕСКИЕ СУЩЕСТВА, ЛОКАЦИИ И РЕЛИКВИИ</div>
   <div class="counter" id="counter">Собрано: <b>0</b> / 63</div>
+  <div style="display:flex;justify-content:center;margin:12px 0 6px;">
+    <button onclick="unlockDemoDeck()" style="min-height:44px;padding:10px 18px;border:1px solid rgba(201,168,76,0.35);border-radius:10px;background:rgba(201,168,76,0.07);color:var(--gold);font-family:Cinzel,serif;font-size:10px;letter-spacing:0.16em;cursor:pointer;">
+      ОТКРЫТЬ ДЕМО-КОЛОДУ
+    </button>
+  </div>
 
-  <div class="filter-row" id="filters"></div>
+  <div class="filter-panel">
+    <input id="card-search" class="filter-control" type="search" placeholder="Поиск по имени, матрице, стихии..." oninput="setCardSearch(this.value)">
+    <div class="filter-line">
+      <select id="matrix-filter" class="filter-control" onchange="setFilter(this.value)"></select>
+      <select id="type-filter" class="filter-control" onchange="setTypeFilter(this.value)"></select>
+    </div>
+    <div class="filter-row" id="rarity-filters"></div>
+  </div>
   <div class="cards-grid" id="cards-grid"></div>
 </div>
 
@@ -286,23 +312,28 @@ async function init(){
 var activeFilter = 'all';
 var activeRarity = 'all';
 var activeType = 'all';
+var activeSearch = '';
 
 function renderFilters(){
-  var el = document.getElementById('filters');
-  var btns = [{label:'ВСЕ',val:'all'}];
-  matrices.forEach(function(m){ btns.push({label:m.name.toUpperCase(),val:m.slug}); });
+  var matrixSelect = document.getElementById('matrix-filter');
+  var typeSelect = document.getElementById('type-filter');
+  var rarityEl = document.getElementById('rarity-filters');
+  var matrixBtns = [{label:'ВСЕ МАТРИЦЫ',val:'all'}];
+  matrices.forEach(function(m){ matrixBtns.push({label:m.name,val:m.slug}); });
   var rarityBtns = [{label:'ЛЮБАЯ РАРНОСТЬ',val:'all'}].concat(Object.keys(RARITY_LABELS).map(function(r){
     return {label:RARITY_LABELS[r],val:r};
   }));
   var typeBtns = [{label:'ВСЕ ТИПЫ',val:'all'}].concat(Object.keys(TYPE_LABELS).map(function(t){
     return {label:TYPE_LABELS[t],val:t};
   }));
-  el.innerHTML = btns.map(function(b){
-    return '<div class="filter-btn'+(b.val===activeFilter?' on':'')+'" onclick="setFilter(\''+b.val+'\')">'+b.label+'</div>';
-  }).join('') + rarityBtns.map(function(b){
+  matrixSelect.innerHTML = matrixBtns.map(function(b){
+    return '<option value="'+b.val+'"'+(b.val===activeFilter?' selected':'')+'>'+b.label+'</option>';
+  }).join('');
+  typeSelect.innerHTML = typeBtns.map(function(b){
+    return '<option value="'+b.val+'"'+(b.val===activeType?' selected':'')+'>'+b.label+'</option>';
+  }).join('');
+  rarityEl.innerHTML = rarityBtns.map(function(b){
     return '<div class="filter-btn'+(b.val===activeRarity?' on':'')+'" onclick="setRarityFilter(\''+b.val+'\')">'+b.label+'</div>';
-  }).join('') + typeBtns.map(function(b){
-    return '<div class="filter-btn'+(b.val===activeType?' on':'')+'" onclick="setTypeFilter(\''+b.val+'\')">'+b.label+'</div>';
   }).join('');
 }
 
@@ -324,9 +355,35 @@ function setTypeFilter(f){
   renderCards(activeFilter);
 }
 
+function setCardSearch(value){
+  activeSearch = String(value || '').trim().toLowerCase();
+  renderCards(activeFilter);
+}
+
 function renderCards(filter){
   var grid = document.getElementById('cards-grid');
   var html = '';
+  if(activeType === 'all' || activeType === 'core'){
+    Object.keys(cardPrompts).forEach(function(cid){
+      if(cid.indexOf('__') !== -1) return;
+      var prompt = cardPrompts[cid] || {};
+      var rarity = prompt.rarity || 'common';
+      if(activeRarity !== 'all' && activeRarity !== rarity) return;
+      var owned = !!collected[cid];
+      var title = prompt.card_name || prompt.name || cid;
+      var matrixName = prompt.matrix_name || prompt.matrix || 'PROMPT';
+      var element = prompt.element || 'Эфир';
+      if(activeSearch && (title + ' ' + matrixName + ' ' + element + ' ' + cid).toLowerCase().indexOf(activeSearch) === -1) return;
+      html += '<div class="card rarity-'+rarity+' '+(owned?'owned':'locked')+'" onclick="showPromptCard(\''+cid+'\')">' +
+        '<div class="rarity-badge '+rarity+'">'+(RARITY_LABELS[rarity] || rarity).slice(0,4)+'</div>' +
+        (owned ? '<div class="card-badge">✦</div>' : '<div class="card-locked-ico">🔒</div>') +
+        '<div class="card-el">'+(EL_ICO[element] || '✦')+'</div>' +
+        '<div class="card-name">'+(owned ? title : '???')+'</div>' +
+        '<div class="card-matrix">'+String(matrixName).toUpperCase()+'</div>' +
+        '<div class="card-element">PROMPT · '+element+'</div>' +
+        '</div>';
+    });
+  }
   if(activeType === 'all' || activeType === 'core'){
     agents.forEach(function(a){
       MATRICES.forEach(function(m){
@@ -338,6 +395,7 @@ function renderCards(filter){
         if(activeRarity !== 'all' && activeRarity !== rarity) return;
         var owned = !!collected[cid];
         var elIcon = EL_ICO[a.element] || '✦';
+        if(activeSearch && (a.name + ' ' + m + ' ' + a.element + ' ' + cid).toLowerCase().indexOf(activeSearch) === -1) return;
         html += '<div class="card rarity-'+rarity+' '+(owned?'owned':'locked')+'" onclick="showCoreCard(\''+a.slug+'\',\''+matrix.slug+'\')">' +
           '<div class="rarity-badge '+rarity+'">'+(RARITY_LABELS[rarity] || rarity).slice(0,4)+'</div>' +
           (owned ? '<div class="card-badge">✦</div>' : '<div class="card-locked-ico">🔒</div>') +
@@ -444,6 +502,21 @@ function showCoreCard(slug, matrixSlug){
   document.getElementById('card-popup').classList.add('show');
 }
 
+function showPromptCard(cardId){
+  var p = cardPrompts[cardId] || {};
+  var owned = !!collected[cardId];
+  document.getElementById('pop-ico').textContent = EL_ICO[p.element] || '✦';
+  document.getElementById('pop-name').textContent = owned ? (p.card_name || p.name || cardId) : '???';
+  document.getElementById('pop-matrix').textContent = String(p.matrix_name || p.matrix || 'PROMPT').toUpperCase();
+  document.getElementById('pop-el').textContent = p.element || 'Эфир';
+  document.getElementById('pop-zone').textContent = p.vastu_zone || p.card_type || 'PROMPT';
+  document.getElementById('pop-rarity').textContent = RARITY_LABELS[p.rarity] || p.rarity || 'common';
+  document.getElementById('pop-effect').textContent = p.game_effect || p.effect || p.prompt || 'визуальный промпт карты';
+  document.getElementById('pop-status').textContent = owned ? '✦ В КОЛЛЕКЦИИ' : '🔒 НЕ НАЙДЕНА';
+  document.getElementById('pop-status').style.color = owned ? '#c9a84c' : 'rgba(255,255,255,0.3)';
+  document.getElementById('card-popup').classList.add('show');
+}
+
 function showExtraCard(cardId){
   var c = extraCards.find(function(x){return x.card_id===cardId;});
   if(!c) return;
@@ -525,9 +598,26 @@ function showLokaBeingCard(cardId){
 }
 
 function updateCounter(){
-  var total = agents.length * MATRICES.length + extraCards.length + domainCards.length + lokaCards.length + lokaBeingCards.length + monadCards.length;
+  var total = Object.keys(cardPrompts).length + agents.length * MATRICES.length + extraCards.length + domainCards.length + lokaCards.length + lokaBeingCards.length + monadCards.length;
   var count = Object.keys(collected).length;
   document.getElementById('counter').innerHTML = 'Собрано: <b>'+count+'</b> / '+total;
+}
+
+function unlockDemoDeck(){
+  Object.keys(cardPrompts).forEach(function(cid){
+    collected[cid] = true;
+  });
+  agents.forEach(function(a){
+    matrices.forEach(function(m){
+      collected[cardId(a.slug, m.slug)] = true;
+    });
+  });
+  [extraCards, domainCards, lokaCards, lokaBeingCards, monadCards].forEach(function(list){
+    list.forEach(function(c){ if(c.card_id) collected[c.card_id] = true; });
+  });
+  saveCollected();
+  renderCards(activeFilter);
+  updateCounter();
 }
 
 init();

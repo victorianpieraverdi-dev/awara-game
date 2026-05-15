@@ -24,6 +24,11 @@ const DEFAULT_STATE = {
     'Воздух': 0,
     'Эфир': 0
   },
+  cauldron: {
+    entriesCount: 0,
+    lastEntryAt: null,
+    lastResult: null
+  },
   activeSystem: 'Ведическая',
   journey: []
 };
@@ -46,6 +51,7 @@ export function migrate() {
       sphereData:   legacy.sphereData   ?? DEFAULT_STATE.sphereData,
       spirit:       legacy.spirit       ?? { ...DEFAULT_STATE.spirit },
       elements:     legacy.elements     ?? { ...DEFAULT_STATE.elements },
+      cauldron:     legacy.cauldron     ?? { ...DEFAULT_STATE.cauldron },
       activeSystem: legacy.activeSystem ?? DEFAULT_STATE.activeSystem,
       journey:      legacy.journey      ?? []
     };
@@ -71,6 +77,7 @@ export function getState() {
         sphereData:   data.sphereData   ?? DEFAULT_STATE.sphereData,
         spirit:       data.spirit       ?? { ...DEFAULT_STATE.spirit },
         elements:     data.elements     ?? { ...DEFAULT_STATE.elements },
+        cauldron:     data.cauldron     ?? { ...DEFAULT_STATE.cauldron },
         activeSystem: data.activeSystem ?? DEFAULT_STATE.activeSystem,
         journey:      data.journey      ?? []
       };
@@ -82,7 +89,7 @@ export function getState() {
   const migrated = migrate();
   if (migrated) return migrated;
 
-  return { ...DEFAULT_STATE, spirit: { ...DEFAULT_STATE.spirit }, elements: { ...DEFAULT_STATE.elements }, journey: [] };
+  return { ...DEFAULT_STATE, spirit: { ...DEFAULT_STATE.spirit }, elements: { ...DEFAULT_STATE.elements }, cauldron: { ...DEFAULT_STATE.cauldron }, journey: [] };
 }
 
 /**
@@ -96,6 +103,7 @@ export function saveState(state) {
     sphereData:   state.sphereData   ?? {},
     spirit:       state.spirit       ?? {},
     elements:     state.elements     ?? {},
+    cauldron:     state.cauldron     ?? { ...DEFAULT_STATE.cauldron },
     activeSystem: state.activeSystem ?? 'Ведическая',
     journey:      state.journey      ?? []
   };

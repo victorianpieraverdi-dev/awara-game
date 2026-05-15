@@ -439,6 +439,32 @@ body{
     </div>
   </section>
 
+  <section class="section" id="last-cauldron-section" style="display:none">
+    <div class="section-h">ПОСЛЕДНИЙ ТИГЕЛЬ</div>
+    <div class="card">
+      <div class="grid grid-2">
+        <div>
+          <div class="card-eyebrow">СИНТЕЗИРОВАНО</div>
+          <div class="card-value" id="last-cauldron-light">0</div>
+          <div class="card-sub">света за последнюю запись</div>
+        </div>
+        <div>
+          <div class="card-eyebrow">СТИХИЯ ДНЯ</div>
+          <div class="card-value" id="last-cauldron-element" style="font-size:16px">—</div>
+          <div class="card-sub" id="last-cauldron-date">—</div>
+        </div>
+      </div>
+      <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--line-soft);">
+        <div class="card-eyebrow">СФЕРА</div>
+        <div class="card-value" id="last-cauldron-sphere" style="font-size:16px">—</div>
+      </div>
+      <div style="margin-top:12px;">
+        <div class="card-eyebrow">ПРАКТИКА НА ЗАВТРА</div>
+        <div class="card-sub" id="last-cauldron-practice" style="font-size:12px;color:var(--text);line-height:1.6">—</div>
+      </div>
+    </div>
+  </section>
+
   <!-- ВКЛАД ПО СФЕРАМ -->
   <section class="section">
     <div class="section-h">ВКЛАД ПО СФЕРАМ</div>
@@ -631,6 +657,28 @@ import { getState } from './js/playerState.js';
     }
   }
 
+  function renderLastCauldron(state){
+    var section = document.getElementById('last-cauldron-section');
+    var result = state && state.cauldron && state.cauldron.lastResult;
+    if(!section || !result){
+      if(section) section.style.display = 'none';
+      return;
+    }
+    var sphereLabels = {
+      feet: 'Ноги / тело / воплощение',
+      heart: 'Сердце / чувства / отношения',
+      head: 'Голова / мысль / осознание',
+      cooperation: 'Сотрудничество / обмен / служение'
+    };
+    document.getElementById('last-cauldron-light').textContent = fmtRaw(result.lightAwarded || 0);
+    document.getElementById('last-cauldron-element').textContent = result.dayEnergy || '—';
+    document.getElementById('last-cauldron-sphere').textContent = sphereLabels[result.dominantSphere] || result.dominantSphere || '—';
+    document.getElementById('last-cauldron-practice').textContent = result.practiceTomorrow || 'Практика ещё не определена.';
+    var date = result.createdAt ? new Date(result.createdAt) : null;
+    document.getElementById('last-cauldron-date').textContent = date && !isNaN(date.getTime()) ? date.toLocaleString('ru-RU') : 'дата не сохранена';
+    section.style.display = '';
+  }
+
   function renderLeaderboard(state){
     var light = (state && state.totalLight) || 0;
     // Соберём всех + игрока, отсортируем по убыванию
@@ -735,6 +783,7 @@ import { getState } from './js/playerState.js';
     renderHero(state);
     renderStats(state);
     renderAgent();
+    renderLastCauldron(state);
     renderSpheres(state);
     renderLeaderboard(state);
     renderEvolution(state);
