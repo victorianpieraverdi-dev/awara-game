@@ -1180,7 +1180,7 @@ canvas#bg{position:fixed;inset:0;z-index:0;}
                 display: none;
                 position: fixed;
                 left: 50%;
-                bottom: 8px;
+                bottom: 16px;
                 transform: translateX(-50%);
                 z-index: 90020;
                 padding: 0 18px;
@@ -1191,6 +1191,39 @@ canvas#bg{position:fixed;inset:0;z-index:0;}
 
             #awara-app.mobile-overview #mobile-universe-focus-btn {
                 display: block;
+            }
+
+            #mobile-universe-zoom-controls {
+                display: none;
+                position: fixed;
+                right: 12px;
+                bottom: 16px;
+                z-index: 90030;
+                gap: 6px;
+                align-items: center;
+                padding: 6px;
+                border-radius: 999px;
+                border: 1px solid rgba(201,168,76,0.22);
+                background: rgba(4,2,18,0.66);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+            }
+
+            #awara-app.mobile-overview ~ #mobile-universe-zoom-controls,
+            body.universe-mobile-overview #mobile-universe-zoom-controls {
+                display: flex;
+            }
+
+            #mobile-universe-zoom-controls button {
+                width: 34px;
+                height: 34px;
+                border-radius: 50%;
+                border: 1px solid rgba(201,168,76,0.28);
+                background: rgba(255,215,120,0.07);
+                color: rgba(255,232,160,0.92);
+                font-family: 'JetBrains Mono', monospace;
+                font-size: 16px;
+                line-height: 1;
             }
 
             body.universe-mobile-focus #quests-panel,

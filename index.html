@@ -4184,6 +4184,11 @@ setTimeout(()=>{ if(typeof Keys!=='undefined') Keys.updateUI(); },500);
 </div>
 
 <button id="mobile-universe-focus-btn" type="button" onclick="window.setUniverseMobileMode&&window.setUniverseMobileMode('focus')">ЦЕНТР РА</button>
+<div id="mobile-universe-zoom-controls" aria-label="Управление масштабом вселенной">
+  <button type="button" onclick="window.universeMobileZoom&&window.universeMobileZoom(1.16)">+</button>
+  <button type="button" onclick="window.universeMobileZoom&&window.universeMobileZoom(0.86)">−</button>
+  <button type="button" onclick="window.universeMobileReset&&window.universeMobileReset()">⟳</button>
+</div>
 
 <!-- ИНДИКАТОР СВЕТА РА -->
 <div id="ra-light-indicator">
@@ -11665,6 +11670,8 @@ const loop = () => {
     const w = view ? view.offsetWidth : window.innerWidth;
     const h = view ? view.offsetHeight : window.innerHeight;
     const cX = w / 2, cY = h / 2;
+    const mobileScene = window.matchMedia && window.matchMedia('(max-width: 640px)').matches;
+    const sceneScale = mobileScene ? Math.max(0.62, Math.min(0.86, w / 560)) : 1;
     // Позиция сингулярности (относительно центра)
     const bhPos = { x: -(cX - 140) * 0.7, y: (cY - 140) * 0.7 };
 
@@ -11862,9 +11869,9 @@ const loop = () => {
                 // 8 СФЕР БЕЗ АТРИБУТОВ — на красной крайней орбите (RADII[0]=420)
                 const darkIdx = s.index - STARTER_IDS.length;
                 const angle = (darkIdx / 8) * Math.PI * 2 + state.t * 0.03;
-                x = Math.cos(angle) * RADII[0];
-                y = Math.sin(angle) * RADII[0] * state.ringTilt;
-                size = 20;
+                x = Math.cos(angle) * RADII[0] * sceneScale;
+                y = Math.sin(angle) * RADII[0] * state.ringTilt * sceneScale;
+                size = mobileScene ? 18 : 20;
                 el.style.opacity = '0.38';
                 el.style.pointerEvents = 'all';
                 el.style.cursor = 'pointer';
@@ -11878,18 +11885,19 @@ const loop = () => {
                 if(shellEl) {
                     outerR = parseInt(getComputedStyle(shellEl).width, 10) / 2;
                 }
+                if (mobileScene) outerR *= 0.82;
                 const angle = (s.index / 12) * Math.PI * 2 + state.t * 0.025;
                 const breath = Math.sin(state.t * 1.5 + s.index) * 3;
                 // Позиция относительно центра сцены (cX, cY)
                 x = Math.cos(angle) * (outerR + breath);
                 y = Math.sin(angle) * (outerR + breath) * state.ringTilt;
-                size = 22 + data.circle * 8;
+                size = mobileScene ? 24 + data.circle * 5 : 22 + data.circle * 8;
                 el.style.opacity = '1'; el.style.pointerEvents = 'all';
             }
         } else if (s.type === 'void') {
             // Матрица — левее и ниже от орбит (не по центру)
             // На 6 часов (вниз), ещё ниже — 3 сферы от предыдущего (~+150px)
-            const voidR = (RADII[0] + 425) / 2 + 20 + 300; // ~752px вниз
+            const voidR = ((RADII[0] + 425) / 2 + 20 + 300) * sceneScale; // ~752px вниз
             x = 0;
             y = voidR * state.ringTilt; // вниз (6 часов)
             size = 48;
@@ -11903,12 +11911,12 @@ const loop = () => {
                 pctx.fill();
             }
         } else if (s.type === 'personal') {
-            x = s.pos.x * (cX - 40);
-            y = s.pos.y * (cY - 40);
+            x = s.pos.x * (cX - 40) * sceneScale;
+            y = s.pos.y * (cY - 40) * sceneScale;
             const pBreath = Math.sin(state.t * 0.5 + configs.indexOf(s) * 1.4) * 2;
             x += pBreath * 0.3;
             y += pBreath * 0.2;
-            size = 68;
+            size = mobileScene ? 48 : 68;
         }
 
         // Применяем позицию к DOM-сфере
@@ -15909,6 +15917,11 @@ function toggleNakopPanel() {
     applyCamera();
   }
 
+  function zoomCamera(factor) {
+    camera.zoom = Math.max(camera.min, Math.min(camera.max, camera.zoom * factor));
+    applyCamera();
+  }
+
   function distance(t1, t2) {
     var dx = t1.clientX - t2.clientX;
     var dy = t1.clientY - t2.clientY;
@@ -15916,15 +15929,8 @@ function toggleNakopPanel() {
   }
 
   function installResetButton() {
-    if (document.getElementById('universe-camera-reset')) return;
-    var btn = document.createElement('button');
-    btn.id = 'universe-camera-reset';
-    btn.type = 'button';
-    btn.textContent = '⦿';
-    btn.title = 'Центрировать вселенную';
-    btn.style.cssText = 'display:none;position:fixed;right:8px;bottom:8px;z-index:90020;width:34px;height:34px;border-radius:50%;background:rgba(4,2,18,0.62);border:1px solid rgba(201,168,76,0.30);color:rgba(255,248,214,0.80);font-size:16px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);';
-    btn.onclick = resetCamera;
-    document.body.appendChild(btn);
+    var btn = document.getElementById('universe-camera-reset');
+    if (btn) btn.remove();
   }
 
   function installHint() {
@@ -15937,11 +15943,9 @@ function toggleNakopPanel() {
   }
 
   function refreshResetButton() {
-    var btn = document.getElementById('universe-camera-reset');
     var hint = document.getElementById('universe-camera-hint');
     var app = document.getElementById('awara-app');
     var visible = app && app.style.display !== 'none' && isPhone() && app.classList.contains('mobile-overview');
-    if (btn) btn.style.display = visible ? 'block' : 'none';
     if (hint) hint.style.display = visible ? 'block' : 'none';
   }
 
@@ -16011,6 +16015,8 @@ function toggleNakopPanel() {
   }
 
   window.resetUniverseCamera = resetCamera;
+  window.universeMobileReset = resetCamera;
+  window.universeMobileZoom = zoomCamera;
   window.setUniverseMobileMode = setMode;
   document.addEventListener('DOMContentLoaded', function() {
     installResetButton();
