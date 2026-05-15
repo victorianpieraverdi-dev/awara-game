@@ -7837,7 +7837,7 @@ const render = () => {
         }
     });
 
-    // РА — строго в центр #view, центрируем через CSS transform (без margin-фокусов)
+    // РА — якорь-точка строго в центре #view; сам круг центрируется CSS-ом
     const ra = document.getElementById('ra-anchor');
     if (ra) {
         const vEl = document.getElementById('view');
@@ -7847,7 +7847,7 @@ const render = () => {
         ra.style.top  = (vh / 2) + 'px';
         ra.style.marginLeft = '0';
         ra.style.marginTop  = '0';
-        ra.style.transform = 'translate(-50%, -50%)';
+        ra.style.transform = 'none';
     }
 
     // Панель сфер
@@ -12084,25 +12084,17 @@ const loop = () => {
     });
 
     // 9. Солнце и Луна
-    const gs = document.getElementById('great-sun');
-    const gm = document.getElementById('great-moon');
-    if (mobileScene) {
-        // На мобиле большие солнце/луна скрыты — иначе тянут визуальный центр
-        if (gs) gs.style.display = 'none';
-        if (gm) gm.style.display = 'none';
-    } else {
-        if (gs) gs.style.display = '';
-        if (gm) gm.style.display = '';
-        const sunAngle = state.t * 0.035;
-        const sunAmpX = w * 0.44;
-        const sunAmpY = h * 0.38;
-        const sunX = cX + Math.cos(sunAngle) * sunAmpX - 90;
-        const sunY = cY + Math.sin(sunAngle) * sunAmpY - 90;
-        const moonX = cX + Math.cos(sunAngle + Math.PI) * sunAmpX - 10;
-        const moonY = cY + Math.sin(sunAngle + Math.PI) * sunAmpY - 10;
-        if (gs) gs.style.transform = `translate(${sunX}px, ${sunY}px)`;
-        if (gm) gm.style.transform = `translate(${moonX}px, ${moonY}px)`;
-    }
+    const sunAngle = state.t * 0.035;
+    const sunAmpX = mobileScene ? w * 0.24 : w * 0.44;
+    const sunAmpY = mobileScene ? h * 0.22 : h * 0.38;
+    const sunX = cX + Math.cos(sunAngle) * sunAmpX - 90;
+    const sunY = cY + Math.sin(sunAngle) * sunAmpY - 90;
+    const moonX = cX + Math.cos(sunAngle + Math.PI) * sunAmpX - 10;
+    const moonY = cY + Math.sin(sunAngle + Math.PI) * sunAmpY - 10;
+    document.getElementById('great-sun').style.display = '';
+    document.getElementById('great-moon').style.display = '';
+    document.getElementById('great-sun').style.transform = `translate(${sunX}px, ${sunY}px)`;
+    document.getElementById('great-moon').style.transform = `translate(${moonX}px, ${moonY}px)`;
 
     // 10. Искра (Вестник)
     const vest = document.getElementById('vestnik');

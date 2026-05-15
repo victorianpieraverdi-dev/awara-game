@@ -396,10 +396,11 @@ canvas#bg{position:fixed;inset:0;z-index:0;}
         /* ИСТОЧНИК РА */
         #awara-app #ra-anchor {
             position: absolute; z-index: 4800;
-            display: flex; align-items: center; justify-content: center;
+            width: 0; height: 0;
+            display: block;
             cursor: pointer; transition: transform 0.3s;
         }
-        #ra-anchor:hover { transform: scale(1.15); }
+        #ra-anchor:hover { transform: none; }
 
         #awara-app #ra-core {
             width: var(--ra-size, 30px); height: var(--ra-size, 30px);
@@ -417,6 +418,8 @@ canvas#bg{position:fixed;inset:0;z-index:0;}
             animation: ra-breathe 4s infinite ease-in-out;
             overflow: visible;
             position: relative;
+            left: 0; top: 0;
+            transform: translate(-50%, -50%);
             transition: width 2s ease, height 2s ease;
         }
         @keyframes awara-ra-breathe {
