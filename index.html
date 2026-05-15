@@ -16246,5 +16246,47 @@ import { createUniverseSnapshot } from './js/universe/universeProgression.js';
 })();
 </script>
 
+
+<!-- T-048: СКРЫТЬ КАЛЕНДАРНЫЕ ЭЛЕМЕНТЫ -->
+<script>
+(function hideCalendarUI() {
+  const calendarKeywords = [
+    'юлианский', 'григорианский', 'кармическая',
+    'понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота', 'воскресенье',
+    'январь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'
+  ];
+  function hideElements() {
+    let hiddenCount = 0;
+    document.querySelectorAll('*').forEach(el => {
+      if (el.children.length > 5) return;
+      const text = el.textContent?.toLowerCase() || '';
+      for (const keyword of calendarKeywords) {
+        if (text.includes(keyword.toLowerCase())) {
+          const rect = el.getBoundingClientRect();
+          if (rect.width < 500 && rect.height < 100) {
+            el.style.display = 'none';
+            hiddenCount++;
+            break;
+          }
+        }
+      }
+      if (/\d+\s*(число|н\.э\.)/.test(text) || /\d+\/\d+/.test(text)) {
+        const rect = el.getBoundingClientRect();
+        if (rect.width < 300 && rect.height < 50) {
+          el.style.display = 'none';
+          hiddenCount++;
+        }
+      }
+    });
+    console.log('[AWARA] Скрыто календарных элементов: ' + hiddenCount);
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', hideElements);
+  } else {
+    hideElements();
+  }
+})();
+</script>
+
 </body>
 </html>
