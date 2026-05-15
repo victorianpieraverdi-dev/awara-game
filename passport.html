@@ -36,12 +36,13 @@ body{
 body::before{
   content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
   background-image:
-    radial-gradient(circle,rgba(255,255,255,0.80) 0 1px,transparent 1.5px),
-    radial-gradient(circle,rgba(255,215,120,0.58) 0 1px,transparent 1.5px),
-    radial-gradient(circle,rgba(180,210,255,0.42) 0 0.8px,transparent 1.3px);
-  background-size:150px 150px,230px 230px,95px 95px;
-  background-position:10px 24px,65px 90px,20px 50px;
-  opacity:0.56;
+    radial-gradient(circle,rgba(255,255,255,0.95) 0 1.2px,transparent 1.8px),
+    radial-gradient(circle,rgba(255,215,120,0.82) 0 1.1px,transparent 1.8px),
+    radial-gradient(circle,rgba(180,210,255,0.72) 0 1px,transparent 1.6px),
+    radial-gradient(circle,rgba(255,255,255,0.42) 0 2px,transparent 2.8px);
+  background-size:82px 82px,136px 136px,54px 54px,240px 240px;
+  background-position:10px 24px,65px 90px,20px 50px,120px 30px;
+  opacity:0.92;
 }
 .wrap{max-width:580px;margin:0 auto;position:relative;z-index:1}
 
@@ -73,7 +74,7 @@ body::before{
 .passport-card{
   border:1px solid var(--line);border-radius:14px;
   padding:clamp(16px,4vw,24px);margin-bottom:16px;
-  background:rgba(8,4,24,0.38);
+  background:rgba(8,4,24,0.24);
   position:relative;overflow:hidden;
   backdrop-filter:blur(4px);
   -webkit-backdrop-filter:blur(4px);
