@@ -15860,6 +15860,7 @@ function toggleNakopPanel() {
   var camera = { zoom: 0.82, x: 0, y: 0, min: 0.58, max: 1.35 };
   var drag = null;
   var pinch = null;
+  var lastTap = 0;
 
   function isPhone() {
     return window.matchMedia && window.matchMedia('(max-width: 640px)').matches;
@@ -15902,11 +15903,22 @@ function toggleNakopPanel() {
     document.body.appendChild(btn);
   }
 
+  function installHint() {
+    if (document.getElementById('universe-camera-hint')) return;
+    var hint = document.createElement('div');
+    hint.id = 'universe-camera-hint';
+    hint.textContent = 'ДВИГАЙ ОДНИМ ПАЛЬЦЕМ · МАСШТАБ ДВУМЯ';
+    hint.style.cssText = 'display:none;position:fixed;left:50%;bottom:10px;transform:translateX(-50%);z-index:90019;padding:7px 11px;border-radius:999px;background:rgba(4,2,18,0.52);border:1px solid rgba(201,168,76,0.18);color:rgba(255,248,214,0.48);font-family:JetBrains Mono,monospace;font-size:7px;letter-spacing:0.12em;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);pointer-events:none;transition:opacity 0.4s;';
+    document.body.appendChild(hint);
+  }
+
   function refreshResetButton() {
     var btn = document.getElementById('universe-camera-reset');
-    if (!btn) return;
+    var hint = document.getElementById('universe-camera-hint');
     var app = document.getElementById('awara-app');
-    btn.style.display = app && app.style.display !== 'none' && isPhone() ? 'block' : 'none';
+    var visible = app && app.style.display !== 'none' && isPhone();
+    if (btn) btn.style.display = visible ? 'block' : 'none';
+    if (hint) hint.style.display = visible ? 'block' : 'none';
   }
 
   function bindCamera() {
@@ -15918,6 +15930,9 @@ function toggleNakopPanel() {
     v.addEventListener('touchstart', function(e) {
       if (!isPhone()) return;
       if (e.touches.length === 1) {
+        var now = Date.now();
+        if (now - lastTap < 280) resetCamera();
+        lastTap = now;
         drag = {
           x: e.touches[0].clientX,
           y: e.touches[0].clientY,
@@ -15958,6 +15973,7 @@ function toggleNakopPanel() {
   window.resetUniverseCamera = resetCamera;
   document.addEventListener('DOMContentLoaded', function() {
     installResetButton();
+    installHint();
     bindCamera();
     refreshResetButton();
     setInterval(function() {
