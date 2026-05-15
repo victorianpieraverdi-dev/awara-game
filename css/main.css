@@ -1009,12 +1009,74 @@ canvas#bg{position:fixed;inset:0;z-index:0;}
             #day-phase-indicator { display: none; }
             #topbar-spheres { display: none !important; }
 
+            #awara-app {
+                overflow: hidden !important;
+            }
+
+            #awara-app #view {
+                position: fixed !important;
+                left: 50% !important;
+                top: 48px !important;
+                width: 118vw !important;
+                height: calc(100dvh - 118px) !important;
+                min-height: 470px !important;
+                transform: translateX(-50%) scale(0.82);
+                transform-origin: center center;
+                border-radius: 28px;
+                overflow: hidden !important;
+            }
+
+            #awara-app canvas {
+                width: 100% !important;
+                height: 100% !important;
+            }
+
+            #shell-inner { width: 220px !important; height: 220px !important; }
+            #shell-middle { width: 390px !important; height: 390px !important; }
+            #shell-outer { width: 560px !important; height: 560px !important; }
+
+            #ra-anchor {
+                transform: scale(0.86);
+            }
+
+            #ra-light-indicator {
+                transform: scale(0.78);
+                transform-origin: top center;
+            }
+
             /* Панели — скрыты по умолчанию на мобиле */
-            #quests-panel { left: 4px; top: 46px; width: 150px; max-height: 35vh; }
-            #progress-panel { right: 4px; top: 46px; width: 150px; max-height: 35vh; }
-            #side-panel { left: 4px; bottom: 44px; width: 140px; }
-            #guild-resonance { bottom: 4px; right: 4px; width: 130px; }
-            #chat-win { right: 4px; bottom: 4px; width: 180px; }
+            .awara-panel {
+                background: rgba(4,2,18,0.58) !important;
+                backdrop-filter: blur(12px) saturate(140%) !important;
+                -webkit-backdrop-filter: blur(12px) saturate(140%) !important;
+                border-color: rgba(201,168,76,0.16) !important;
+            }
+            .awara-panel .panel-header {
+                min-height: 34px !important;
+                padding: 8px 10px !important;
+            }
+            .awara-panel .panel-body {
+                max-height: 42dvh !important;
+                overflow-y: auto !important;
+            }
+            #quests-panel { left: 6px; top: 48px; width: 122px; max-height: 34px; }
+            #progress-panel { right: 6px; top: 48px; width: 122px; max-height: 34px; }
+            #quests-panel:not(.collapsed),
+            #progress-panel:not(.collapsed) {
+                width: min(360px, calc(100vw - 16px)) !important;
+                max-height: 46dvh !important;
+            }
+            #quests-panel:not(.collapsed) { left: 8px !important; }
+            #progress-panel:not(.collapsed) { right: 8px !important; }
+            #universes-panel-wrap {
+                left: 6px !important;
+                top: 88px !important;
+                width: 122px !important;
+                max-height: 34px !important;
+            }
+            #side-panel { left: 6px; bottom: 42px; width: 122px; max-height: 34px; }
+            #guild-resonance { bottom: 42px; right: 6px; width: 122px; max-height: 34px; }
+            #chat-win { right: 6px; bottom: 82px; width: 180px; }
             #players-chat { display: none !important; }
             #activity-feed { width: 200px; }
 
