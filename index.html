@@ -4067,6 +4067,7 @@ setTimeout(()=>{ if(typeof Keys!=='undefined') Keys.updateUI(); },500);
 </div>
 
 <div id="view">
+    <div id="universe-zoom-layer">
     <!-- Слой подсветки вселенной -->
     <div id="universe-glow" style="position:absolute;inset:0;z-index:5;pointer-events:none;opacity:0.7;transition:background 2s ease-out;"></div>
 
@@ -4163,6 +4164,7 @@ setTimeout(()=>{ if(typeof Keys!=='undefined') Keys.updateUI(); },500);
 
     <div id="great-sun"></div>
     <div id="great-moon"></div>
+    </div>
 </div>
 
 <div id="mobile-universe-focus" aria-hidden="true">
@@ -15950,12 +15952,16 @@ function toggleNakopPanel() {
     return document.querySelector('#awara-app #view');
   }
 
+  function zoomLayer() {
+    return document.querySelector('#awara-app #universe-zoom-layer');
+  }
+
   function applyCamera() {
-    var v = view();
-    if (!v) return;
-    v.style.setProperty('--universe-zoom', camera.zoom.toFixed(3));
-    v.style.setProperty('--universe-pan-x', Math.round(camera.x) + 'px');
-    v.style.setProperty('--universe-pan-y', Math.round(camera.y) + 'px');
+    var layer = zoomLayer();
+    if (!layer) return;
+    layer.style.setProperty('--universe-zoom', camera.zoom.toFixed(3));
+    layer.style.setProperty('--universe-pan-x', Math.round(camera.x) + 'px');
+    layer.style.setProperty('--universe-pan-y', Math.round(camera.y) + 'px');
   }
 
   function resetCamera() {
