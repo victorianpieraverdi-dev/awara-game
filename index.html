@@ -11910,14 +11910,32 @@ const loop = () => {
         });
 
         // Центральное свечение РА
-        const raG = fctx.createRadialGradient(cX, cY, 0, cX, cY, 90);
-        raG.addColorStop(0, 'rgba(255, 255, 255, 0.5)');
-        raG.addColorStop(0.4, 'rgba(255, 215, 0, 0.2)');
+        const raGlowR = mobileScene ? 46 : 90;
+        const raG = fctx.createRadialGradient(cX, cY, 0, cX, cY, raGlowR);
+        raG.addColorStop(0, 'rgba(255, 255, 255, 0.62)');
+        raG.addColorStop(0.42, 'rgba(255, 215, 0, 0.24)');
         raG.addColorStop(1, 'transparent');
         fctx.fillStyle = raG;
         fctx.beginPath();
-        fctx.arc(cX, cY, 90, 0, Math.PI * 2);
+        fctx.arc(cX, cY, raGlowR, 0, Math.PI * 2);
         fctx.fill();
+
+        if (mobileScene) {
+            const raCoreR = Math.max(5, Math.min(10, 7 * sceneScale));
+            const raCoreG = fctx.createRadialGradient(cX - raCoreR * 0.25, cY - raCoreR * 0.3, 0, cX, cY, raCoreR * 1.7);
+            raCoreG.addColorStop(0, 'rgba(255,255,255,1)');
+            raCoreG.addColorStop(0.25, 'rgba(255,250,210,1)');
+            raCoreG.addColorStop(0.62, 'rgba(255,215,0,0.96)');
+            raCoreG.addColorStop(1, 'rgba(255,154,0,0.42)');
+            fctx.save();
+            fctx.shadowBlur = 18;
+            fctx.shadowColor = 'rgba(255,215,0,0.88)';
+            fctx.fillStyle = raCoreG;
+            fctx.beginPath();
+            fctx.arc(cX, cY, raCoreR, 0, Math.PI * 2);
+            fctx.fill();
+            fctx.restore();
+        }
     }
 
     // 7. ОБНОВЛЕНИЕ ПОЗИЦИЙ СФЕР И ТРЕЙЛОВ
