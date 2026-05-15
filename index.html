@@ -11723,8 +11723,8 @@ window.getUniverseSceneMetrics = function() {
     var h = v ? v.offsetHeight : window.innerHeight;
     var mobile = window.matchMedia && window.matchMedia('(max-width: 640px)').matches;
     var zoom = mobile ? (window.universeMobileSceneZoom || 1) : 1;
-    var safeTop = mobile ? 24 : 0;
-    var safeBottom = mobile ? 120 : 0;
+    var safeTop = mobile ? 56 : 0;
+    var safeBottom = mobile ? 60 : 0;
     var visualH = mobile ? Math.max(1, h - safeTop - safeBottom) : h;
     return {
         view: v, w: w, h: h, mobile: mobile, zoom: zoom,
@@ -11982,6 +11982,12 @@ const loop = () => {
             }
         } else if (s.type === 'void') {
             // Матрица — левее и ниже от орбит (не по центру)
+            // На мобиле сингулярность скрываем — она уезжала далеко вниз и портила центр
+            if (mobileScene) {
+                el.style.opacity = '0';
+                el.style.pointerEvents = 'none';
+                return;
+            }
             // На 6 часов (вниз), ещё ниже — 3 сферы от предыдущего (~+150px)
             const voidR = ((RADII[0] + 425) / 2 + 20 + 300) * sceneScale; // ~752px вниз
             x = 0;
@@ -16000,8 +16006,8 @@ function toggleNakopPanel() {
     var h = v ? v.offsetHeight : window.innerHeight;
     var mobile = window.matchMedia && window.matchMedia('(max-width: 640px)').matches;
     var zoom = mobile ? (window.universeMobileSceneZoom || 1) : 1;
-    var safeTop = mobile ? 24 : 0;
-    var safeBottom = mobile ? 120 : 0;
+    var safeTop = mobile ? 56 : 0;
+    var safeBottom = mobile ? 60 : 0;
     var visualH = mobile ? Math.max(1, h - safeTop - safeBottom) : h;
     return {
       view: v, w: w, h: h, mobile: mobile, zoom: zoom,
