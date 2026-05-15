@@ -11883,15 +11883,7 @@ const loop = () => {
 
         // Волны РА (Золотые)
         if (Math.random() < 0.008 * state.speed) {
-            state.waves.push({
-                x: cX,
-                y: cY,
-                r: mobileScene ? 18 : 35,
-                a: mobileScene ? 0.22 : 0.45,
-                col: '255, 215, 0',
-                thick: mobileScene ? 3 : 7,
-                type: 'light'
-            });
+            state.waves.push({ x: cX, y: cY, r: 35, a: 0.45, col: '255, 215, 0', thick: 7, type: 'light' });
         }
         // Волны МЕТРИК (Фиолетовые)
         if (Math.random() < 0.005 * state.speed) {
