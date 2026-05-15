@@ -11888,7 +11888,7 @@ const loop = () => {
         // Волны МЕТРИК (Фиолетовые)
         if (Math.random() < 0.005 * state.speed) {
             // Волны испускаются из void-сферы (на 6 часов вниз)
-            const _vR = mobileScene ? 540 * sceneScale : (RADII[0] + 425) / 2 + 20 + 300;
+            const _vR = (RADII[0] + 425) / 2 + 20 + 300;
             const _vy = _vR * state.ringTilt;
             state.waves.push({ x: cX, y: cY + _vy, r: 15, a: 0.55, col: '138, 43, 226', thick: 4, type: 'void' });
         }
@@ -12011,7 +12011,7 @@ const loop = () => {
             // Матрица — левее и ниже от орбит (не по центру)
             // На 6 часов (вниз), ещё ниже — 3 сферы от предыдущего (~+150px)
             const voidR = mobileScene
-                ? 540 * sceneScale
+                ? 700 * sceneScale
                 : ((RADII[0] + 425) / 2 + 20 + 300) * sceneScale; // ~752px вниз
             x = 0;
             y = voidR * state.ringTilt; // вниз (6 часов)
