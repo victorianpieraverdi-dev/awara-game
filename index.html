@@ -8003,8 +8003,9 @@ function initZodiacRing() {
     const h = view ? view.offsetHeight : window.innerHeight;
     const mobileCompact = window.matchMedia && window.matchMedia('(max-width: 640px)').matches;
     const cx = w/2, cy = h/2;
-    const R12 = Math.min(w,h) * (mobileCompact ? 0.34 : 0.52);
-    const R7  = Math.min(w,h) * (mobileCompact ? 0.20 : 0.13);
+    const mobileZoom = mobileCompact ? (window.universeMobileSceneZoom || 1) : 1;
+    const R12 = Math.min(w,h) * (mobileCompact ? 0.34 : 0.52) * mobileZoom;
+    const R7  = Math.min(w,h) * (mobileCompact ? 0.20 : 0.13) * mobileZoom;
     const SZ12 = mobileCompact ? 44 : Math.max(36, Math.min(58, R12*0.115));
     const SZ7  = mobileCompact ? 34 : Math.max(24, Math.min(38, R7 *0.22));
 
@@ -15954,7 +15955,10 @@ function toggleNakopPanel() {
 
   function applyCamera() {
     window.universeMobileSceneZoom = camera.zoom;
+    var app = document.getElementById('awara-app');
+    if (app) app.style.setProperty('--mobile-scene-zoom', camera.zoom.toFixed(3));
     if (typeof render === 'function') render();
+    if (typeof initZodiacRing === 'function') initZodiacRing();
   }
 
   function resetCamera() {

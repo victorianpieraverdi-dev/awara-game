@@ -1037,6 +1037,11 @@ canvas#bg{position:fixed;inset:0;z-index:0;}
                 transform-origin: center center;
             }
 
+            #awara-app.mobile-overview .loka-shell {
+                transform: translateZ(0) scale(var(--mobile-scene-zoom, 1));
+                transform-origin: center center;
+            }
+
             #awara-app.mobile-overview #view {
                 left: 50% !important;
                 top: 50% !important;
