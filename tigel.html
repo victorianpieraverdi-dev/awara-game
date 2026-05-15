@@ -8,11 +8,40 @@
 * { margin:0; padding:0; box-sizing:border-box; }
 body {
   font-family:'JetBrains Mono',monospace;
-  background:#0a0812;
+  background:#05030f;
   color:#dcd2be;
   min-height:100vh;
   overflow-x:hidden;
   position:relative;
+  padding:10px 8px 34px;
+}
+body::before {
+  content:'';
+  position:fixed;
+  inset:0;
+  z-index:0;
+  pointer-events:none;
+  background:
+    radial-gradient(ellipse at 18% 28%,rgba(116,42,180,0.30),transparent 40%),
+    radial-gradient(ellipse at 82% 72%,rgba(216,115,42,0.20),transparent 42%),
+    radial-gradient(ellipse at 50% -10%,rgba(201,168,76,0.14),transparent 55%),
+    radial-gradient(circle,rgba(255,255,255,0.75) 0 1px,transparent 1.5px);
+  background-size:auto,auto,auto,120px 120px;
+  opacity:0.72;
+}
+body::after {
+  content:'ॐ';
+  position:fixed;
+  left:50%;
+  top:48%;
+  transform:translate(-50%,-50%);
+  font-family:Georgia,serif;
+  font-size:min(520px,62vh);
+  line-height:1;
+  color:transparent;
+  -webkit-text-stroke:1px rgba(201,168,76,0.08);
+  pointer-events:none;
+  z-index:0;
 }
 
 /* ══ ФОНОВАЯ АНИМАЦИЯ ══ */
@@ -20,7 +49,7 @@ body {
   position:fixed;
   inset:0;
   z-index:0;
-  opacity:0.3;
+  opacity:0.16;
   pointer-events:none;
 }
 
@@ -28,9 +57,18 @@ body {
 .container {
   position:relative;
   z-index:1;
-  max-width:1100px;
+  width:min(430px,100%);
   margin:0 auto;
-  padding:clamp(16px,4vw,40px) clamp(12px,3vw,24px);
+  padding:14px;
+  border:1px solid rgba(201,168,76,0.26);
+  border-radius:30px;
+  background:linear-gradient(180deg,rgba(8,4,24,0.58),rgba(3,2,12,0.68));
+  box-shadow:
+    0 0 0 1px rgba(255,215,80,0.08),
+    0 30px 120px rgba(0,0,0,0.65),
+    inset 0 0 48px rgba(201,168,76,0.04);
+  backdrop-filter:blur(4px);
+  -webkit-backdrop-filter:blur(4px);
 }
 
 /* ══ ХЕДЕР ══ */
@@ -38,42 +76,45 @@ body {
   display:flex;
   align-items:center;
   justify-content:space-between;
-  margin-bottom:clamp(20px,5vw,36px);
-  padding-bottom:16px;
+  margin-bottom:18px;
+  padding-bottom:14px;
   border-bottom:1px solid rgba(201,168,76,0.15);
 }
 .header-left { display:flex; align-items:center; gap:12px; }
 .back-btn {
-  font-size:20px;
+  font-size:18px;
   cursor:pointer;
   transition:transform 0.2s;
   filter:drop-shadow(0 0 8px rgba(201,168,76,0.4));
   min-width:44px; min-height:44px;
   display:flex; align-items:center; justify-content:center;
+  border:1px solid rgba(201,168,76,0.22);
+  border-radius:12px;
+  background:rgba(2,1,10,0.45);
 }
 .back-btn:hover { transform:scale(1.1); }
 .header-title {
   font-family:'Cinzel',serif;
-  font-size:clamp(14px,3.5vw,20px);
+  font-size:17px;
   color:#c9a84c;
-  letter-spacing:0.25em;
+  letter-spacing:0.16em;
   text-transform:uppercase;
 }
 .header-date {
-  font-size:clamp(9px,2vw,10px);
+  font-size:10px;
   color:rgba(201,168,76,0.4);
   letter-spacing:0.15em;
 }
 
 /* ══ ТАБЫ ══ */
 .tabs-bar{
-  display:flex;justify-content:center;gap:6px;
+  display:grid;grid-template-columns:repeat(3,1fr);justify-content:center;gap:6px;
   margin:0 auto clamp(16px,3vw,22px);
   padding:6px;border-radius:14px;
   background:rgba(2,1,10,0.55);
   border:1px solid rgba(201,168,76,0.18);
   backdrop-filter:blur(8px);
-  width:max-content;max-width:100%;
+  width:100%;max-width:100%;
   position:relative;
 }
 .tabs-bar::after{
@@ -82,9 +123,10 @@ body {
   pointer-events:none;
 }
 .tab-btn{
-  padding:9px 22px;border-radius:10px;cursor:pointer;min-height:44px;
+  justify-content:center;
+  padding:10px 8px;border-radius:10px;cursor:pointer;min-height:46px;
   background:transparent;border:none;
-  font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.22em;
+  font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.12em;
   color:rgba(201,168,76,0.55);
   transition:all 0.3s;text-transform:uppercase;
   display:flex;align-items:center;gap:7px;
@@ -111,20 +153,29 @@ body {
 
 /* ══ КАРТОЧКИ ══ */
 .card {
-  background:rgba(201,168,76,0.04);
-  border:1px solid rgba(201,168,76,0.2);
-  border-radius:12px;
-  padding:clamp(14px,3vw,20px);
+  background:linear-gradient(135deg,rgba(18,14,30,0.72),rgba(8,5,18,0.62));
+  border:1px solid rgba(201,168,76,0.22);
+  border-radius:18px;
+  padding:16px;
   transition:border-color 0.3s;
+  box-shadow:inset 0 0 22px rgba(201,168,76,0.03);
+  overflow:hidden;
+  position:relative;
+}
+.card::before {
+  content:'';
+  position:absolute;
+  left:0;right:0;top:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,215,80,0.35),transparent);
 }
 .card:hover { border-color:rgba(201,168,76,0.4); }
 
 .card-title {
   font-family:'Cinzel',serif;
-  font-size:clamp(10px,2.5vw,12px);
+  font-size:13px;
   color:rgba(201,168,76,0.85);
-  letter-spacing:0.2em;
-  margin-bottom:12px;
+  letter-spacing:0.16em;
+  margin-bottom:14px;
   display:flex;
   align-items:center;
   gap:8px;
@@ -137,14 +188,15 @@ body {
 /* ══ ФОРМА ЛОГА ══ */
 .log-input {
   width:100%;
-  background:rgba(0,0,0,0.3);
-  border:1px solid rgba(201,168,76,0.25);
-  border-radius:8px;
-  padding:12px;
+  background:rgba(0,0,0,0.36);
+  border:1px solid rgba(201,168,76,0.30);
+  border-radius:14px;
+  padding:14px;
   color:#dcd2be;
   font-family:'JetBrains Mono',monospace;
-  font-size:clamp(10px,2.5vw,12px);
-  min-height:120px;
+  font-size:13px;
+  line-height:1.55;
+  min-height:220px;
   resize:vertical;
   outline:none;
   transition:border-color 0.3s;
@@ -153,7 +205,7 @@ body {
 .log-input::placeholder { color:rgba(201,168,76,0.3); }
 
 .hint-text {
-  font-size:clamp(9px,2vw,10px);
+  font-size:11px;
   color:rgba(201,168,76,0.35);
   margin-top:6px;
   line-height:1.5;
@@ -168,7 +220,7 @@ body {
 }
 .wuxing-cell {
   text-align:center;
-  padding:10px 6px;
+  padding:10px 4px;
   background:rgba(0,0,0,0.25);
   border:1px solid rgba(255,255,255,0.1);
   border-radius:8px;
@@ -179,13 +231,13 @@ body {
 .wuxing-cell:hover { border-color:rgba(255,255,255,0.3); }
 .wuxing-icon { font-size:clamp(18px,4vw,24px); margin-bottom:4px; }
 .wuxing-name {
-  font-size:clamp(9px,2vw,10px);
-  letter-spacing:0.1em;
+  font-size:9px;
+  letter-spacing:0.04em;
   text-transform:uppercase;
   margin-bottom:6px;
 }
 .wuxing-value {
-  font-size:clamp(9px,2.2vw,11px);
+  font-size:10px;
   color:rgba(255,255,255,0.5);
 }
 
@@ -477,6 +529,59 @@ body {
   border-color:rgba(0,255,170,0.7);
   box-shadow:0 0 20px rgba(0,255,170,0.3);
 }
+.tigel-synthesis-panel {
+  margin-top:16px;
+  padding:14px;
+  border:1px solid rgba(201,168,76,0.30);
+  border-radius:16px;
+  background:linear-gradient(135deg,rgba(201,168,76,0.075),rgba(8,5,18,0.52));
+  box-shadow:inset 0 0 22px rgba(201,168,76,0.04);
+}
+.tigel-primary-btn {
+  width:100%;
+  min-height:56px;
+  padding:15px 12px;
+  background:linear-gradient(135deg,rgba(255,215,80,0.28),rgba(180,130,40,0.16));
+  border:1px solid rgba(255,215,80,0.62);
+  border-radius:14px;
+  color:#fff8d6;
+  font-family:'Cinzel',serif;
+  font-size:13px;
+  letter-spacing:0.14em;
+  cursor:pointer;
+  box-shadow:0 0 24px rgba(201,168,76,0.14);
+}
+.tigel-result {
+  display:none;
+  margin-top:14px;
+  padding:14px;
+  border-radius:14px;
+  background:linear-gradient(135deg,rgba(0,255,170,0.075),rgba(8,5,18,0.52));
+  border:1px solid rgba(0,255,170,0.24);
+  font-family:'Cormorant Garamond',serif;
+  font-size:15px;
+  color:rgba(235,226,205,0.90);
+  line-height:1.6;
+}
+.tigel-secondary-actions {
+  display:grid;
+  grid-template-columns:1fr;
+  gap:8px;
+  margin-top:10px;
+}
+.tigel-ghost-btn {
+  width:100%;
+  min-height:44px;
+  padding:10px;
+  background:transparent;
+  border:1px solid rgba(201,168,76,0.35);
+  border-radius:12px;
+  color:#c9a84c;
+  font-family:'Cinzel',serif;
+  font-size:10px;
+  letter-spacing:0.12em;
+  cursor:pointer;
+}
 </style>
 
 <!-- Шрифты -->
@@ -533,18 +638,18 @@ body {
         Опиши действия дня. Алгоритм автоматически распределит их по 5 стихиям У-Син и рассчитает баланс Ида/Пингала.
       </div>
 
-      <div style="margin-top:14px;padding:12px;border:1px solid rgba(201,168,76,0.28);border-radius:10px;background:rgba(201,168,76,0.045);">
-        <button onclick="synthesizeDay()" style="width:100%;min-height:48px;padding:13px;background:linear-gradient(135deg,rgba(201,168,76,0.24),rgba(180,130,40,0.14));border:1px solid rgba(201,168,76,0.6);border-radius:9px;color:#fff8d6;font-family:'Cinzel',serif;font-size:12px;letter-spacing:0.16em;cursor:pointer;">
+      <div class="tigel-synthesis-panel">
+        <button onclick="synthesizeDay()" class="tigel-primary-btn">
           СИНТЕЗИРОВАТЬ ДЕНЬ
         </button>
-        <div id="tigel-result-panel" style="display:none;margin-top:12px;padding:12px;border-radius:9px;background:rgba(0,255,170,0.055);border:1px solid rgba(0,255,170,0.22);font-family:'Cormorant Garamond',serif;color:rgba(220,210,190,0.86);line-height:1.55;"></div>
+        <div id="tigel-result-panel" class="tigel-result"></div>
         <details style="margin-top:10px;">
           <summary style="cursor:pointer;font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.14em;color:rgba(201,168,76,0.65);">ДОПОЛНИТЕЛЬНЫЕ ДЕЙСТВИЯ</summary>
-          <div style="display:grid;grid-template-columns:1fr;gap:8px;margin-top:10px;">
-            <button onclick="calculateToroid(); switchTab('balance');" style="width:100%;min-height:40px;padding:10px;background:transparent;border:1px solid rgba(201,168,76,0.35);border-radius:8px;color:#c9a84c;font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.12em;cursor:pointer;">РАССЧИТАТЬ БАЛАНС</button>
-            <button onclick="generateKey()" style="width:100%;min-height:40px;padding:10px;background:transparent;border:1px solid rgba(201,168,76,0.35);border-radius:8px;color:#c9a84c;font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.12em;cursor:pointer;">СГЕНЕРИРОВАТЬ КЛЮЧ</button>
-            <button onclick="saveKey()" style="width:100%;min-height:40px;padding:10px;background:transparent;border:1px solid rgba(0,255,170,0.28);border-radius:8px;color:rgba(0,255,170,0.82);font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.12em;cursor:pointer;">СОХРАНИТЬ ДЕНЬ</button>
-            <button onclick="copyLastOraclePrompt()" style="width:100%;min-height:40px;padding:10px;background:transparent;border:1px solid rgba(201,168,76,0.25);border-radius:8px;color:rgba(201,168,76,0.70);font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.12em;cursor:pointer;">СКОПИРОВАТЬ ПРОМПТ</button>
+          <div class="tigel-secondary-actions">
+            <button onclick="calculateToroid(); switchTab('balance');" class="tigel-ghost-btn">РАССЧИТАТЬ БАЛАНС</button>
+            <button onclick="generateKey()" class="tigel-ghost-btn">СГЕНЕРИРОВАТЬ КЛЮЧ</button>
+            <button onclick="saveKey()" class="tigel-ghost-btn">СОХРАНИТЬ ДЕНЬ</button>
+            <button onclick="copyLastOraclePrompt()" class="tigel-ghost-btn">СКОПИРОВАТЬ ПРОМПТ</button>
           </div>
         </details>
       </div>
