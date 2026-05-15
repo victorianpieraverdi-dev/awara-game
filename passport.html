@@ -25,12 +25,25 @@ body{
   font-family:'JetBrains Mono',monospace;
   padding:18px 14px 110px;
   background:
+    radial-gradient(ellipse at 18% 28%, rgba(116,42,180,0.22), transparent 40%),
+    radial-gradient(ellipse at 82% 72%, rgba(216,115,42,0.14), transparent 42%),
     radial-gradient(ellipse at 50% -10%, rgba(201,168,76,0.10), transparent 55%),
     radial-gradient(ellipse at 50% 100%, rgba(80,40,140,0.08), transparent 60%),
     var(--bg);
   -webkit-font-smoothing:antialiased;
+  position:relative;overflow-x:hidden;
 }
-.wrap{max-width:580px;margin:0 auto}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:
+    radial-gradient(circle,rgba(255,255,255,0.80) 0 1px,transparent 1.5px),
+    radial-gradient(circle,rgba(255,215,120,0.58) 0 1px,transparent 1.5px),
+    radial-gradient(circle,rgba(180,210,255,0.42) 0 0.8px,transparent 1.3px);
+  background-size:150px 150px,230px 230px,95px 95px;
+  background-position:10px 24px,65px 90px,20px 50px;
+  opacity:0.56;
+}
+.wrap{max-width:580px;margin:0 auto;position:relative;z-index:1}
 
 .topbar{
   display:flex;align-items:center;justify-content:space-between;
@@ -60,8 +73,10 @@ body{
 .passport-card{
   border:1px solid var(--line);border-radius:14px;
   padding:clamp(16px,4vw,24px);margin-bottom:16px;
-  background:rgba(201,168,76,0.03);
+  background:rgba(8,4,24,0.38);
   position:relative;overflow:hidden;
+  backdrop-filter:blur(4px);
+  -webkit-backdrop-filter:blur(4px);
 }
 .passport-card::before{
   content:'';position:absolute;inset:0;

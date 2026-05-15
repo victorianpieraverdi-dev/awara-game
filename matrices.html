@@ -7,11 +7,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative&family=Cinzel&family=Cormorant+Garamond&family=JetBrains+Mono&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#02010a;color:#d4d4d4;font-family:'JetBrains Mono',monospace;min-height:100vh;padding:20px 10px 100px}
-.container{max-width:1200px;margin:0 auto}
+body{background:#02010a;color:#d4d4d4;font-family:'JetBrains Mono',monospace;min-height:100vh;padding:20px 10px 100px;position:relative;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background-image:radial-gradient(circle,rgba(255,255,255,.80) 0 1px,transparent 1.5px),radial-gradient(circle,rgba(255,215,120,.55) 0 1px,transparent 1.5px),radial-gradient(circle,rgba(180,210,255,.42) 0 .8px,transparent 1.3px);background-size:150px 150px,230px 230px,95px 95px;background-position:10px 24px,65px 90px,20px 50px;opacity:.56}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background:radial-gradient(ellipse at 18% 28%,rgba(116,42,180,.22),transparent 40%),radial-gradient(ellipse at 82% 72%,rgba(216,115,42,.14),transparent 42%),radial-gradient(ellipse at 50% -10%,rgba(201,168,76,.10),transparent 55%)}
+.container{max-width:1200px;margin:0 auto;position:relative;z-index:1}
 .title{font-family:'Cinzel Decorative',serif;font-size:clamp(20px,4vw,36px);color:#ffe080;text-align:center;letter-spacing:.3em;margin-bottom:30px}
 .matrices-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.matrix-card{background:rgba(20,20,30,.8);border:1px solid rgba(201,168,76,.2);border-radius:8px;padding:14px 10px;cursor:pointer;transition:.3s;text-align:center;position:relative}
+.matrix-card{background:rgba(8,4,24,.42);border:1px solid rgba(201,168,76,.2);border-radius:8px;padding:14px 10px;cursor:pointer;transition:.3s;text-align:center;position:relative;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
 .matrix-card:hover{border-color:rgba(201,168,76,.6);transform:translateY(-3px)}
 .matrix-card.active{border-color:#ffe080;box-shadow:0 0 20px rgba(255,224,128,.3);background:rgba(201,168,76,.1)}
 .matrix-name{font-family:Cinzel,serif;font-size:14px;color:#ffe080;margin-bottom:6px}
@@ -25,7 +27,7 @@ body{background:#02010a;color:#d4d4d4;font-family:'JetBrains Mono',monospace;min
 .back:hover{background:rgba(201,168,76,.25);border-color:#ffe080}
 .agents-section{margin-bottom:50px}
 .agents-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.agent-card{background:rgba(20,20,30,.8);border:1px solid rgba(201,168,76,.2);border-radius:8px;padding:14px 10px;transition:.3s;text-align:center}
+.agent-card{background:rgba(8,4,24,.42);border:1px solid rgba(201,168,76,.2);border-radius:8px;padding:14px 10px;transition:.3s;text-align:center;backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px)}
 .agent-card:hover{border-color:rgba(201,168,76,.6);transform:translateY(-3px)}
 .agent-name{font-family:Cinzel,serif;font-size:14px;color:#ffe080;margin-bottom:6px}
 .agent-domain{font-family:'Cormorant Garamond',serif;font-size:11px;color:rgba(212,212,212,.85);margin-bottom:8px}
