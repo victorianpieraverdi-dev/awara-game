@@ -29,10 +29,10 @@ body{
   font-family:'JetBrains Mono',monospace;
   display:flex;flex-direction:column;height:100vh;
   background:
-    radial-gradient(ellipse at 18% 28%, rgba(116,42,180,0.30), transparent 40%),
-    radial-gradient(ellipse at 82% 72%, rgba(216,115,42,0.14), transparent 42%),
-    radial-gradient(ellipse at 50% -10%, rgba(180,120,255,0.12), transparent 55%),
-    radial-gradient(ellipse at 50% 100%, rgba(80,40,140,0.10), transparent 60%),
+    radial-gradient(ellipse at 20% 18%, rgba(124,58,237,0.46), transparent 38%),
+    radial-gradient(ellipse at 82% 72%, rgba(180,120,255,0.20), transparent 40%),
+    radial-gradient(ellipse at 50% 110%, rgba(80,40,160,0.30), transparent 55%),
+    linear-gradient(180deg,#070318 0%,#0d0626 45%,#05021a 100%),
     var(--bg);
   -webkit-font-smoothing:antialiased;
   position:relative;
@@ -40,13 +40,11 @@ body{
 }
 body::before{
   content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
-  background-image:
-    radial-gradient(circle,rgba(255,255,255,0.80) 0 1px,transparent 1.5px),
-    radial-gradient(circle,rgba(255,215,120,0.55) 0 1px,transparent 1.5px),
-    radial-gradient(circle,rgba(180,210,255,0.40) 0 0.8px,transparent 1.3px);
-  background-size:150px 150px,230px 230px,95px 95px;
-  background-position:10px 24px,65px 90px,20px 50px;
-  opacity:0.50;
+  background-image:url('assets/starfield.svg');
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  opacity:0.95;
 }
 body::after{
   content:'ॐ';position:fixed;left:50%;top:48%;transform:translate(-50%,-50%);
@@ -306,12 +304,10 @@ h1{
     width:min(430px,100%);
     max-width:none;
     padding:12px 12px 0;
-    border:1px solid rgba(201,168,76,0.26);
+    border:1px solid rgba(201,168,76,0.18);
     border-radius:30px 30px 0 0;
-    background:linear-gradient(180deg,rgba(8,4,24,0.58),rgba(3,2,12,0.68));
-    box-shadow:0 0 0 1px rgba(255,215,80,0.08),0 30px 120px rgba(0,0,0,0.65),inset 0 0 48px rgba(201,168,76,0.04);
-    backdrop-filter:blur(4px);
-    -webkit-backdrop-filter:blur(4px);
+    background:transparent;
+    box-shadow:0 0 0 1px rgba(255,215,80,0.06),0 30px 120px rgba(0,0,0,0.55),inset 0 0 48px rgba(201,168,76,0.03);
   }
   h1{font-size:24px;letter-spacing:0.12em}
   .subtitle{letter-spacing:0.18em}

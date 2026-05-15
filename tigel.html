@@ -8,7 +8,12 @@
 * { margin:0; padding:0; box-sizing:border-box; }
 body {
   font-family:'JetBrains Mono',monospace;
-  background:#05030f;
+  background:
+    radial-gradient(ellipse at 20% 18%, rgba(124,58,237,0.36), transparent 38%),
+    radial-gradient(ellipse at 82% 72%, rgba(245,158,11,0.28), transparent 40%),
+    radial-gradient(ellipse at 50% 110%, rgba(80,40,160,0.30), transparent 55%),
+    linear-gradient(180deg,#070318 0%,#0d0626 45%,#05021a 100%),
+    #05030f;
   color:#dcd2be;
   min-height:100vh;
   overflow-x:hidden;
@@ -21,13 +26,11 @@ body::before {
   inset:0;
   z-index:0;
   pointer-events:none;
-  background:
-    radial-gradient(ellipse at 18% 28%,rgba(116,42,180,0.30),transparent 40%),
-    radial-gradient(ellipse at 82% 72%,rgba(216,115,42,0.20),transparent 42%),
-    radial-gradient(ellipse at 50% -10%,rgba(201,168,76,0.14),transparent 55%),
-    radial-gradient(circle,rgba(255,255,255,0.75) 0 1px,transparent 1.5px);
-  background-size:auto,auto,auto,120px 120px;
-  opacity:0.72;
+  background-image:url('assets/starfield.svg');
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+  opacity:0.95;
 }
 body::after {
   content:'ॐ';
@@ -62,13 +65,11 @@ body::after {
   padding:14px;
   border:1px solid rgba(201,168,76,0.26);
   border-radius:30px;
-  background:linear-gradient(180deg,rgba(8,4,24,0.58),rgba(3,2,12,0.68));
+  background:transparent;
   box-shadow:
-    0 0 0 1px rgba(255,215,80,0.08),
-    0 30px 120px rgba(0,0,0,0.65),
-    inset 0 0 48px rgba(201,168,76,0.04);
-  backdrop-filter:blur(4px);
-  -webkit-backdrop-filter:blur(4px);
+    0 0 0 1px rgba(255,215,80,0.06),
+    0 30px 120px rgba(0,0,0,0.55),
+    inset 0 0 48px rgba(201,168,76,0.03);
 }
 
 /* ══ ХЕДЕР ══ */
