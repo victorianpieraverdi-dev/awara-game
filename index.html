@@ -11786,7 +11786,7 @@ const loop = () => {
         // Надписи сторон света
         const CARD_R=340 * sceneScale, CLABELS=[{a:0,t:'В · ВОСТОК',c:'rgba(255,160,0,.35)'},{a:Math.PI/2,t:'Ю · ЮГ',c:'rgba(200,60,40,.35)'},{a:Math.PI,t:'З · ЗАПАД',c:'rgba(60,120,220,.35)'},{a:-Math.PI/2,t:'С · СЕВЕР',c:'rgba(0,180,200,.35)'}];
         bgCtx.font='7px JetBrains Mono,monospace'; bgCtx.textAlign='center';
-        CLABELS.forEach(cl=>{const lx=cX+Math.cos(cl.a)*(CARD_R+55),ly=cY+Math.sin(cl.a)*(CARD_R+55)*state.ringTilt;bgCtx.fillStyle=cl.c;bgCtx.fillText(cl.t,lx,ly+3);});
+        if (!mobileScene) CLABELS.forEach(cl=>{const lx=cX+Math.cos(cl.a)*(CARD_R+55),ly=cY+Math.sin(cl.a)*(CARD_R+55)*state.ringTilt;bgCtx.fillStyle=cl.c;bgCtx.fillText(cl.t,lx,ly+3);});
 
         // Орбиты: снаружи красный → фиолет → серебро → золото к центру (фиксированные)
         const ORBIT_SPEC = [
@@ -12015,7 +12015,7 @@ const loop = () => {
                 : ((RADII[0] + 425) / 2 + 20 + 300) * sceneScale; // ~752px вниз
             x = 0;
             y = voidR * state.ringTilt; // вниз (6 часов)
-            size = mobileScene ? 7 : 48;
+            size = mobileScene ? 14 : 48;
             el.style.opacity = mobileScene ? '0.22' : '1';
             el.style.pointerEvents = 'all';
             if (mobileScene) el.style.animation = 'none';
