@@ -11711,7 +11711,7 @@ const loop = () => {
     const h = view ? view.offsetHeight : window.innerHeight;
     const cX = w / 2, cY = h / 2;
     const mobileScene = window.matchMedia && window.matchMedia('(max-width: 640px)').matches;
-    const sceneScale = mobileScene ? Math.max(0.62, Math.min(0.86, w / 560)) : 1;
+    const sceneScale = mobileScene ? Math.max(0.62, Math.min(0.86, w / 560)) * (window.universeMobileSceneZoom || 1) : 1;
     // Позиция сингулярности (относительно центра)
     const bhPos = { x: -(cX - 140) * 0.7, y: (cY - 140) * 0.7 };
 
@@ -11740,7 +11740,7 @@ const loop = () => {
     if (bgCtx) {
         bgCtx.clearRect(0, 0, w, h);
         // Надписи сторон света
-        const CARD_R=340, CLABELS=[{a:0,t:'В · ВОСТОК',c:'rgba(255,160,0,.35)'},{a:Math.PI/2,t:'Ю · ЮГ',c:'rgba(200,60,40,.35)'},{a:Math.PI,t:'З · ЗАПАД',c:'rgba(60,120,220,.35)'},{a:-Math.PI/2,t:'С · СЕВЕР',c:'rgba(0,180,200,.35)'}];
+        const CARD_R=340 * sceneScale, CLABELS=[{a:0,t:'В · ВОСТОК',c:'rgba(255,160,0,.35)'},{a:Math.PI/2,t:'Ю · ЮГ',c:'rgba(200,60,40,.35)'},{a:Math.PI,t:'З · ЗАПАД',c:'rgba(60,120,220,.35)'},{a:-Math.PI/2,t:'С · СЕВЕР',c:'rgba(0,180,200,.35)'}];
         bgCtx.font='7px JetBrains Mono,monospace'; bgCtx.textAlign='center';
         CLABELS.forEach(cl=>{const lx=cX+Math.cos(cl.a)*(CARD_R+55),ly=cY+Math.sin(cl.a)*(CARD_R+55)*state.ringTilt;bgCtx.fillStyle=cl.c;bgCtx.fillText(cl.t,lx,ly+3);});
 
@@ -11756,7 +11756,8 @@ const loop = () => {
             '#aaaacc', // 8я — серебряный
             '#ffd700', // 9я — золотой (ближняя к RA)
         ];
-        RADII.forEach((rad, i) => {
+        RADII.forEach((baseRad, i) => {
+            const rad = baseRad * sceneScale;
             const col = ORBIT_SPEC[i] || ORBIT_SPEC[ORBIT_SPEC.length-1];
             // Мягкий ореол
             bgCtx.beginPath();
@@ -11984,10 +11985,9 @@ const loop = () => {
             const trails = state.sphereTrails[s.id];
 
             // Точные координаты центра сферы
-            const curX = cX + x;
             const curY = cY + y;
 
-            trails.unshift({ x: curX, y: curY });
+            trails.unshift({ x: cX + x, y: curY });
             if (trails.length > 18) trails.pop();
 
             if (trails.length > 1) {
@@ -15952,16 +15952,9 @@ function toggleNakopPanel() {
     return document.querySelector('#awara-app #view');
   }
 
-  function zoomLayer() {
-    return document.querySelector('#awara-app #universe-zoom-layer');
-  }
-
   function applyCamera() {
-    var layer = zoomLayer();
-    if (!layer) return;
-    layer.style.setProperty('--universe-zoom', camera.zoom.toFixed(3));
-    layer.style.setProperty('--universe-pan-x', Math.round(camera.x) + 'px');
-    layer.style.setProperty('--universe-pan-y', Math.round(camera.y) + 'px');
+    window.universeMobileSceneZoom = camera.zoom;
+    if (typeof render === 'function') render();
   }
 
   function resetCamera() {
@@ -16051,7 +16044,6 @@ function toggleNakopPanel() {
         e.preventDefault();
         camera.x = Math.max(-90, Math.min(90, drag.startX + e.touches[0].clientX - drag.x));
         camera.y = Math.max(-120, Math.min(120, drag.startY + e.touches[0].clientY - drag.y));
-        applyCamera();
       } else if (e.touches.length === 2 && pinch) {
         e.preventDefault();
         var ratio = distance(e.touches[0], e.touches[1]) / pinch.dist;
