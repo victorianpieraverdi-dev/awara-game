@@ -12012,7 +12012,7 @@ const loop = () => {
     // 7 Лучей — ближе к центру
     if(bgCtx){
         const RAYS_C=['#ff4444','#4488ff','#88cc44','#ffaa00','#00aaff','#ff6644','#cc88ff'];
-        const rLen=Math.max(30, Math.min(cX,cY)*0.18 - 48); // ещё на 1 сферу ближе к центру
+        const rLen=Math.max(30, (Math.min(cX,cY)*0.18 - 48) * sceneScale); // ещё на 1 сферу ближе к центру
         bgCtx.save();
         RAYS_C.forEach((col,ri)=>{
             const angle=(ri/7)*Math.PI*2-Math.PI/2;
@@ -12041,10 +12041,12 @@ const loop = () => {
 
     // 9. Солнце и Луна
     const sunAngle = state.t * 0.035;
-    const sunX = cX + Math.cos(sunAngle) * w * 0.44 - 90;
-    const sunY = cY + Math.sin(sunAngle) * h * 0.38 - 90;
-    const moonX = cX + Math.cos(sunAngle + Math.PI) * w * 0.44 - 10;
-    const moonY = cY + Math.sin(sunAngle + Math.PI) * h * 0.38 - 10;
+    const sunAmpX = mobileScene ? w * 0.24 : w * 0.44;
+    const sunAmpY = mobileScene ? h * 0.22 : h * 0.38;
+    const sunX = cX + Math.cos(sunAngle) * sunAmpX - 90;
+    const sunY = cY + Math.sin(sunAngle) * sunAmpY - 90;
+    const moonX = cX + Math.cos(sunAngle + Math.PI) * sunAmpX - 10;
+    const moonY = cY + Math.sin(sunAngle + Math.PI) * sunAmpY - 10;
     document.getElementById('great-sun').style.transform = `translate(${sunX}px, ${sunY}px)`;
     document.getElementById('great-moon').style.transform = `translate(${moonX}px, ${moonY}px)`;
 
