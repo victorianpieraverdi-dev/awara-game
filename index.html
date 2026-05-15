@@ -7728,10 +7728,16 @@ const updateProgressPanel = () => {
 const render = () => {
     const cont = document.getElementById('spheres-container'); if (!cont) return;
     cont.innerHTML = '';
-    const view = document.getElementById('view');
-    const sceneW = view ? view.offsetWidth : window.innerWidth;
-    const sceneH = view ? view.offsetHeight : window.innerHeight;
-    const cX = sceneW / 2, cY = sceneH / 2;
+    const M = (window.getUniverseSceneMetrics ? window.getUniverseSceneMetrics() : (function(){
+        const v=document.getElementById('view');
+        const w=v?v.offsetWidth:window.innerWidth, h=v?v.offsetHeight:window.innerHeight;
+        const m=window.matchMedia&&window.matchMedia('(max-width: 640px)').matches;
+        const z=m?(window.universeMobileSceneZoom||1):1;
+        const st=m?56:0, sb=m?60:0, vh=m?Math.max(1,h-st-sb):h;
+        return {w:w,h:h,mobile:m,zoom:z,sceneScale:m?Math.max(0.62,Math.min(0.86,w/560))*z:1,cx:w/2,cy:m?(st+vh/2):h/2};
+    })());
+    const sceneW = M.w, sceneH = M.h;
+    const cX = M.cx, cY = M.cy;
     const bhPos = { x: -(cX - 140) * 0.7, y: (cY - 140) * 0.7 };
 
     configs.forEach(s => {
@@ -11711,8 +11717,8 @@ window.getUniverseSceneMetrics = function() {
     var h = v ? v.offsetHeight : window.innerHeight;
     var mobile = window.matchMedia && window.matchMedia('(max-width: 640px)').matches;
     var zoom = mobile ? (window.universeMobileSceneZoom || 1) : 1;
-    var safeTop = mobile ? 56 : 0;
-    var safeBottom = mobile ? 60 : 0;
+    var safeTop = mobile ? 24 : 0;
+    var safeBottom = mobile ? 120 : 0;
     var visualH = mobile ? Math.max(1, h - safeTop - safeBottom) : h;
     return {
         view: v, w: w, h: h, mobile: mobile, zoom: zoom,
@@ -15988,8 +15994,8 @@ function toggleNakopPanel() {
     var h = v ? v.offsetHeight : window.innerHeight;
     var mobile = window.matchMedia && window.matchMedia('(max-width: 640px)').matches;
     var zoom = mobile ? (window.universeMobileSceneZoom || 1) : 1;
-    var safeTop = mobile ? 56 : 0;
-    var safeBottom = mobile ? 60 : 0;
+    var safeTop = mobile ? 24 : 0;
+    var safeBottom = mobile ? 120 : 0;
     var visualH = mobile ? Math.max(1, h - safeTop - safeBottom) : h;
     return {
       view: v, w: w, h: h, mobile: mobile, zoom: zoom,
