@@ -11890,7 +11890,7 @@ const loop = () => {
             // Волны испускаются из void-сферы (на 6 часов вниз)
             const _vR = mobileScene ? ((RADII[0] + 425) / 2 + 20 + 420) : (RADII[0] + 425) / 2 + 20 + 300;
             const _vy = _vR * state.ringTilt;
-            state.waves.push({ x: cX, y: cY + _vy, r: 15, a: 0.55, col: '138, 43, 226', thick: 4, type: 'void' });
+            state.waves.push({ x: cX, y: cY + _vy, r: mobileScene ? 7 : 15, a: mobileScene ? 0.28 : 0.55, col: '138, 43, 226', thick: mobileScene ? 2 : 4, type: 'void' });
         }
 
         state.waves.forEach((wv, i) => {
@@ -12015,17 +12015,18 @@ const loop = () => {
                 : ((RADII[0] + 425) / 2 + 20 + 300) * sceneScale; // ~752px вниз
             x = 0;
             y = voidR * state.ringTilt; // вниз (6 часов)
-            size = mobileScene ? 9 : 48;
-            el.style.opacity = '1';
+            size = mobileScene ? 7 : 48;
+            el.style.opacity = mobileScene ? '0.22' : '1';
             el.style.pointerEvents = 'all';
+            if (mobileScene) el.style.animation = 'none';
             // Частицы вокруг сингулярности (для pctx)
             const voidParticles = mobileScene ? 5 : 6;
             for (let p = 0; p < voidParticles; p++) {
                 const pa = state.t * 1.8 + p * Math.PI * 2 / voidParticles;
-                const pd = mobileScene ? 17 : 42 + Math.sin(state.t * 3.5 + p) * 6;
+                const pd = mobileScene ? 9 : 42 + Math.sin(state.t * 3.5 + p) * 6;
                 pctx.beginPath();
-                pctx.arc(cX + x + Math.cos(pa) * pd, cY + y + Math.sin(pa) * pd, mobileScene ? 1.1 : 1.8, 0, Math.PI * 2);
-                pctx.fillStyle = mobileScene ? 'rgba(153,51,255,0.45)' : '#9933ff';
+                pctx.arc(cX + x + Math.cos(pa) * pd, cY + y + Math.sin(pa) * pd, mobileScene ? 0.8 : 1.8, 0, Math.PI * 2);
+                pctx.fillStyle = mobileScene ? 'rgba(153,51,255,0.28)' : '#9933ff';
                 pctx.fill();
             }
         } else if (s.type === 'personal') {
