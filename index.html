@@ -4167,10 +4167,14 @@ setTimeout(()=>{ if(typeof Keys!=='undefined') Keys.updateUI(); },500);
 
 <div id="mobile-universe-focus" aria-hidden="true">
   <div class="muf-card">
-    <div class="muf-kicker">ВСЕЛЕННАЯ ИГРОКА</div>
-    <div class="muf-sun">☀</div>
-    <div class="muf-title">ЦЕНТР РА</div>
-    <div class="muf-sub">свет · орбиты · три уровня пути</div>
+    <div class="muf-kicker" id="muf-kicker">ВСЕЛЕННАЯ ИГРОКА</div>
+    <div class="muf-sun" id="muf-sun">☀</div>
+    <div class="muf-title" id="muf-title">ЦЕНТР РА</div>
+    <div class="muf-sub" id="muf-sub">свет · орбиты · три уровня пути</div>
+    <div class="muf-progress" aria-hidden="true">
+      <div class="muf-progress-fill" id="muf-progress-fill"></div>
+    </div>
+    <div class="muf-next" id="muf-next">следующий уровень откроется через свет</div>
     <div class="muf-actions">
       <button type="button" onclick="window.setUniverseMobileMode&&window.setUniverseMobileMode('overview')">ОБЗОР КАРТЫ</button>
       <button type="button" onclick="document.getElementById('quests-panel')&&document.getElementById('quests-panel').classList.toggle('collapsed')">КВЕСТЫ</button>
@@ -16010,6 +16014,46 @@ function toggleNakopPanel() {
       if (app && isPhone() && !app.classList.contains('mobile-focus') && !app.classList.contains('mobile-overview')) setMode('focus');
     }, 1000);
   });
+})();
+</script>
+<script type="module">
+import { createUniverseSnapshot } from './js/universe/universeProgression.js';
+
+(function(){
+  function getPlayerState() {
+    if (typeof window.state !== 'undefined') return window.state;
+    if (typeof state !== 'undefined') return state;
+    return { totalLight: 0 };
+  }
+
+  function setText(id, value) {
+    var el = document.getElementById(id);
+    if (el) el.textContent = value;
+  }
+
+  function updateMobileUniverseFocus() {
+    var card = document.querySelector('#mobile-universe-focus .muf-card');
+    if (!card) return;
+
+    var snapshot = createUniverseSnapshot(getPlayerState());
+    var level = snapshot.level;
+    var next = snapshot.nextLevel;
+    var color = level.color || '#c9a84c';
+    var fill = document.getElementById('muf-progress-fill');
+
+    card.style.setProperty('--muf-color', color);
+    setText('muf-kicker', 'ВСЕЛЕННАЯ ИГРОКА · ' + Math.round(snapshot.light) + ' СВЕТА');
+    setText('muf-sun', level.icon || '☀');
+    setText('muf-title', level.name || 'ЦЕНТР РА');
+    setText('muf-sub', level.subtitle || level.focus || 'свет · орбиты · путь');
+    setText('muf-next', next ? ('ДАЛЕЕ: ' + next.name + ' · ' + snapshot.lightToNext + ' СВЕТА') : 'ВЕРХНИЙ УРОВЕНЬ ОТКРЫТ');
+    if (fill) fill.style.width = snapshot.progress + '%';
+  }
+
+  window.updateMobileUniverseFocus = updateMobileUniverseFocus;
+  document.addEventListener('DOMContentLoaded', updateMobileUniverseFocus);
+  window.addEventListener('load', updateMobileUniverseFocus);
+  setInterval(updateMobileUniverseFocus, 2000);
 })();
 </script>
 
