@@ -1444,6 +1444,13 @@ canvas#bg{position:fixed;inset:0;z-index:0;}
                 transform-origin: top center;
             }
 
+            #s-void {
+                z-index: 1200 !important;
+                background: radial-gradient(circle at 38% 32%, rgba(255,255,255,1) 0%, rgba(210,170,255,0.95) 18%, rgba(125,55,230,0.95) 54%, rgba(20,0,58,1) 100%) !important;
+                border: 1px solid rgba(210,160,255,0.78) !important;
+                box-shadow: 0 0 18px rgba(170,80,255,0.9), 0 0 44px rgba(100,40,220,0.42), inset 0 0 18px rgba(235,210,255,0.36) !important;
+            }
+
             /* Панели — скрыты по умолчанию на мобиле */
             .awara-panel {
                 background: rgba(4,2,18,0.58) !important;
