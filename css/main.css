@@ -1050,30 +1050,6 @@ canvas#bg{position:fixed;inset:0;z-index:0;}
                 box-shadow: none;
             }
 
-            #awara-app #shell-inner,
-            #awara-app #shell-middle,
-            #awara-app #shell-outer,
-            #awara-app #ra-anchor,
-            #awara-app #ra-light-indicator,
-            #awara-app #spheres-container,
-            #awara-app #zodiac-ring {
-                left: 50% !important;
-                top: 50% !important;
-            }
-
-            #awara-app #shell-inner,
-            #awara-app #shell-middle,
-            #awara-app #shell-outer {
-                transform: translate(-50%, -50%) !important;
-                transform-origin: center center !important;
-            }
-
-            #awara-app #spheres-container,
-            #awara-app #zodiac-ring {
-                transform: translate(-50%, -50%) !important;
-                transform-origin: center center !important;
-            }
-
             body.universe-mobile-focus #awara-app::after {
                 content: '';
                 position: fixed;

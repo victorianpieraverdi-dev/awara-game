@@ -7692,7 +7692,10 @@ const updateProgressPanel = () => {
 const render = () => {
     const cont = document.getElementById('spheres-container'); if (!cont) return;
     cont.innerHTML = '';
-    const cX = window.innerWidth / 2, cY = window.innerHeight / 2;
+    const view = document.getElementById('view');
+    const sceneW = view ? view.offsetWidth : window.innerWidth;
+    const sceneH = view ? view.offsetHeight : window.innerHeight;
+    const cX = sceneW / 2, cY = sceneH / 2;
     const bhPos = { x: -(cX - 140) * 0.7, y: (cY - 140) * 0.7 };
 
     configs.forEach(s => {
@@ -11271,11 +11274,14 @@ setTimeout(() => {
 // ═══════════════════════════════════════════════════════════════
 
 const initCanvases = () => {
+    const view = document.getElementById('view');
+    const W = view ? view.offsetWidth : window.innerWidth;
+    const H = view ? view.offsetHeight : window.innerHeight;
     ['bg-arch-canvas', 'fx-canvas', 'particles-canvas', 'yggdrasil-canvas', 'cosmic-dust', 'trails-canvas', 'torus-canvas'].forEach(id => {
         const c = document.getElementById(id);
         if (c) {
-            c.width = window.innerWidth;
-            c.height = window.innerHeight;
+            c.width = W;
+            c.height = H;
         }
     });
 };
@@ -11655,7 +11661,9 @@ const loop = () => {
     window.updateDecay();
     window.updateEvolution();
 
-    const w = window.innerWidth, h = window.innerHeight;
+    const view = document.getElementById('view');
+    const w = view ? view.offsetWidth : window.innerWidth;
+    const h = view ? view.offsetHeight : window.innerHeight;
     const cX = w / 2, cY = h / 2;
     // Позиция сингулярности (относительно центра)
     const bhPos = { x: -(cX - 140) * 0.7, y: (cY - 140) * 0.7 };
@@ -11867,18 +11875,14 @@ const loop = () => {
                 // 12 ОТКРЫТЫХ СФЕР — строго на краю shell-outer через реальные координаты
                 const shellEl = document.getElementById('shell-outer');
                 let outerR = 425; // fallback
-                let shellCX = cX, shellCY = cY;
                 if(shellEl) {
-                    const r = shellEl.getBoundingClientRect();
-                    outerR = r.width / 2;
-                    shellCX = r.left + outerR;
-                    shellCY = r.top + outerR;
+                    outerR = parseInt(getComputedStyle(shellEl).width, 10) / 2;
                 }
                 const angle = (s.index / 12) * Math.PI * 2 + state.t * 0.025;
                 const breath = Math.sin(state.t * 1.5 + s.index) * 3;
-                // Позиция относительно центра окна (cX, cY)
-                x = (shellCX - cX) + Math.cos(angle) * (outerR + breath);
-                y = (shellCY - cY) + Math.sin(angle) * (outerR + breath) * state.ringTilt;
+                // Позиция относительно центра сцены (cX, cY)
+                x = Math.cos(angle) * (outerR + breath);
+                y = Math.sin(angle) * (outerR + breath) * state.ringTilt;
                 size = 22 + data.circle * 8;
                 el.style.opacity = '1'; el.style.pointerEvents = 'all';
             }
@@ -15950,6 +15954,11 @@ function toggleNakopPanel() {
     document.body.classList.toggle('universe-mobile-overview', mode === 'overview');
     if (mode === 'focus') resetCamera();
     refreshResetButton();
+    setTimeout(function(){
+      if (typeof initCanvases === 'function') initCanvases();
+      if (typeof render === 'function') render();
+      if (typeof initZodiacRing === 'function') initZodiacRing();
+    }, 80);
   }
 
   function bindCamera() {
