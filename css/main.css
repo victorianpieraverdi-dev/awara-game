@@ -1192,7 +1192,7 @@ canvas#bg{position:fixed;inset:0;z-index:0;}
                 display: none;
                 position: fixed;
                 left: 50%;
-                bottom: 18px;
+                bottom: 10px;
                 transform: translateX(-50%);
                 z-index: 90020;
                 min-width: 112px;
@@ -1210,7 +1210,7 @@ canvas#bg{position:fixed;inset:0;z-index:0;}
                 display: none;
                 position: fixed;
                 left: 12px;
-                bottom: 18px;
+                bottom: 10px;
                 z-index: 90031;
                 min-height: 38px;
                 min-width: 74px;
@@ -1349,7 +1349,7 @@ canvas#bg{position:fixed;inset:0;z-index:0;}
                 display: none;
                 position: fixed;
                 right: 12px;
-                bottom: 18px;
+                bottom: 10px;
                 z-index: 90030;
                 gap: 6px;
                 align-items: center;
@@ -1461,8 +1461,8 @@ canvas#bg{position:fixed;inset:0;z-index:0;}
                 width: 126px !important;
                 max-height: 34px !important;
             }
-            #side-panel { left: 8px; bottom: 62px; width: 118px; max-height: 34px; }
-            #guild-resonance { bottom: 62px; right: 8px; width: 118px; max-height: 34px; }
+            #side-panel { left: 8px; bottom: 56px; width: 118px; max-height: 34px; }
+            #guild-resonance { bottom: 56px; right: 8px; width: 118px; max-height: 34px; }
             #chat-win { display:none !important; }
             #players-chat { display: none !important; }
             #activity-feed { width: 200px; }

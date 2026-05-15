@@ -11963,12 +11963,17 @@ const loop = () => {
                 el.style.pointerEvents = 'none';
                 return;
             }
-            x = s.pos.x * (cX - 40) * sceneScale;
-            y = s.pos.y * (cY - 40) * sceneScale;
+            if (mobileScene && s.id === 'psph-space') {
+                x = -0.18 * cX * sceneScale;
+                y = 0.26 * cY * sceneScale;
+            } else {
+                x = s.pos.x * (cX - 40) * sceneScale;
+                y = s.pos.y * (cY - 40) * sceneScale;
+            }
             const pBreath = Math.sin(state.t * 0.5 + configs.indexOf(s) * 1.4) * 2;
             x += pBreath * 0.3;
             y += pBreath * 0.2;
-            size = mobileScene ? 48 : 68;
+            size = mobileScene ? 34 : 68;
         }
 
         // Применяем позицию к DOM-сфере
