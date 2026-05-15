@@ -275,9 +275,23 @@ function saveCollected(){
 function cardId(agentSlug, matrixSlug){ return agentSlug + '__' + matrixSlug; }
 
 async function fetchJson(path){
-  var res = await fetch(path + '?v=' + Date.now(), { cache: 'no-store' });
-  if(!res.ok) throw new Error(path + ' HTTP ' + res.status);
-  return res.json();
+  var urls = [
+    path,
+    './' + path,
+    path + '?v=cards-full-2271',
+    'https://victorianpieraverdi-dev.github.io/awara-game/' + path + '?v=cards-full-2271'
+  ];
+  var lastError = null;
+  for(var i=0;i<urls.length;i++){
+    try {
+      var res = await fetch(urls[i]);
+      if(!res.ok) throw new Error(urls[i] + ' HTTP ' + res.status);
+      return res.json();
+    } catch(e) {
+      lastError = e;
+    }
+  }
+  throw lastError || new Error(path + ' fetch failed');
 }
 
 function asArray(data){
