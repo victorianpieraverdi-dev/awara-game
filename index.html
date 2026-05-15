@@ -4184,6 +4184,35 @@ setTimeout(()=>{ if(typeof Keys!=='undefined') Keys.updateUI(); },500);
 </div>
 
 <button id="mobile-universe-focus-btn" type="button" onclick="window.setUniverseMobileMode&&window.setUniverseMobileMode('focus')">ЦЕНТР РА</button>
+<button id="mobile-universe-experience-btn" type="button" onclick="window.toggleMobileUniverseExperience&&window.toggleMobileUniverseExperience()">ОПЫТ</button>
+<div id="mobile-universe-experience-panel" aria-hidden="true">
+  <div class="mue-head">
+    <div>
+      <div class="mue-kicker">СКРЫТАЯ ГЛУБИНА</div>
+      <div class="mue-title">Опыт вселенной</div>
+    </div>
+    <button type="button" onclick="window.toggleMobileUniverseExperience&&window.toggleMobileUniverseExperience(false)">×</button>
+  </div>
+  <div class="mue-grid">
+    <div class="mue-stat"><span>Свет</span><b id="mue-light">0</b></div>
+    <div class="mue-stat"><span>Уровень</span><b id="mue-level">Ахамкара</b></div>
+    <div class="mue-stat"><span>Луч</span><b id="mue-ray">I</b></div>
+    <div class="mue-stat"><span>Зодиак</span><b id="mue-zodiac">Овен</b></div>
+  </div>
+  <div class="mue-section">
+    <div class="mue-label">Память и панели</div>
+    <div class="mue-list">
+      <button type="button" onclick="document.getElementById('progress-panel')&&document.getElementById('progress-panel').classList.toggle('collapsed')">Прогресс</button>
+      <button type="button" onclick="document.getElementById('quests-panel')&&document.getElementById('quests-panel').classList.toggle('collapsed')">Квесты</button>
+      <button type="button" onclick="window.openKeyPanel&&window.openKeyPanel()">Ключи</button>
+      <button type="button" onclick="window.openBoardGame&&window.openBoardGame()">Лила</button>
+    </div>
+  </div>
+  <div class="mue-section">
+    <div class="mue-label">В галактику вынесено</div>
+    <div class="mue-note" id="mue-visible">Активный знак, активный луч, Ра и одна сфера. Остальное хранится в опыте.</div>
+  </div>
+</div>
 <div id="mobile-universe-zoom-controls" aria-label="Управление масштабом вселенной">
   <button type="button" onclick="window.universeMobileZoom&&window.universeMobileZoom(1.16)">+</button>
   <button type="button" onclick="window.universeMobileZoom&&window.universeMobileZoom(0.86)">−</button>
@@ -16084,8 +16113,40 @@ import { createUniverseSnapshot } from './js/universe/universeProgression.js';
     setText('muf-sub', level.subtitle || level.focus || 'свет · орбиты · путь');
     setText('muf-next', next ? ('ДАЛЕЕ: ' + next.name + ' · ' + snapshot.lightToNext + ' СВЕТА') : 'ВЕРХНИЙ УРОВЕНЬ ОТКРЫТ');
     if (fill) fill.style.width = snapshot.progress + '%';
+    updateMobileUniverseExperience(snapshot);
   }
 
+  function getActiveZodiacByLight(light) {
+    var signs = ['Овен','Телец','Близнецы','Рак','Лев','Дева','Весы','Скорпион','Стрелец','Козерог','Водолей','Рыбы'];
+    var idx = Math.max(0, Math.min(signs.length - 1, Math.floor(Number(light || 0) / 150)));
+    return { name: signs[idx], index: idx };
+  }
+
+  function getRayByZodiacIndex(index) {
+    var rays = [1,4,2,3,1,2,3,4,5,6,5,6];
+    return rays[Math.max(0, Math.min(rays.length - 1, index || 0))] || 1;
+  }
+
+  function updateMobileUniverseExperience(snapshot) {
+    var panel = document.getElementById('mobile-universe-experience-panel');
+    if (!panel) return;
+    var zodiac = getActiveZodiacByLight(snapshot.light);
+    var ray = getRayByZodiacIndex(zodiac.index);
+    setText('mue-light', Math.round(snapshot.light));
+    setText('mue-level', snapshot.level ? snapshot.level.name : 'Ахамкара');
+    setText('mue-ray', 'Луч ' + ray);
+    setText('mue-zodiac', zodiac.name);
+    setText('mue-visible', 'В галактике сейчас: активный знак ' + zodiac.name + ', Луч ' + ray + ', Ра и одна сфера. Остальной опыт хранится в панелях и позже сможет выноситься игроком вручную.');
+  }
+
+  window.toggleMobileUniverseExperience = function(force) {
+    var panel = document.getElementById('mobile-universe-experience-panel');
+    if (!panel) return;
+    var open = typeof force === 'boolean' ? force : !panel.classList.contains('open');
+    panel.classList.toggle('open', open);
+    panel.setAttribute('aria-hidden', open ? 'false' : 'true');
+    updateMobileUniverseFocus();
+  };
   window.updateMobileUniverseFocus = updateMobileUniverseFocus;
   document.addEventListener('DOMContentLoaded', updateMobileUniverseFocus);
   window.addEventListener('load', updateMobileUniverseFocus);

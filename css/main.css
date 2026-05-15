@@ -1193,6 +1193,143 @@ canvas#bg{position:fixed;inset:0;z-index:0;}
                 display: block;
             }
 
+            #mobile-universe-experience-btn {
+                display: none;
+                position: fixed;
+                left: 12px;
+                bottom: 16px;
+                z-index: 90031;
+                padding: 12px 15px;
+                border-radius: 999px;
+                border: 1px solid rgba(201,168,76,0.3);
+                background: rgba(4,2,18,0.74);
+                color: rgba(255,232,160,0.94);
+                font-family: 'JetBrains Mono', monospace;
+                font-size: 9px;
+                letter-spacing: 0.18em;
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
+            }
+
+            body.universe-mobile-overview #mobile-universe-experience-btn,
+            body.universe-mobile-focus #mobile-universe-experience-btn {
+                display: block;
+            }
+
+            #mobile-universe-experience-panel {
+                display: none;
+                position: fixed;
+                left: 10px;
+                right: 10px;
+                bottom: 66px;
+                z-index: 90032;
+                padding: 14px;
+                border-radius: 18px;
+                border: 1px solid rgba(201,168,76,0.24);
+                background: radial-gradient(circle at 20% 0%, rgba(201,168,76,0.12), rgba(4,2,18,0.92) 58%);
+                color: rgba(255,248,220,0.86);
+                box-shadow: 0 18px 70px rgba(0,0,0,0.42);
+                backdrop-filter: blur(18px) saturate(150%);
+                -webkit-backdrop-filter: blur(18px) saturate(150%);
+            }
+
+            #mobile-universe-experience-panel.open {
+                display: block;
+            }
+
+            .mue-head {
+                display: flex;
+                align-items: flex-start;
+                justify-content: space-between;
+                gap: 12px;
+                margin-bottom: 12px;
+            }
+
+            .mue-head button {
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                border: 1px solid rgba(255,255,255,0.12);
+                background: rgba(255,255,255,0.05);
+                color: rgba(255,255,255,0.62);
+                font-size: 17px;
+                line-height: 1;
+            }
+
+            .mue-kicker,
+            .mue-label {
+                font-family: 'JetBrains Mono', monospace;
+                font-size: 7px;
+                letter-spacing: 0.22em;
+                color: rgba(201,168,76,0.62);
+            }
+
+            .mue-title {
+                margin-top: 3px;
+                font-family: 'Cinzel Decorative', serif;
+                font-size: 16px;
+                color: rgba(255,232,160,0.94);
+                letter-spacing: 0.08em;
+            }
+
+            .mue-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+            }
+
+            .mue-stat {
+                padding: 10px;
+                border-radius: 12px;
+                border: 1px solid rgba(255,255,255,0.08);
+                background: rgba(255,255,255,0.035);
+            }
+
+            .mue-stat span,
+            .mue-note {
+                display: block;
+                font-family: 'JetBrains Mono', monospace;
+                font-size: 8px;
+                color: rgba(255,255,255,0.42);
+            }
+
+            .mue-stat b {
+                display: block;
+                margin-top: 4px;
+                font-family: 'Cormorant Garamond', serif;
+                font-size: 15px;
+                color: rgba(255,232,160,0.94);
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .mue-section {
+                margin-top: 12px;
+            }
+
+            .mue-list {
+                display: grid;
+                grid-template-columns: 1fr 1fr 1fr 1fr;
+                gap: 6px;
+                margin-top: 7px;
+            }
+
+            .mue-list button {
+                padding: 9px 4px;
+                border-radius: 10px;
+                border: 1px solid rgba(201,168,76,0.2);
+                background: rgba(201,168,76,0.07);
+                color: rgba(255,232,160,0.82);
+                font-family: 'JetBrains Mono', monospace;
+                font-size: 8px;
+            }
+
+            .mue-note {
+                margin-top: 7px;
+                line-height: 1.55;
+            }
+
             #mobile-universe-zoom-controls {
                 display: none;
                 position: fixed;

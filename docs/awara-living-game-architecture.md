@@ -991,6 +991,108 @@ The player may attach:
 
 AI can evaluate these inputs and award light, but the design must avoid crude gamification. The goal is to recognize sincerity, effort, continuity and embodied practice.
 
+## Universe UI and Cosmology Expansion
+
+## Mobile Universe: Stored Experience vs Visible Objects
+
+The mobile universe should not be forced to display every cosmic object at once. The player's cosmos must stay clean, spacious and meditative. The full experience should be preserved in structured panels, while the visible galaxy only shows the chosen, active or currently influential objects.
+
+Core rule:
+
+```text
+everything is stored
+not everything is displayed
+the player chooses what becomes visible
+```
+
+The hidden depth should include:
+
+- opened rays;
+- active and completed zodiac signs;
+- Hercules / Alice Bailey tasks;
+- main spheres and additional created spheres;
+- personal spheres and their records;
+- Trimurti and Iskra dialogues;
+- other universes, alliances and resonances;
+- keys, cards, matrices and artifacts;
+- active daily / cosmic / cultural influences;
+- player's soul, star temple, worlds, lokas and board-game path.
+
+Panels should show progress and memory:
+
+- how many rays are opened;
+- which zodiac signs are currently active;
+- which spheres are filled with light;
+- which cards and keys are influencing the day;
+- which matrices shape the player's atmosphere;
+- which universes and beings are connected;
+- which experiences have been recorded;
+- which objects can be pinned into the visible galaxy.
+
+The galaxy view is a sacred desktop, not an inventory dump. A player may pin objects into the galaxy, move them, remove them again and decide how dense their own space should become. This allows individual expression without forcing visual chaos on everyone.
+
+## Cards, Matrices and Atmospheric Weight
+
+Cards are not only collectibles. A card can become an active power that changes the player's universe.
+
+Every important object may have atmospheric weight:
+
+- visual weight;
+- sound / music weight;
+- light weight;
+- gravity / attraction weight;
+- cultural matrix weight;
+- archetypal influence;
+- quest influence;
+- card generation influence.
+
+As the player gains light, the space should physically and poetically change:
+
+- spheres grow from dark seeds into structured suns;
+- red spectrum gradually opens into silver and gold;
+- depth, glow and form become richer;
+- matrices add cultural codes and archetypal texture;
+- unique combinations create new artifacts and phenomena;
+- the player's soul, temple, world and cosmos become recognizably individual.
+
+The design should allow the universe to react to:
+
+- the chosen matrix;
+- daily keys;
+- accumulated cards;
+- current astrological or cultural resonance;
+- player practices and records;
+- contacts with other universes;
+- high-level lokas and cosmic energies.
+
+## Divine Board Game as Complete Cosmology
+
+At high levels, after enough deep light work, meditation, lokas, spiritual architecture and cosmic interaction have been opened, the board game becomes the place where the whole AWARA world is represented from above.
+
+The board game should eventually include:
+
+- all matrices;
+- all agents;
+- all major cards;
+- worlds, lokas and temples;
+- quest lines;
+- alliances and interactions between universes;
+- cosmic artifacts;
+- high-level keys;
+- paths of service and collective creation;
+- the accumulated history of the player.
+
+High-level cards should appear more often only when the player has enough light and structure to carry them. This keeps rarity connected to consciousness, depth and responsibility rather than pure randomness.
+
+Implementation principle:
+
+```text
+first store the depth
+then summarize it in panels
+then let the player pin selected forces into the galaxy
+then let the board game synthesize the whole world
+```
+
 ## Recommended Implementation Order
 
 ### Phase 1: Foundation
