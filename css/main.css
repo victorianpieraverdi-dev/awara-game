@@ -1422,7 +1422,8 @@ canvas#bg{position:fixed;inset:0;z-index:0;}
             #shell-middle { width: 320px !important; height: 320px !important; }
             #shell-outer { width: 460px !important; height: 460px !important; }
 
-            #ra-anchor { transform: scale(0.78); }
+            #ra-anchor { transform: none !important; }
+            #ra-core { scale: 0.78; }
 
             #ra-light-indicator {
                 transform: scale(0.78);
