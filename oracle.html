@@ -29,12 +29,36 @@ body{
   font-family:'JetBrains Mono',monospace;
   display:flex;flex-direction:column;height:100vh;
   background:
-    radial-gradient(ellipse at 50% -10%, rgba(180,120,255,0.08), transparent 55%),
-    radial-gradient(ellipse at 50% 100%, rgba(80,40,140,0.06), transparent 60%),
+    radial-gradient(ellipse at 18% 28%, rgba(116,42,180,0.30), transparent 40%),
+    radial-gradient(ellipse at 82% 72%, rgba(216,115,42,0.14), transparent 42%),
+    radial-gradient(ellipse at 50% -10%, rgba(180,120,255,0.12), transparent 55%),
+    radial-gradient(ellipse at 50% 100%, rgba(80,40,140,0.10), transparent 60%),
     var(--bg);
   -webkit-font-smoothing:antialiased;
+  position:relative;
+  overflow:hidden;
 }
-.wrap{max-width:580px;margin:0 auto;width:100%;display:flex;flex-direction:column;height:100%;padding:14px 14px 0;}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:
+    radial-gradient(circle,rgba(255,255,255,0.80) 0 1px,transparent 1.5px),
+    radial-gradient(circle,rgba(255,215,120,0.55) 0 1px,transparent 1.5px),
+    radial-gradient(circle,rgba(180,210,255,0.40) 0 0.8px,transparent 1.3px);
+  background-size:150px 150px,230px 230px,95px 95px;
+  background-position:10px 24px,65px 90px,20px 50px;
+  opacity:0.50;
+}
+body::after{
+  content:'ॐ';position:fixed;left:50%;top:48%;transform:translate(-50%,-50%);
+  font-family:Georgia,serif;
+  font-size:min(520px,62vh);line-height:1;color:transparent;
+  -webkit-text-stroke:1px rgba(201,168,76,0.08);
+  pointer-events:none;z-index:0;
+}
+.wrap{
+  max-width:580px;margin:0 auto;width:100%;display:flex;flex-direction:column;height:100%;
+  padding:14px 14px 0;position:relative;z-index:1;
+}
 
 .topbar{
   display:flex;align-items:center;justify-content:space-between;
@@ -43,10 +67,11 @@ body{
 .back-link{
   display:inline-flex;align-items:center;gap:6px;
   padding:9px 14px;min-height:44px;
-  border:1px solid var(--line);border-radius:10px;
+  border:1px solid rgba(201,168,76,0.22);border-radius:12px;
   font-family:Cinzel,serif;font-size:11px;
   letter-spacing:0.2em;color:var(--text-soft);
   text-decoration:none;cursor:pointer;transition:all 0.3s;
+  background:rgba(2,1,10,0.45);
 }
 .back-link:hover{border-color:var(--gold);color:var(--gold)}
 .logo-mark{font-family:'Cinzel Decorative',serif;font-size:12px;color:var(--text-mute);letter-spacing:0.15em}
@@ -93,8 +118,10 @@ h1{
 
 /* API Key Setup */
 .key-setup{
-  background:var(--accent-bg);border:1px solid var(--accent-line);
-  border-radius:12px;padding:16px;margin-bottom:12px;flex-shrink:0;
+  background:linear-gradient(135deg,rgba(18,14,30,0.72),rgba(8,5,18,0.62));
+  border:1px solid rgba(180,120,255,0.22);
+  border-radius:18px;padding:16px;margin-bottom:12px;flex-shrink:0;
+  box-shadow:inset 0 0 22px rgba(180,120,255,0.03);
 }
 .key-setup label{
   font-family:Cinzel,serif;font-size:10px;letter-spacing:0.15em;
@@ -134,7 +161,7 @@ h1{
 .chat-area::-webkit-scrollbar-thumb{background:var(--accent-line);border-radius:4px}
 
 .msg{
-  padding:10px 14px;border-radius:12px;
+  padding:12px 14px;border-radius:16px;
   font-size:13px;line-height:1.6;max-width:88%;
   word-wrap:break-word;
 }
@@ -236,6 +263,32 @@ h1{
 }
 .model-select:focus{border-color:var(--accent)}
 .model-select option{background:#0a0a14;color:var(--text)}
+@media(max-width:560px){
+  body{padding:8px 6px 0}
+  .wrap{
+    width:min(430px,100%);
+    max-width:none;
+    padding:12px 12px 0;
+    border:1px solid rgba(201,168,76,0.26);
+    border-radius:30px 30px 0 0;
+    background:linear-gradient(180deg,rgba(8,4,24,0.58),rgba(3,2,12,0.68));
+    box-shadow:0 0 0 1px rgba(255,215,80,0.08),0 30px 120px rgba(0,0,0,0.65),inset 0 0 48px rgba(201,168,76,0.04);
+    backdrop-filter:blur(4px);
+    -webkit-backdrop-filter:blur(4px);
+  }
+  h1{font-size:24px;letter-spacing:0.12em}
+  .subtitle{letter-spacing:0.18em}
+  .ctx-bar{display:grid;grid-template-columns:repeat(2,1fr);overflow:visible}
+  .ctx-btn{min-height:58px}
+  .key-row{display:grid;grid-template-columns:1fr;gap:8px}
+  .key-btn,.settings-toggle{width:100%;justify-content:center}
+  .msg{max-width:94%;font-size:14px}
+  .msg.assistant{font-size:16px}
+  .welcome-text{font-size:17px}
+  .input-row{gap:6px}
+  .chat-input{font-size:16px;min-height:48px}
+  .send-btn,.clear-btn{width:48px;height:48px}
+}
 </style>
 </head>
 <body>
