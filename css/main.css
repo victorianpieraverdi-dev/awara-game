@@ -418,13 +418,14 @@ canvas#bg{position:fixed;inset:0;z-index:0;}
             animation: ra-breathe 4s infinite ease-in-out;
             overflow: visible;
             position: absolute;
-            left: 0; top: 0;
-            transform: translate(-50%, -50%);
+            left: calc(var(--ra-size, 30px) / -2);
+            top: calc(var(--ra-size, 30px) / -2);
+            transform: none;
             transition: width 2s ease, height 2s ease;
         }
         @keyframes ra-breathe {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 40px #ffd700, 0 0 80px rgba(255, 215, 0, 0.5); }
-            50% { transform: translate(-50%, -50%) scale(1.1); box-shadow: 0 0 60px #ffd700, 0 0 120px rgba(255, 215, 0, 0.7), 0 0 180px rgba(255, 136, 0, 0.4); }
+            0%, 100% { box-shadow: 0 0 40px #ffd700, 0 0 80px rgba(255, 215, 0, 0.5); }
+            50% { box-shadow: 0 0 60px #ffd700, 0 0 120px rgba(255, 215, 0, 0.7), 0 0 180px rgba(255, 136, 0, 0.4); }
         }
 
         #awara-app #ra-wings {
