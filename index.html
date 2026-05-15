@@ -8002,8 +8002,9 @@ function initZodiacRing() {
     const w = view ? view.offsetWidth : window.innerWidth;
     const h = view ? view.offsetHeight : window.innerHeight;
     const mobileCompact = window.matchMedia && window.matchMedia('(max-width: 640px)').matches;
-    const cx = w/2, cy = h/2;
     const mobileZoom = mobileCompact ? (window.universeMobileSceneZoom || 1) : 1;
+    const cx = w/2 + (mobileCompact ? 10 : 0);
+    const cy = h/2 + (mobileCompact ? 22 : 0);
     const R12 = Math.min(w,h) * (mobileCompact ? 0.34 : 0.52) * mobileZoom;
     const R7  = Math.min(w,h) * (mobileCompact ? 0.20 : 0.13) * mobileZoom;
     const SZ12 = mobileCompact ? 44 : Math.max(36, Math.min(58, R12*0.115));
@@ -11710,8 +11711,9 @@ const loop = () => {
     const view = document.getElementById('view');
     const w = view ? view.offsetWidth : window.innerWidth;
     const h = view ? view.offsetHeight : window.innerHeight;
-    const cX = w / 2, cY = h / 2;
     const mobileScene = window.matchMedia && window.matchMedia('(max-width: 640px)').matches;
+    const cX = w / 2 + (mobileScene ? 10 : 0);
+    const cY = h / 2 + (mobileScene ? 22 : 0);
     const sceneScale = mobileScene ? Math.max(0.62, Math.min(0.86, w / 560)) * (window.universeMobileSceneZoom || 1) : 1;
     // Позиция сингулярности (относительно центра)
     const bhPos = { x: -(cX - 140) * 0.7, y: (cY - 140) * 0.7 };
