@@ -7837,14 +7837,14 @@ const render = () => {
         }
     });
 
-    // РА — невидимая зона клика вокруг canvas-солнца
+    // РА — якорь-точка строго в центре #view; сам круг центрируется CSS-ом
     const ra = document.getElementById('ra-anchor');
     if (ra) {
         const vEl = document.getElementById('view');
         const vw = vEl ? vEl.offsetWidth  : window.innerWidth;
         const vh = vEl ? vEl.offsetHeight : window.innerHeight;
-        ra.style.left = (vw / 2 - 44) + 'px';
-        ra.style.top  = (vh / 2 - 44) + 'px';
+        ra.style.left = (vw / 2) + 'px';
+        ra.style.top  = (vh / 2) + 'px';
         ra.style.marginLeft = '0';
         ra.style.marginTop  = '0';
         ra.style.transform = 'none';
@@ -11773,8 +11773,8 @@ const loop = () => {
 
     const raAnchor = document.getElementById('ra-anchor');
     if (raAnchor) {
-        raAnchor.style.left = (cX - 44) + 'px';
-        raAnchor.style.top = (cY - 44) + 'px';
+        raAnchor.style.left = cX + 'px';
+        raAnchor.style.top = cY + 'px';
         raAnchor.style.marginLeft = '0';
         raAnchor.style.marginTop = '0';
         raAnchor.style.transform = 'none';
@@ -11917,25 +11917,6 @@ const loop = () => {
         fctx.beginPath();
         fctx.arc(cX, cY, 90, 0, Math.PI * 2);
         fctx.fill();
-
-        const raProgress = Math.min(1, (state.totalLight || 0) / 5000);
-        const raSize = 20 + (55 - 20) * Math.pow(raProgress, 0.5);
-        const pulse = 1 + Math.sin(state.t * 2.4) * 0.045;
-        const rr = (raSize / 2) * pulse;
-        const core = fctx.createRadialGradient(cX - rr * 0.25, cY - rr * 0.25, 0, cX, cY, rr * 1.35);
-        core.addColorStop(0, '#ffffff');
-        core.addColorStop(0.16, '#fffbe0');
-        core.addColorStop(0.42, '#ffd700');
-        core.addColorStop(0.72, '#ffaa00');
-        core.addColorStop(1, 'rgba(255, 92, 0, 0.92)');
-        fctx.save();
-        fctx.shadowBlur = 36 + raProgress * 74;
-        fctx.shadowColor = 'rgba(255, 215, 0, 0.95)';
-        fctx.fillStyle = core;
-        fctx.beginPath();
-        fctx.arc(cX, cY, rr, 0, Math.PI * 2);
-        fctx.fill();
-        fctx.restore();
     }
 
     // 7. ОБНОВЛЕНИЕ ПОЗИЦИЙ СФЕР И ТРЕЙЛОВ
