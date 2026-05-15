@@ -1020,10 +1020,12 @@ canvas#bg{position:fixed;inset:0;z-index:0;}
                 width: 118vw !important;
                 height: calc(100dvh - 118px) !important;
                 min-height: 470px !important;
-                transform: translateX(-50%) scale(0.82);
+                transform: translateX(calc(-50% + var(--universe-pan-x, 0px))) translateY(var(--universe-pan-y, 0px)) scale(var(--universe-zoom, 0.82));
                 transform-origin: center center;
                 border-radius: 28px;
                 overflow: hidden !important;
+                touch-action: none;
+                transition: transform 0.12s ease-out;
             }
 
             #awara-app canvas {

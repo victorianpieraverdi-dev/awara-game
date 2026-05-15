@@ -15855,6 +15855,118 @@ function toggleNakopPanel() {
   setTimeout(resetLobbyPhoneScroll, 300);
 })();
 </script>
+<script>
+(function(){
+  var camera = { zoom: 0.82, x: 0, y: 0, min: 0.58, max: 1.35 };
+  var drag = null;
+  var pinch = null;
+
+  function isPhone() {
+    return window.matchMedia && window.matchMedia('(max-width: 640px)').matches;
+  }
+
+  function view() {
+    return document.querySelector('#awara-app #view');
+  }
+
+  function applyCamera() {
+    var v = view();
+    if (!v) return;
+    v.style.setProperty('--universe-zoom', camera.zoom.toFixed(3));
+    v.style.setProperty('--universe-pan-x', Math.round(camera.x) + 'px');
+    v.style.setProperty('--universe-pan-y', Math.round(camera.y) + 'px');
+  }
+
+  function resetCamera() {
+    camera.zoom = 0.82;
+    camera.x = 0;
+    camera.y = 0;
+    applyCamera();
+  }
+
+  function distance(t1, t2) {
+    var dx = t1.clientX - t2.clientX;
+    var dy = t1.clientY - t2.clientY;
+    return Math.sqrt(dx * dx + dy * dy);
+  }
+
+  function installResetButton() {
+    if (document.getElementById('universe-camera-reset')) return;
+    var btn = document.createElement('button');
+    btn.id = 'universe-camera-reset';
+    btn.type = 'button';
+    btn.textContent = '⦿';
+    btn.title = 'Центрировать вселенную';
+    btn.style.cssText = 'display:none;position:fixed;right:8px;bottom:8px;z-index:90020;width:34px;height:34px;border-radius:50%;background:rgba(4,2,18,0.62);border:1px solid rgba(201,168,76,0.30);color:rgba(255,248,214,0.80);font-size:16px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);';
+    btn.onclick = resetCamera;
+    document.body.appendChild(btn);
+  }
+
+  function refreshResetButton() {
+    var btn = document.getElementById('universe-camera-reset');
+    if (!btn) return;
+    var app = document.getElementById('awara-app');
+    btn.style.display = app && app.style.display !== 'none' && isPhone() ? 'block' : 'none';
+  }
+
+  function bindCamera() {
+    var v = view();
+    if (!v || v.dataset.cameraBound) return;
+    v.dataset.cameraBound = '1';
+    applyCamera();
+
+    v.addEventListener('touchstart', function(e) {
+      if (!isPhone()) return;
+      if (e.touches.length === 1) {
+        drag = {
+          x: e.touches[0].clientX,
+          y: e.touches[0].clientY,
+          startX: camera.x,
+          startY: camera.y
+        };
+      } else if (e.touches.length === 2) {
+        pinch = {
+          dist: distance(e.touches[0], e.touches[1]),
+          zoom: camera.zoom
+        };
+      }
+    }, { passive: true });
+
+    v.addEventListener('touchmove', function(e) {
+      if (!isPhone()) return;
+      if (e.touches.length === 1 && drag) {
+        e.preventDefault();
+        camera.x = Math.max(-90, Math.min(90, drag.startX + e.touches[0].clientX - drag.x));
+        camera.y = Math.max(-120, Math.min(120, drag.startY + e.touches[0].clientY - drag.y));
+        applyCamera();
+      } else if (e.touches.length === 2 && pinch) {
+        e.preventDefault();
+        var ratio = distance(e.touches[0], e.touches[1]) / pinch.dist;
+        camera.zoom = Math.max(camera.min, Math.min(camera.max, pinch.zoom * ratio));
+        applyCamera();
+      }
+    }, { passive: false });
+
+    v.addEventListener('touchend', function(e) {
+      if (e.touches.length === 0) {
+        drag = null;
+        pinch = null;
+      }
+    }, { passive: true });
+  }
+
+  window.resetUniverseCamera = resetCamera;
+  document.addEventListener('DOMContentLoaded', function() {
+    installResetButton();
+    bindCamera();
+    refreshResetButton();
+    setInterval(function() {
+      bindCamera();
+      refreshResetButton();
+    }, 1000);
+  });
+})();
+</script>
 
 </body>
 </html>
