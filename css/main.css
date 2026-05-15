@@ -1015,14 +1015,14 @@ canvas#bg{position:fixed;inset:0;z-index:0;}
 
             #awara-app #view {
                 position: fixed !important;
-                left: 8px !important;
-                right: 8px !important;
-                top: 96px !important;
-                width: auto !important;
-                height: calc(100dvh - 178px) !important;
-                min-height: 360px !important;
-                transform: translateX(var(--universe-pan-x, 0px)) translateY(var(--universe-pan-y, 0px)) scale(var(--universe-zoom, 1));
-                transform-origin: center 42%;
+                left: 50% !important;
+                right: auto !important;
+                top: 50% !important;
+                width: min(100vw - 16px, 430px) !important;
+                height: calc(100dvh - 92px) !important;
+                min-height: 520px !important;
+                transform: translate(calc(-50% + var(--universe-pan-x, 0px)), calc(-50% + var(--universe-pan-y, 0px))) scale(var(--universe-zoom, 1));
+                transform-origin: center center;
                 border-radius: 24px;
                 overflow: hidden !important;
                 touch-action: none;
@@ -1030,18 +1030,48 @@ canvas#bg{position:fixed;inset:0;z-index:0;}
                 box-shadow: inset 0 0 0 1px rgba(201,168,76,0.18), 0 24px 90px rgba(0,0,0,0.65);
             }
 
+            #awara-app.mobile-overview #view {
+                left: 50% !important;
+                top: 50% !important;
+                transform: translate(calc(-50% + var(--universe-pan-x, 0px)), calc(-50% + var(--universe-pan-y, 0px))) scale(var(--universe-zoom, 1));
+            }
+
             #awara-app.mobile-focus #view {
-                top: 40px !important;
-                left: 0 !important;
-                right: 0 !important;
+                top: 50% !important;
+                left: 50% !important;
+                right: auto !important;
                 width: 100vw !important;
                 height: 100dvh !important;
                 min-height: 100dvh !important;
                 border-radius: 0;
-                transform: scale(1.18) translateY(-16px);
-                opacity: 0.48;
-                filter: blur(1.2px) saturate(135%);
+                transform: translate(-50%, -50%) scale(1.08);
+                opacity: 0.34;
+                filter: blur(2px) saturate(128%) brightness(0.72);
                 box-shadow: none;
+            }
+
+            #awara-app #shell-inner,
+            #awara-app #shell-middle,
+            #awara-app #shell-outer,
+            #awara-app #ra-anchor,
+            #awara-app #ra-light-indicator,
+            #awara-app #spheres-container,
+            #awara-app #zodiac-ring {
+                left: 50% !important;
+                top: 50% !important;
+            }
+
+            #awara-app #shell-inner,
+            #awara-app #shell-middle,
+            #awara-app #shell-outer {
+                transform: translate(-50%, -50%) !important;
+                transform-origin: center center !important;
+            }
+
+            #awara-app #spheres-container,
+            #awara-app #zodiac-ring {
+                transform: translate(-50%, -50%) !important;
+                transform-origin: center center !important;
             }
 
             body.universe-mobile-focus #awara-app::after {
