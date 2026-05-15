@@ -204,6 +204,272 @@ microcosm ↔ macrocosm
 game world ↔ real world
 ```
 
+## Evolutionary Levels of the Player
+
+The universe architecture should not be a single crowded map. It should be a living ladder of consciousness. Each level opens a different scale of perception, practice, cards, keys and responsibility.
+
+```text
+Ahamkara / Mind
+→ Soul / Feeling
+→ Jiva / Earth and Star Temple
+→ Spirit / Cosmos and Service
+→ Sobor / Galactic and Universal Architecture
+→ Divine Board Game
+```
+
+The higher the player rises, the more complex the inner architecture becomes. At the same time, interaction with the world should become simpler, calmer and more harmonious.
+
+### 1. Ahamkara / Mind level
+
+This is the level of cultural accumulation, study and orientation.
+
+The player develops the mind-space through:
+
+- daily keys;
+- books, stories, cultures and traditions;
+- mythological matrices;
+- agents and symbols;
+- theoretical preparation for practice;
+- widening of worldview.
+
+At this level the player is mostly learning languages of perception. Cards and keys should be relatively simple and educational. The game teaches the player to recognize archetypes, cultures, elements, agents and inner patterns.
+
+Main gameplay:
+
+```text
+daily key → cultural lens → question → reflection → light → simple card chance
+```
+
+### 2. Soul / Feeling level
+
+This is the level of embodiment, sensing and inner work.
+
+The player starts working with:
+
+- physical body;
+- legs and grounding;
+- belly and ego-center;
+- heart;
+- mind and emotional perception;
+- meridians / nadis;
+- perception channels;
+- inner states;
+- intentions and personal practices.
+
+The key shift is from "I know" to "I feel". The player learns to describe inner states and gradually senses not only the body, but also places, situations and atmospheres.
+
+Examples:
+
+- forest feels one way;
+- city feels another;
+- south, west, east and north carry different qualities;
+- events and encounters have different energetic signatures.
+
+Main gameplay:
+
+```text
+Tigel entry → sensing analysis → soul state → light → embodied task → card as crystallized experience
+```
+
+### 3. Jiva / Earth and Star Temple level
+
+This is the level where the individual soul becomes a builder of space.
+
+The player begins to understand:
+
+- directions;
+- elements;
+- Vastu principles;
+- the center;
+- home and altar;
+- territory;
+- ether as a unifying field;
+- connection with the planetary logos.
+
+The player builds a cosmic home: a personal altar, Star Temple, knowledge structure and Earth-space. This is no longer only self-reflection. It is the transition from inner soul work to spatial responsibility.
+
+The Jiva becomes a household spirit, then gradually a planetary spirit.
+
+Main gameplay:
+
+```text
+soul maturity → spatial map → Vastu zones → buildings → planetary connection → stronger light field
+```
+
+### 4. Spirit / Cosmos and Service level
+
+This is the level of cosmic individuality and responsibility.
+
+The player is no longer only a separate soul. The player becomes:
+
+- a head of a house;
+- a keeper of a lineage;
+- a builder of lands;
+- a conductor of service;
+- a creator of reality at a larger scale;
+- a bridge between heaven and earth.
+
+The player interacts with other beings, homes, families, lands, communities and planetary structures. This is still connected with Earth, but already serves the planetary logos.
+
+Main gameplay:
+
+```text
+Star Temple → house / land / lineage → service projects → alliances → cosmic responsibility
+```
+
+### 5. Sobor / Higher Cosmic Architecture level
+
+When enough light is accumulated in spaces, temples, alliances and conscious structures, the player gradually opens more complex cosmic creation.
+
+This includes:
+
+- seventh-dimensional spaces and above;
+- architectural unions;
+- festivals;
+- planetary and galactic cathedrals;
+- universal councils;
+- interaction with creators of reality;
+- contact with lokas and objective spiritual structures;
+- deeper silence and meditation;
+- direct work with cosmic energies.
+
+This level prepares the transition into the large board game, where the whole world can be viewed from above.
+
+Main gameplay:
+
+```text
+service maturity → higher lokas → sobor architecture → creator contact → board-game scale
+```
+
+### 6. Divine Board Game level
+
+The future tabletop / board layer should represent the whole AWARA world from above.
+
+It should include:
+
+- all matrices;
+- all agents;
+- major cards;
+- quest lines;
+- worlds and lokas;
+- territories;
+- light exchange;
+- alliances;
+- paths of initiation;
+- collective creation.
+
+At this level the board is not a separate minigame. It is the visible form of the entire cosmology.
+
+## Cards, Keys, Rarity and Depth
+
+Cards should reflect the level of the player.
+
+At early levels cards are mostly:
+
+- simple guides;
+- cultural symbols;
+- agent/matrix reflections;
+- daily prompts;
+- beginner practices.
+
+At higher levels cards become:
+
+- artifacts of power;
+- keys to lokas;
+- initiatory trials;
+- cosmic beings;
+- architectural structures;
+- service contracts;
+- sobor-level forces.
+
+Rarity should depend on:
+
+```text
+rarity = depth of experience + complexity of key + level of connection + amount of light + responsibility of use
+```
+
+The more developed the player is, the more often high-level cards can appear. Not because of random generosity, but because the player has become capable of carrying their meaning.
+
+## Light Exchange
+
+Light exchange should not be treated only as a market.
+
+It is a field where beings can say:
+
+```text
+what I can offer
+what I need
+what I am building
+what I am ready to exchange
+what service I can carry
+```
+
+This can include digital objects, cards, keys, practices, physical items, crafts, events, spaces, journeys and collective projects.
+
+The purpose is not speculation. The purpose is resonance, service and manifestation of inner light into Earth life.
+
+## Siddhi, Aura and Toroid
+
+As the player accumulates light, the player's aura / toroid becomes stronger.
+
+The toroid influences:
+
+- event attraction;
+- positive and negative lessons;
+- energetic protection;
+- capacity to hold artifacts;
+- strength of created spaces;
+- ability to cooperate with light or shadow forces;
+- dream / astral / subtle interactions;
+- access to other worlds and lokas.
+
+This should be represented carefully as symbolic gameplay, not as literal promises. The game can show the strengthening of the toroid as a poetic model of attention, responsibility, energetic hygiene and accumulated experience.
+
+## Generation Unlocks by Level
+
+Prompt generation should open gradually.
+
+At early levels the player may only receive:
+
+- Ahamkara image;
+- simple daily card;
+- cultural reflection.
+
+Later the system unlocks:
+
+- Soul image;
+- Jiva / Earth image;
+- Spirit image;
+- Star Temple image;
+- full multi-layer daily visualization;
+- audio prompt;
+- video prompt;
+- board-game event prompt.
+
+The higher the player level, the more layers the system can combine:
+
+```text
+Ahamkara
+→ Soul
+→ Jiva
+→ Spirit
+→ all four together
+→ cosmic / sobor synthesis
+```
+
+The purpose is that daily images and cards become a visual diary of the player's path.
+
+## Core Design Rule
+
+The player's inner architecture becomes more complex over time, but the user interface should become more simple.
+
+```text
+more depth inside
+less chaos outside
+```
+
+This is especially important for mobile. The mobile universe should not show everything at once. It should show the current focus, current level, next action and a beautiful way to enter deeper maps when the player is ready.
+
 ## Directional and Spatial Energies
 
 The player's Earth layer should work with directions and spatial principles:
