@@ -7970,11 +7970,12 @@ function initZodiacRing() {
     const view = document.getElementById('view');
     const w = view ? view.offsetWidth : window.innerWidth;
     const h = view ? view.offsetHeight : window.innerHeight;
+    const mobileCompact = window.matchMedia && window.matchMedia('(max-width: 640px)').matches;
     const cx = w/2, cy = h/2;
-    const R12 = Math.min(w,h) * 0.52;
-    const R7  = Math.min(w,h) * 0.13;
-    const SZ12 = Math.max(36, Math.min(58, R12*0.115));
-    const SZ7  = Math.max(24, Math.min(38, R7 *0.22));
+    const R12 = Math.min(w,h) * (mobileCompact ? 0.34 : 0.52);
+    const R7  = Math.min(w,h) * (mobileCompact ? 0.20 : 0.13);
+    const SZ12 = mobileCompact ? 44 : Math.max(36, Math.min(58, R12*0.115));
+    const SZ7  = mobileCompact ? 34 : Math.max(24, Math.min(38, R7 *0.22));
 
     ring.style.cssText = `position:absolute;left:0;top:0;width:${w}px;height:${h}px;pointer-events:none;z-index:8;`;
 
@@ -8014,16 +8015,20 @@ function initZodiacRing() {
         const curLight = (typeof state !== 'undefined') ? (state.totalLight || 0) : 0;
         const visRays = new Set();
         const visZod = [];
+        let activeZodiac = 0;
         ZODIAC_SIGNS.forEach((z, i) => {
             const v = curLight >= i * SIGN_THRESHOLD;
             visZod.push(v);
-            if(v) visRays.add(z.ray);
+            if(v) {
+                activeZodiac = i;
+                visRays.add(z.ray);
+            }
         });
         // Луч 7 появляется после всех 12 знаков (при 1800+ света)
         if(curLight >= ZODIAC_SIGNS.length * SIGN_THRESHOLD) {
             visRays.add(7);
         }
-        return { visRays, visZod, curLight };
+        return { visRays, visZod, curLight, activeZodiac };
     }
 
     // Начальная видимость
@@ -8033,7 +8038,8 @@ function initZodiacRing() {
     let _rayT = 0;
     function updateRays(){
         _rayT += 0.0015;
-        const { visRays } = getVisibility();
+        const { visRays, activeZodiac } = getVisibility();
+        const activeRay = ZODIAC_SIGNS[activeZodiac]?.ray || 1;
         RAY_DATA.forEach((rd, i) => {
             const base = (i/7)*Math.PI*2 - Math.PI/2;
             const angle = base + _rayT;
@@ -8042,7 +8048,7 @@ function initZodiacRing() {
             const sph = document.getElementById('ray-sph-'+i);
             if(sph){
                 sph.style.left = sx+'px'; sph.style.top = sy+'px';
-                const on = visRays.has(rd.ray);
+                const on = mobileCompact ? rd.ray === activeRay : visRays.has(rd.ray);
                 sph.style.opacity = on ? '1' : '0';
                 sph.style.pointerEvents = on ? 'all' : 'none';
             }
@@ -8054,7 +8060,8 @@ function initZodiacRing() {
         const angle = (i/7)*Math.PI*2 - Math.PI/2;
         const sx = cx + Math.cos(angle)*R7 - SZ7/2;
         const sy = cy + Math.sin(angle)*R7 - SZ7/2;
-        const on = initRays.has(rd.ray);
+        const activeRay = ZODIAC_SIGNS[initZod.lastIndexOf(true) >= 0 ? initZod.lastIndexOf(true) : 0]?.ray || 1;
+        const on = mobileCompact ? rd.ray === activeRay : initRays.has(rd.ray);
 
         const sph = document.createElement('div');
         sph.id = 'ray-sph-'+i;
@@ -8131,6 +8138,7 @@ function initZodiacRing() {
         rayCtx.setLineDash([]);
         rayCtx.restore();
         RAY_DATA.forEach((rd,i)=>{
+            if(mobileCompact && rd.ray !== ((ZODIAC_SIGNS[getVisibility().activeZodiac] || ZODIAC_SIGNS[0]).ray)) return;
             const base=(i/7)*Math.PI*2-Math.PI/2;
             const angle=base+_rayT;
             const sx2=cx+Math.cos(angle)*R7;
@@ -8189,7 +8197,7 @@ function initZodiacRing() {
     let _zodT = 0;
     function updateZodiac(){
         _zodT -= 0.001;
-        const { visZod } = getVisibility();
+        const { visZod, activeZodiac } = getVisibility();
         ZODIAC_SIGNS.forEach((z, i) => {
             const base = (i/12)*Math.PI*2 - Math.PI/2;
             const angle = base + _zodT;
@@ -8198,7 +8206,7 @@ function initZodiacRing() {
             const sp = document.getElementById('zod-sph-'+i);
             if(sp){
                 sp.style.left = sx+'px'; sp.style.top = sy+'px';
-                const on = visZod[i];
+                const on = mobileCompact ? i === activeZodiac : visZod[i];
                 sp.style.opacity = on ? '1' : '0';
                 sp.style.pointerEvents = on ? 'all' : 'none';
             }
@@ -8210,7 +8218,8 @@ function initZodiacRing() {
         const angle = (i/12)*Math.PI*2 - Math.PI/2;
         const sx = cx + Math.cos(angle)*R12 - SZ12/2;
         const sy = cy + Math.sin(angle)*R12 - SZ12/2;
-        const visible = initZod[i];
+        const activeZodiac = initZod.lastIndexOf(true) >= 0 ? initZod.lastIndexOf(true) : 0;
+        const visible = mobileCompact ? i === activeZodiac : initZod[i];
 
         const sph = document.createElement('div');
         sph.className='zodiac-sphere';
@@ -8284,14 +8293,14 @@ function initZodiacRing() {
         font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:0.22em;
         color:rgba(201,168,76,0.2);pointer-events:none;white-space:nowrap;`;
     lbl.textContent='✦ 12 ВРАТ ЗОДИАКА ✦';
-    ring.appendChild(lbl);
+    if(!mobileCompact) ring.appendChild(lbl);
 
     const lbl7 = document.createElement('div');
     lbl7.style.cssText=`position:absolute;left:${cx}px;top:${cy-R7-22}px;transform:translateX(-50%);
         font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:0.22em;
         color:rgba(150,100,255,0.2);pointer-events:none;white-space:nowrap;`;
     lbl7.textContent='✦ 7 ЛУЧЕЙ ТВОРЕНИЯ ✦';
-    ring.appendChild(lbl7);
+    if(!mobileCompact) ring.appendChild(lbl7);
 }
 
 // ══ ЛЕНТА АКТИВНОСТИ ══
@@ -11866,6 +11875,11 @@ const loop = () => {
 
         if (s.type === 'ring') {
             if (data.locked || data.lvl === 0) {
+                if (mobileScene) {
+                    el.style.opacity = '0';
+                    el.style.pointerEvents = 'none';
+                    return;
+                }
                 // 8 СФЕР БЕЗ АТРИБУТОВ — на красной крайней орбите (RADII[0]=420)
                 const darkIdx = s.index - STARTER_IDS.length;
                 const angle = (darkIdx / 8) * Math.PI * 2 + state.t * 0.03;
@@ -11911,6 +11925,11 @@ const loop = () => {
                 pctx.fill();
             }
         } else if (s.type === 'personal') {
+            if (mobileScene && s.id !== 'psph-space') {
+                el.style.opacity = '0';
+                el.style.pointerEvents = 'none';
+                return;
+            }
             x = s.pos.x * (cX - 40) * sceneScale;
             y = s.pos.y * (cY - 40) * sceneScale;
             const pBreath = Math.sin(state.t * 0.5 + configs.indexOf(s) * 1.4) * 2;

@@ -1243,6 +1243,23 @@ canvas#bg{position:fixed;inset:0;z-index:0;}
                 height: 100% !important;
             }
 
+            #awara-app.mobile-overview .trimurti-sage,
+            body.universe-mobile-overview .trimurti-sage {
+                display: none !important;
+            }
+
+            #awara-app.mobile-overview #great-sun,
+            body.universe-mobile-overview #great-sun {
+                opacity: 0.14 !important;
+                filter: blur(1px) saturate(90%) !important;
+            }
+
+            #awara-app.mobile-overview #great-moon,
+            body.universe-mobile-overview #great-moon {
+                opacity: 0.10 !important;
+                filter: blur(1px) saturate(80%) !important;
+            }
+
             #shell-inner { width: 180px !important; height: 180px !important; }
             #shell-middle { width: 320px !important; height: 320px !important; }
             #shell-outer { width: 460px !important; height: 460px !important; }
@@ -1271,6 +1288,14 @@ canvas#bg{position:fixed;inset:0;z-index:0;}
             }
             #quests-panel { left: 8px; top: 48px; width: 118px; max-height: 34px; }
             #progress-panel { right: 8px; top: 48px; width: 118px; max-height: 34px; }
+            #quests-panel.collapsed,
+            #progress-panel.collapsed,
+            #universes-panel-wrap.collapsed,
+            #side-panel.collapsed,
+            #guild-resonance {
+                overflow: hidden !important;
+                opacity: 0.72;
+            }
             #quests-panel:not(.collapsed),
             #progress-panel:not(.collapsed) {
                 width: min(360px, calc(100vw - 16px)) !important;
