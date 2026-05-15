@@ -1423,6 +1423,7 @@ canvas#bg{position:fixed;inset:0;z-index:0;}
             #shell-outer { width: 460px !important; height: 460px !important; }
 
             #ra-anchor { transform: none !important; }
+            #ra-wings { display: none !important; }
 
             #ra-light-indicator {
                 transform: scale(0.78);
