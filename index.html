@@ -7998,13 +7998,17 @@ function initZodiacRing() {
     if (!ring) return;
     ring.innerHTML = '';
 
-    const view = document.getElementById('view');
-    const w = view ? view.offsetWidth : window.innerWidth;
-    const h = view ? view.offsetHeight : window.innerHeight;
-    const mobileCompact = window.matchMedia && window.matchMedia('(max-width: 640px)').matches;
-    const mobileZoom = mobileCompact ? (window.universeMobileSceneZoom || 1) : 1;
-    const cx = w/2 + (mobileCompact ? 10 : 0);
-    const cy = h/2 + (mobileCompact ? 22 : 0);
+    const M = (window.getUniverseSceneMetrics ? window.getUniverseSceneMetrics() : (function(){
+        const v=document.getElementById('view');
+        const w=v?v.offsetWidth:window.innerWidth, h=v?v.offsetHeight:window.innerHeight;
+        const m=window.matchMedia&&window.matchMedia('(max-width: 640px)').matches;
+        const z=m?(window.universeMobileSceneZoom||1):1;
+        const st=m?56:0, sb=m?60:0, vh=m?Math.max(1,h-st-sb):h;
+        return {w:w,h:h,mobile:m,zoom:z,sceneScale:m?Math.max(0.62,Math.min(0.86,w/560))*z:1,cx:w/2,cy:m?(st+vh/2):h/2};
+    })());
+    const w = M.w, h = M.h, cx = M.cx, cy = M.cy;
+    const mobileCompact = M.mobile;
+    const mobileZoom = M.zoom;
     const R12 = Math.min(w,h) * (mobileCompact ? 0.34 : 0.52) * mobileZoom;
     const R7  = Math.min(w,h) * (mobileCompact ? 0.20 : 0.13) * mobileZoom;
     const SZ12 = mobileCompact ? 44 : Math.max(36, Math.min(58, R12*0.115));
@@ -11708,13 +11712,17 @@ const loop = () => {
     window.updateDecay();
     window.updateEvolution();
 
-    const view = document.getElementById('view');
-    const w = view ? view.offsetWidth : window.innerWidth;
-    const h = view ? view.offsetHeight : window.innerHeight;
-    const mobileScene = window.matchMedia && window.matchMedia('(max-width: 640px)').matches;
-    const cX = w / 2 + (mobileScene ? 10 : 0);
-    const cY = h / 2 + (mobileScene ? 22 : 0);
-    const sceneScale = mobileScene ? Math.max(0.62, Math.min(0.86, w / 560)) * (window.universeMobileSceneZoom || 1) : 1;
+    const M = (window.getUniverseSceneMetrics ? window.getUniverseSceneMetrics() : (function(){
+        const v=document.getElementById('view');
+        const w=v?v.offsetWidth:window.innerWidth, h=v?v.offsetHeight:window.innerHeight;
+        const m=window.matchMedia&&window.matchMedia('(max-width: 640px)').matches;
+        const z=m?(window.universeMobileSceneZoom||1):1;
+        const st=m?56:0, sb=m?60:0, vh=m?Math.max(1,h-st-sb):h;
+        return {w:w,h:h,mobile:m,zoom:z,sceneScale:m?Math.max(0.62,Math.min(0.86,w/560))*z:1,cx:w/2,cy:m?(st+vh/2):h/2};
+    })());
+    const w = M.w, h = M.h, cX = M.cx, cY = M.cy;
+    const mobileScene = M.mobile;
+    const sceneScale = M.sceneScale;
     // Позиция сингулярности (относительно центра)
     const bhPos = { x: -(cX - 140) * 0.7, y: (cY - 140) * 0.7 };
 
@@ -15956,6 +15964,23 @@ function toggleNakopPanel() {
   function view() {
     return document.querySelector('#awara-app #view');
   }
+
+  window.getUniverseSceneMetrics = function() {
+    var v = document.getElementById('view');
+    var w = v ? v.offsetWidth : window.innerWidth;
+    var h = v ? v.offsetHeight : window.innerHeight;
+    var mobile = window.matchMedia && window.matchMedia('(max-width: 640px)').matches;
+    var zoom = mobile ? (window.universeMobileSceneZoom || 1) : 1;
+    var safeTop = mobile ? 56 : 0;
+    var safeBottom = mobile ? 60 : 0;
+    var visualH = mobile ? Math.max(1, h - safeTop - safeBottom) : h;
+    return {
+      view: v, w: w, h: h, mobile: mobile, zoom: zoom,
+      sceneScale: mobile ? Math.max(0.62, Math.min(0.86, w / 560)) * zoom : 1,
+      cx: w / 2,
+      cy: mobile ? (safeTop + visualH / 2) : h / 2
+    };
+  };
 
   function applyCamera() {
     window.universeMobileSceneZoom = camera.zoom;
