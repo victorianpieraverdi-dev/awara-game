@@ -1446,6 +1446,10 @@ canvas#bg{position:fixed;inset:0;z-index:0;}
 
             #s-void {
                 z-index: 1200 !important;
+                width: 9px !important;
+                height: 9px !important;
+                min-width: 9px !important;
+                min-height: 9px !important;
                 opacity: 0.24 !important;
                 background: radial-gradient(circle at 38% 32%, rgba(235,220,255,0.34) 0%, rgba(150,90,220,0.24) 28%, rgba(56,18,120,0.30) 66%, rgba(8,0,28,0.44) 100%) !important;
                 border: 1px solid rgba(180,120,255,0.12) !important;
