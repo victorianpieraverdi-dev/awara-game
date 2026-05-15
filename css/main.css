@@ -430,15 +430,15 @@ canvas#bg{position:fixed;inset:0;z-index:0;}
 
         #awara-app #ra-wings {
             position: absolute;
-            width: 300px; height: 70px;
+            width: 126px; height: 28px;
             pointer-events: none;
-            left: 50%; top: 50%;
+            left: 0; top: 0;
             transform: translate(-50%, -50%);
         }
         #awara-app .wing {
             position: absolute;
-            width: 120px; height: 28px;
-            background: linear-gradient(90deg, transparent, rgba(255,215,0,0.5), rgba(255,255,255,0.2), transparent);
+            width: 58px; height: 14px;
+            background: linear-gradient(90deg, transparent, rgba(255,215,0,0.52), rgba(255,255,255,0.34), transparent);
             border-radius: 50%;
             animation: wing-flutter 2s infinite ease-in-out;
         }
@@ -1424,12 +1424,16 @@ canvas#bg{position:fixed;inset:0;z-index:0;}
 
             #ra-anchor { transform: none !important; }
             #ra-wings {
-                width: 96px !important;
-                height: 24px !important;
+                width: 106px !important;
+                height: 22px !important;
                 left: 0 !important;
                 top: 0 !important;
-                transform: translate(-50%, -50%) scale(0.72) !important;
+                transform: translate(-50%, -50%) !important;
                 opacity: 0.72 !important;
+            }
+            #ra-wings .wing {
+                width: 48px !important;
+                height: 12px !important;
             }
 
             #ra-light-indicator {
