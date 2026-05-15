@@ -15946,6 +15946,8 @@ function toggleNakopPanel() {
     if (!app) return;
     app.classList.toggle('mobile-focus', mode === 'focus');
     app.classList.toggle('mobile-overview', mode === 'overview');
+    document.body.classList.toggle('universe-mobile-focus', mode === 'focus');
+    document.body.classList.toggle('universe-mobile-overview', mode === 'overview');
     if (mode === 'focus') resetCamera();
     refreshResetButton();
   }

@@ -1044,30 +1044,44 @@ canvas#bg{position:fixed;inset:0;z-index:0;}
                 box-shadow: none;
             }
 
+            body.universe-mobile-focus #awara-app::after {
+                content: '';
+                position: fixed;
+                inset: 40px 0 0;
+                z-index: 90005;
+                pointer-events: none;
+                background:
+                    radial-gradient(circle at 50% 42%, rgba(255,215,120,0.16), transparent 22%),
+                    radial-gradient(ellipse at 50% 58%, rgba(4,2,18,0.10), rgba(2,1,10,0.78) 64%, rgba(1,0,6,0.92) 100%);
+            }
+
             #mobile-universe-focus {
                 position: fixed;
-                left: 12px;
-                right: 12px;
-                top: 108px;
-                z-index: 90018;
+                left: 14px;
+                right: 14px;
+                top: 118px;
+                z-index: 90030;
                 display: none;
                 pointer-events: none;
             }
 
-            #awara-app.mobile-focus #mobile-universe-focus {
+            #awara-app.mobile-focus #mobile-universe-focus,
+            body.universe-mobile-focus #mobile-universe-focus {
                 display: block;
             }
 
             .muf-card {
-                max-width: 360px;
+                max-width: 340px;
                 margin: 0 auto;
-                padding: 22px 18px 18px;
-                border-radius: 28px;
-                border: 1px solid rgba(255,215,120,0.26);
-                background: radial-gradient(circle at 50% 18%, rgba(255,215,120,0.18), transparent 42%), rgba(5,3,18,0.58);
-                backdrop-filter: blur(14px) saturate(145%);
-                -webkit-backdrop-filter: blur(14px) saturate(145%);
-                box-shadow: 0 24px 80px rgba(0,0,0,0.58), inset 0 1px 0 rgba(255,255,255,0.05);
+                padding: 24px 18px 18px;
+                border-radius: 30px;
+                border: 1px solid rgba(255,215,120,0.34);
+                background:
+                    radial-gradient(circle at 50% 20%, rgba(255,215,120,0.22), transparent 44%),
+                    linear-gradient(180deg, rgba(9,5,28,0.82), rgba(3,2,14,0.70));
+                backdrop-filter: blur(18px) saturate(155%);
+                -webkit-backdrop-filter: blur(18px) saturate(155%);
+                box-shadow: 0 30px 110px rgba(0,0,0,0.74), 0 0 0 1px rgba(255,215,120,0.06), inset 0 1px 0 rgba(255,255,255,0.06);
                 text-align: center;
                 pointer-events: auto;
             }
@@ -1171,6 +1185,18 @@ canvas#bg{position:fixed;inset:0;z-index:0;}
 
             #awara-app.mobile-overview #mobile-universe-focus-btn {
                 display: block;
+            }
+
+            body.universe-mobile-focus #quests-panel,
+            body.universe-mobile-focus #progress-panel,
+            body.universe-mobile-focus #universes-panel-wrap,
+            body.universe-mobile-focus #side-panel,
+            body.universe-mobile-focus #guild-resonance,
+            body.universe-mobile-focus #ra-light-indicator,
+            body.universe-mobile-focus #polarity-indicator,
+            body.universe-mobile-focus #pathbar,
+            body.universe-mobile-focus #mantra {
+                display: none !important;
             }
 
             #awara-app canvas {
