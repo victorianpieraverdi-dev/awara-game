@@ -12009,17 +12009,15 @@ const loop = () => {
             }
         } else if (s.type === 'void') {
             // Матрица — левее и ниже от орбит (не по центру)
-            // На мобиле сингулярность скрываем — она уезжала далеко вниз и портила центр
-            if (mobileScene) {
-                el.style.opacity = '0';
-                el.style.pointerEvents = 'none';
-                return;
-            }
             // На 6 часов (вниз), ещё ниже — 3 сферы от предыдущего (~+150px)
-            const voidR = ((RADII[0] + 425) / 2 + 20 + 300) * sceneScale; // ~752px вниз
+            const voidR = mobileScene
+                ? 210 * sceneScale
+                : ((RADII[0] + 425) / 2 + 20 + 300) * sceneScale; // ~752px вниз
             x = 0;
             y = voidR * state.ringTilt; // вниз (6 часов)
-            size = 48;
+            size = mobileScene ? 38 : 48;
+            el.style.opacity = '1';
+            el.style.pointerEvents = 'all';
             // Частицы вокруг сингулярности (для pctx)
             for (let p = 0; p < 6; p++) {
                 const pa = state.t * 1.8 + p * Math.PI / 3;
