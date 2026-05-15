@@ -198,7 +198,7 @@ body{
   <div class="page-title">КОЛОДА КАРТ</div>
   <div style="text-align:center;margin:-6px 0 8px;font-size:9px;letter-spacing:0.14em;color:rgba(255,248,214,0.35);">BUILD: CARDS-1500-UNLOCK-v2</div>
   <div class="page-sub">ОСНОВНЫЕ КАРТЫ + ПУТЬ МОНАДЫ + ДОМЕНЫ АГЕНТОВ + ВЕДИЧЕСКИЕ ЛОКИ И ИХ СИЛЫ + МИФОЛОГИЧЕСКИЕ СУЩЕСТВА, ЛОКАЦИИ И РЕЛИКВИИ</div>
-  <div class="counter" id="counter">Собрано: <b>0</b> / 63</div>
+  <div class="counter" id="counter">Собрано: <b>0</b> / загрузка...</div>
   <div style="display:flex;justify-content:center;margin:12px 0 6px;">
     <button onclick="unlockDemoDeck()" style="min-height:44px;padding:10px 18px;border:1px solid rgba(201,168,76,0.35);border-radius:10px;background:rgba(201,168,76,0.07);color:var(--gold);font-family:Cinzel,serif;font-size:10px;letter-spacing:0.16em;cursor:pointer;">
       ОТКРЫТЬ ДЕМО-КОЛОДУ
@@ -274,34 +274,53 @@ function saveCollected(){
 
 function cardId(agentSlug, matrixSlug){ return agentSlug + '__' + matrixSlug; }
 
+async function fetchJson(path){
+  var res = await fetch(path + '?v=' + Date.now(), { cache: 'no-store' });
+  if(!res.ok) throw new Error(path + ' HTTP ' + res.status);
+  return res.json();
+}
+
+function asArray(data){
+  return Array.isArray(data) ? data : Object.keys(data || {}).map(function(k){ return data[k]; });
+}
+
+function showLoadError(message){
+  var grid = document.getElementById('cards-grid');
+  if(grid){
+    grid.innerHTML = '<div style="grid-column:1/-1;padding:18px;border:1px solid rgba(255,80,80,0.35);border-radius:12px;color:rgba(255,180,180,0.9);font-size:12px;line-height:1.6;text-align:center;">Не удалось загрузить колоду.<br>'+message+'</div>';
+  }
+  var counter = document.getElementById('counter');
+  if(counter) counter.innerHTML = 'Собрано: <b>0</b> / ошибка загрузки';
+}
+
 async function init(){
   loadCollected();
 
   try {
-    agents = await fetch('data/agents.json').then(function(r){return r.json();});
-  } catch(e){ console.warn('cards: agents.json error', e); return; }
+    agents = asArray(await fetchJson('data/agents.json'));
+  } catch(e){ console.warn('cards: agents.json error', e); showLoadError(e.message); return; }
   try {
-    matrices = await fetch('data/matrices.json').then(function(r){return r.json();});
+    matrices = asArray(await fetchJson('data/matrices.json'));
     MATRICES = matrices.map(function(m){ return m.name; });
   } catch(e){ console.warn('cards: matrices.json error', e); matrices = []; MATRICES = []; }
   try {
-    var prompts = await fetch('data/card_prompts.json').then(function(r){return r.json();});
+    var prompts = asArray(await fetchJson('data/card_prompts.json'));
     prompts.forEach(function(p){ cardPrompts[p.card_id] = p; });
   } catch(e){ console.warn('cards: card_prompts.json error', e); }
   try {
-    extraCards = await fetch('data/extra_card_prompts.json').then(function(r){return r.json();});
+    extraCards = asArray(await fetchJson('data/extra_card_prompts.json'));
   } catch(e){ console.warn('cards: extra_card_prompts.json error', e); extraCards = []; }
   try {
-    domainCards = await fetch('data/domain_cards.json').then(function(r){return r.json();});
+    domainCards = asArray(await fetchJson('data/domain_cards.json'));
   } catch(e){ console.warn('cards: domain_cards.json error', e); domainCards = []; }
   try {
-    lokaCards = await fetch('data/vedic_loka_cards.json').then(function(r){return r.json();});
+    lokaCards = asArray(await fetchJson('data/vedic_loka_cards.json'));
   } catch(e){ console.warn('cards: vedic_loka_cards.json error', e); lokaCards = []; }
   try {
-    lokaBeingCards = await fetch('data/vedic_loka_being_cards.json').then(function(r){return r.json();});
+    lokaBeingCards = asArray(await fetchJson('data/vedic_loka_being_cards.json'));
   } catch(e){ console.warn('cards: vedic_loka_being_cards.json error', e); lokaBeingCards = []; }
   try {
-    monadCards = await fetch('data/monad_path_cards.json').then(function(r){return r.json();});
+    monadCards = asArray(await fetchJson('data/monad_path_cards.json'));
   } catch(e){ console.warn('cards: monad_path_cards.json error', e); monadCards = []; }
 
   renderFilters();
