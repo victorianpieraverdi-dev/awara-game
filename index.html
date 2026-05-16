@@ -16267,6 +16267,8 @@ import { createUniverseSnapshot } from './js/universe/universeProgression.js';
     if (!root) root = document.body;
     root.querySelectorAll('*').forEach(function(el) {
       if (el.id === 'ra-day-sub') return;
+      if (el.id === 'ra-anchor' || el.id === 'ra-core' || el.id === 'ra-wings') return;
+      if (raDaySub && el.contains(raDaySub)) return;
       if (el.children.length > 5) return;
       var text = (el.textContent || '').toLowerCase();
       for (var i = 0; i < calendarKeywords.length; i++) {
