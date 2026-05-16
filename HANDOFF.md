@@ -49,7 +49,7 @@
 - Функциональность: У-Син (5 стихий), Тороид (Ида/Пингала/Сушумна),
   генерация Ключей, сбор опыта из Сфер, фоновая анимация частиц
 - Тест: js/test-tigel-module.html
-- PR: [ссылка]
+- PR: https://github.com/victorianpieraverdi-dev/awara-game/pull/56
 - Следующая задача: T-063 (dashboard.html)
 - index.html: НЕ ТРОНУТ, legacy не тронуты, tigel.html не изменён
 
