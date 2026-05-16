@@ -37,7 +37,7 @@
 ### 2026-05-16 · Devin · T-052
 
 - Закрыто: T-052 — типографика в css/typography.css
-- PR: [ссылка будет добавлена после создания]
+- PR: https://github.com/victorianpieraverdi-dev/awara-game/pull/44
 - Следующая задача: T-053 (components.css)
 - Mobile-test: пройден на 375x667
 
