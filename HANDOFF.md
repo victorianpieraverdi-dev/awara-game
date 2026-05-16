@@ -55,7 +55,7 @@
 - Сетка: 2/4/6 колонок (mobile-first)
 - Анимация: matrixPulse при переключении, matrixFadeIn при загрузке
 - Тест: js/test-matrix-screen.html
-- PR: TBD
+- PR: https://github.com/victorianpieraverdi-dev/awara-game/pull/59
 - Следующая задача: T-066 (cards.html — Колода Карт)
 ### 2026-05-17 · Devin · T-064
 - Закрыто: T-064 — universe.html (Вселенная)
