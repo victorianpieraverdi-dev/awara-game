@@ -25,14 +25,40 @@
 | Сессия | https://app.devin.ai/sessions/936b1f9b605645a2921fb16134a38644 |
 | Модель | Devin |
 | Дата | 2026-05-16 (UTC) |
-| Закрытые задачи | T-062 (tigel.html), T-066 (cards.html) |
-| Следующая задача | T-072 (финальная документация) |
-| Состояние master | T-062 смержен (PR #61) |
+| Закрытые задачи | T-062, T-066, T-072 |
+| Следующая задача | РЕФАКТОРИНГ ЗАВЕРШЕН |
+| Состояние master | T-066 смержен (PR #62) |
 | Pages | включён, master/root |
 
 ---
 
 ## Лог смен (новые записи СВЕРХУ)
+
+### 2026-05-17 · Devin · T-072 (РЕФАКТОРИНГ ЗАВЕРШЕН)
+- Закрыто: T-072 -- финальная документация и smoke test
+- docs/architecture.md создан
+- README.md обновлен
+- Smoke test: 8 страниц пройдены на 375px
+  - index.html: HTTP 200 (POST 501 -- норма для python http.server)
+  - tigel.html: HTTP 200, 0 JS errors, lobby link OK
+  - dashboard.html: HTTP 200, 0 JS errors, lobby link OK
+  - universe.html: HTTP 200, 0 JS errors, lobby link OK
+  - matrix.html: HTTP 200, 0 JS errors, lobby link OK
+  - cards.html: HTTP 200, 0 JS errors, lobby link OK
+  - oracle.html: HTTP 200, 0 JS errors, lobby link OK
+  - passport.html: HTTP 200, 0 JS errors, lobby link OK
+- ИТОГ РЕФАКТОРИНГА AWARA (T-049 -- T-072):
+  - 24 задачи выполнены
+  - 8 экранов, 7 JS-модулей, 4 CSS-модуля
+  - Канон полный: 21/33/14/9/63/693
+  - Legacy удален в T-069
+- ПРОЕКТ ГОТОВ К НОВЫМ ФИЧАМ.
+- Следующие фазы (после рефакторинга):
+  - Земля игрока (Васту 3D на Three.js)
+  - Оракул AI (OpenRouter)
+  - Сообщество (Firebase)
+  - Монетизация
+- PR: #63
 
 ### 2026-05-17 · Devin · T-066 (ФАЗА 4 ЗАВЕРШЕНА)
 - Закрыто: T-066 — cards.html (Колода 63 карты)

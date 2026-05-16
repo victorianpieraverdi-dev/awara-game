@@ -1,71 +1,74 @@
-# AWARA
+# AWARA -- Дань Благоденствия
 
-AWARA — сакральная операционная система и эзотерическая игра-тренажёр духовного развития.
-21 космический агент, 33 матрицы восприятия (Ведическая / Славянская / Каббалистическая), 14 лок плотности, 9 Васту-зон, 9 чакр-мер.
-Вечерний Тигель анализирует день через 5 стихий У-Син и генерирует алхимические ключи.
-Разработка ведётся синхронно на нескольких Devin-аккаунтах через этот репо.
+Сакральная операционная система. Путь от Кали Юги к Сатья Юге.
 
-## Live
-
-https://victorianpieraverdi-dev.github.io/awara-game/ (auto-deploy с `master` через GitHub Pages)
-
-## Локально
+## Запуск локально
 
 ```bash
 git clone https://github.com/victorianpieraverdi-dev/awara-game.git
 cd awara-game
 python3 -m http.server 8765
-# открыть http://127.0.0.1:8765/
 ```
 
-Бекэнда нет, всё статические HTML/CSS/JS. Состояние игрока — в `localStorage` браузера.
+Откройте http://localhost:8765
+
+## Live
+
+https://victorianpieraverdi-dev.github.io/awara-game/ (auto-deploy с `master` через GitHub Pages)
 
 ## Экраны
 
 | Файл | Назначение |
 |---|---|
-| `index.html` | Лобби (Светкоин в шапке + 6 плиток входа) |
-| `initiation-space.html` | Пространство инициации: 4 личные сферы + связи между ними |
-| `tigel.html` | Вечерний Тигель: лог дня + алхимия (LLM-анализ через OpenRouter) |
-| `dashboard.html` | Дашборд: Светкоин-банк, личный вклад, топ Державы Ра, шкала эволюции |
-| `matrices.html` | Матрица восприятия: выбор культурного слоя (33 матрицы) |
-| `earth-player.html` | Земля игрока: 9 Васту-зон (placeholder, в работе) |
+| `index.html` | Лобби (центральное солнце РА) |
+| `tigel.html` | Вечерний Тигель (алхимия дня) |
+| `dashboard.html` | Дашборд (свет, ранги Державы РА) |
+| `universe.html` | Вселенная (21 агент на орбитах, Canvas 2D) |
+| `matrix.html` | 33 Матрицы Восприятия |
+| `cards.html` | Колода (63 карты = 21 агент x 3 матрицы) |
+| `oracle.html` | Оракул |
+| `passport.html` | Паспорт Души |
 
-## Канон
+## Архитектура
 
-| Сущность | Кол-во | Файл |
-|---|---|---|
-| Космические Агенты | 21 | `data/agents.json` |
-| Матрицы культур | 33 | `data/matrices.json` |
-| Соответствия агент×матрица | 693 | `data/agent_matrix_map.json` |
-| Васту-зоны | 9 | `data/zones.json` |
-| Локи плотности | 14 | `data/locas.json` |
-| Чакры-меры | 9 | `data/chakras.json` |
+См. [docs/architecture.md](docs/architecture.md)
 
-Полный лор: `lore/text/` (50 .txt-файлов), `lore/raw/` (39 .docx-исходников).
+## Канон AWARA (инвариант)
+
+| Сущность | Кол-во |
+|---|---|
+| Агенты | 21 |
+| Матрицы | 33 |
+| Локи | 14 |
+| Чакры | 9 |
+| Карты | 63 |
+| Соответствия | 693 |
+
+## Технологии
+
+- Pure HTML / CSS / ES6 JavaScript
+- Mobile-first (375px)
+- localStorage
+- Canvas 2D
+- Без фреймворков и бандлеров
+
+## Дизайн
+
+- Палитра: золото `#c9a84c` на черном `#000` / `#0a0a14`
+- Шрифты: Cinzel (заголовки), Cormorant Garamond (текст), JetBrains Mono (данные)
 
 ## Документы
 
-- [`docs/handoff-manifest.md`](docs/handoff-manifest.md) — самодостаточный onboarding-документ (~25 KB)
-- [`docs/vision.md`](docs/vision.md) — видение Pavel'а
-- [`docs/synthesis.md`](docs/synthesis.md) — синтез
-- [`docs/roadmap.md`](docs/roadmap.md) — roadmap по фазам (Phase 0..6)
-- [`docs/PHILOSOPHY.md`](docs/PHILOSOPHY.md) — личный журнал Pavel'а (3+ года записей)
+- [`docs/architecture.md`](docs/architecture.md) -- финальная архитектура
+- [`docs/refactor-map.md`](docs/refactor-map.md) -- карта рефакторинга
+- [`HANDOFF.md`](HANDOFF.md) -- журнал смен (24 задачи)
+- [`AWARA_RULES.md`](AWARA_RULES.md) -- инварианты проекта
 
 ## Для AI-агентов (Devin / Claude / GPT)
 
-- [`START_PROMPT.md`](START_PROMPT.md) — bootstrap-промпт для новой сессии
-- [`AWARA_RULES.md`](AWARA_RULES.md) — инвариантные правила (стиль, канон, секреты)
-- [`HANDOFF.md`](HANDOFF.md) — журнал смен (читать перед началом работы)
-- [`TASKS.md`](TASKS.md) — бэклог микро-задач (5-10 мин каждая)
-
-## Стек
-
-- Чистый HTML/CSS/JS (без сборщиков, без фреймворков)
-- localStorage для состояния
-- Шрифты: Cinzel (заголовки), Cormorant Garamond (корпус), JetBrains Mono (цифры)
-- Палитра: золото `#c9a84c` на чёрном `#000` / `#0a0a14`
-- Mobile-first, breakpoints 320 / 375 / 768
+- [`START_PROMPT.md`](START_PROMPT.md) -- bootstrap-промпт для новой сессии
+- [`AWARA_RULES.md`](AWARA_RULES.md) -- инвариантные правила
+- [`HANDOFF.md`](HANDOFF.md) -- журнал смен
 
 ## Лицензия
 
