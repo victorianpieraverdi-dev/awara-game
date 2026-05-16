@@ -25,14 +25,21 @@
 | Сессия | https://app.devin.ai/sessions/ff4918c77114413f95fe84389e9f3f76 |
 | Модель | Devin |
 | Дата | 2026-05-16 (UTC) |
-| Закрытые задачи | T-051 (handoff) |
-| Следующая задача | T-052 (typography.css) |
-| Состояние master | PR #43 на ревью
+| Закрытые задачи | T-051 (handoff), T-052 |
+| Следующая задача | T-053 (components.css) |
+| Состояние master | T-051 смержен, T-052 на ревью
 | Pages | включён, master/root |
 
 ---
 
 ## Лог смен (новые записи СВЕРХУ)
+
+### 2026-05-16 · Devin · T-052
+
+- Закрыто: T-052 — типографика в css/typography.css
+- PR: https://github.com/victorianpieraverdi-dev/awara-game/pull/44
+- Следующая задача: T-053 (components.css)
+- Mobile-test: пройден на 375x667
 
 ### 2026-05-16 · Devin · T-051 (handoff)
 
