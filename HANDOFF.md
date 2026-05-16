@@ -22,17 +22,31 @@
 | Поле | Значение |
 |---|---|
 | Аккаунт | Devin |
-| Сессия | https://app.devin.ai/sessions/6242c07888ab470798898942b2cf7298 |
+| Сессия | https://app.devin.ai/sessions/ad5edf82ac624c8ca8dd84ac3ddf0a0f |
 | Модель | Devin |
-| Дата | 2026-05-16 (UTC) |
-| Закрытые задачи | T-055, T-056, T-057, T-058 |
-| Следующая задача | T-059 (js/lobby-module.js — логика главной) |
-| Состояние master | T-057 смержен (PR #51), T-058 на ревью |
+| Дата | 2026-05-17 (UTC) |
+| Закрытые задачи | T-059 |
+| Следующая задача | T-060 (js/game-module.js — логика разделов) |
+| Состояние master | T-058 смержен (PR #52) |
 | Pages | включён, master/root |
 
 ---
 
 ## Лог смен (новые записи СВЕРХУ)
+
+### 2026-05-17 · Devin · T-059
+- Закрыто: T-059 — js/lobby-module.js (логика главной страницы)
+- Импортирует: STAGES/CANON/COLORS/TIMINGS из core-module.js,
+  loadState/addLight/updateState из state-module.js,
+  formatLight/showToast/showModal из ui-module.js,
+  preloadCanon/getAgentById из canon-module.js
+- Экспорты (10): initLobby, updateLightCounter, updateLevelDisplay,
+  updateAgentDisplay, addLightAnimated, showPassport,
+  stopSunBreathing, resetLobbyState, getLobbyState
+- Тест: js/test-lobby-module.html — солнце дышит, разделы кликаются
+- PR: [ссылка]
+- Следующая задача: T-060 (js/game-module.js — логика разделов)
+- index.html: НЕ ТРОНУТ, legacy не тронуты
 
 ### 2026-05-16 · Devin · T-058
 - Закрыто: T-058 — js/canon-module.js (загрузка данных канона)
