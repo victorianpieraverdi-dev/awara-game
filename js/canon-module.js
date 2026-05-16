@@ -5,6 +5,9 @@
 
 import { CANON, validateCanon } from './core-module.js';
 
+// === Базовый путь к корню проекта (относительно модуля в js/) ===
+const BASE = new URL('..', import.meta.url).href;
+
 // === Кэш загруженных данных ===
 const cache = {
   agents: null,
@@ -34,7 +37,7 @@ async function loadJson(path) {
 export async function loadAgents() {
   if (cache.agents) return cache.agents;
 
-  const data = await loadJson('data/agents.json');
+  const data = await loadJson(BASE + 'data/agents.json');
   if (!data) return null;
 
   const agents = Array.isArray(data) ? data : Object.values(data);
@@ -56,7 +59,7 @@ export async function loadAgents() {
 export async function loadMatrices() {
   if (cache.matrices) return cache.matrices;
 
-  const data = await loadJson('data/matrices.json');
+  const data = await loadJson(BASE + 'data/matrices.json');
   if (!data) return null;
 
   const matrices = Array.isArray(data) ? data : Object.values(data);
@@ -78,7 +81,7 @@ export async function loadMatrices() {
 export async function loadAgentMatrixMap() {
   if (cache.agentMatrixMap) return cache.agentMatrixMap;
 
-  const data = await loadJson('data/agent_matrix_map.json');
+  const data = await loadJson(BASE + 'data/agent_matrix_map.json');
   if (!data) return null;
 
   // Подсчёт пар (может быть разная структура)
@@ -109,7 +112,7 @@ export async function loadAgentMatrixMap() {
 export async function loadLocas() {
   if (cache.locas) return cache.locas;
 
-  const data = await loadJson('data/locas.json');
+  const data = await loadJson(BASE + 'data/locas.json');
   if (!data) {
     console.warn('[Canon] data/locas.json не найден');
     return null;
@@ -133,7 +136,7 @@ export async function loadLocas() {
 export async function loadChakras() {
   if (cache.chakras) return cache.chakras;
 
-  const data = await loadJson('data/chakras.json');
+  const data = await loadJson(BASE + 'data/chakras.json');
   if (!data) {
     console.warn('[Canon] data/chakras.json не найден');
     return null;
@@ -157,7 +160,7 @@ export async function loadChakras() {
 export async function loadCards() {
   if (cache.cards) return cache.cards;
 
-  const data = await loadJson('data/cards.json');
+  const data = await loadJson(BASE + 'data/cards.json');
   if (!data) {
     console.warn('[Canon] data/cards.json не найден');
     return null;
