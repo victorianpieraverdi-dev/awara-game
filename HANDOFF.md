@@ -25,14 +25,32 @@
 | Сессия | https://app.devin.ai/sessions/6242c07888ab470798898942b2cf7298 |
 | Модель | Devin |
 | Дата | 2026-05-16 (UTC) |
-| Закрытые задачи | T-055, T-056, T-057 |
-| Следующая задача | T-058 (js/canon-module.js — загрузка agents/matrices) |
-| Состояние master | T-056 смержен (PR #50), T-057 на ревью |
+| Закрытые задачи | T-055, T-056, T-057, T-058 |
+| Следующая задача | T-059 (js/lobby-module.js — логика главной) |
+| Состояние master | T-057 смержен (PR #51), T-058 на ревью |
 | Pages | включён, master/root |
 
 ---
 
 ## Лог смен (новые записи СВЕРХУ)
+
+### 2026-05-16 · Devin · T-058
+- Закрыто: T-058 — js/canon-module.js (загрузка данных канона)
+- Импортирует: CANON, validateCanon из core-module.js
+- Загружает: data/agents.json, matrices.json, agent_matrix_map.json + опц.
+- Экспорты (12): loadAgents, loadMatrices, loadAgentMatrixMap,
+  loadLocas, loadChakras, loadCards, getAgentById, getMatrixById,
+  getAgentMatrixEntry, preloadCanon, clearCanonCache
+- Канон проверка: 21/33/14/9/63/693 — валидация в каждом loader
+- Тест: js/test-canon-module.html
+- PR: [ссылка]
+- Следующая задача: T-059 (js/lobby-module.js — логика главной)
+
+Замечания:
+- data/locas.json — присутствует (14 лок)
+- data/chakras.json — присутствует (9 чакр)
+- data/cards.json — отсутствует (warning в консоли, не критично)
+- В T-071 недостающие файлы будут созданы
 
 ### 2026-05-16 · Devin · T-057
 - Закрыто: T-057 — js/ui-module.js (UI helpers)
