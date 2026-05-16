@@ -37,7 +37,7 @@
 ### 2026-05-16 · Devin · T-053
 
 - Закрыто: T-053 — компоненты в css/components.css
-- PR: [ссылка будет добавлена после создания]
+- PR: https://github.com/victorianpieraverdi-dev/awara-game/pull/45
 - Следующая задача: T-054 (main.css с импортами)
 - Mobile-test: пройден на 375px и 320px
 - Примечание: legacy !important все ещё активен (норма до T-069)
