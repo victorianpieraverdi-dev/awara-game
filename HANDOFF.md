@@ -44,7 +44,7 @@
   updateAgentDisplay, addLightAnimated, showPassport,
   stopSunBreathing, resetLobbyState, getLobbyState
 - Тест: js/test-lobby-module.html — солнце дышит, разделы кликаются
-- PR: [ссылка]
+- PR: https://github.com/victorianpieraverdi-dev/awara-game/pull/53
 - Следующая задача: T-060 (js/game-module.js — логика разделов)
 - index.html: НЕ ТРОНУТ, legacy не тронуты
 
