@@ -46,7 +46,7 @@
 - Слушает: awara:section (от lobby-module)
 - Эмитит: awara:space:enter
 - Тест: js/test-game-module.html — 4 пространства, 4 модалки
-- PR: [ссылка]
+- PR: https://github.com/victorianpieraverdi-dev/awara-game/pull/54
 - Следующая задача: T-061 (js/universe-module.js — космическая визуализация)
 
 ### 2026-05-17 · Devin · T-059
