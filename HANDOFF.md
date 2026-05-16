@@ -25,14 +25,25 @@
 | Сессия | https://app.devin.ai/sessions/78149f21c2574d528074201c3ae5d4b5 |
 | Модель | Devin |
 | Дата | 2026-05-17 (UTC) |
-| Закрытые задачи | T-064 |
-| Следующая задача | T-065 (matrix.html — Матрица Восприятия) |
+| Закрытые задачи | T-064, T-065, T-066 |
+| Следующая задача | T-067 (oracle.html — Оракул) |
 | Состояние master | T-062 смержен (PR #56) |
 | Pages | включён, master/root |
 
 ---
 
 ## Лог смен (новые записи СВЕРХУ)
+
+### 2026-05-18 · Devin · T-066
+- Закрыто: T-066 — cards.html (Колода Карт)
+- Импортирует: loadAgents/loadMatrices/loadLocas из canon-module.js,
+  loadState/saveState из state-module.js
+- Карт: 63 (21 агент x 3 матрицы)
+- Фильтры: ВСЕ / ВЕДИЧЕСКИЕ / СЛАВЯНСКИЕ / КАББАЛА / СОБРАНЫ
+- Попап: детали карты, статус собрана/не найдена
+- Тест: js/test-cards-screen.html
+- PR: https://github.com/victorianpieraverdi-dev/awara-game/pull/60
+- Следующая задача: T-067 (oracle.html — Оракул)
 
 ### 2026-05-17 · Devin · T-064
 - Закрыто: T-064 — universe.html (Вселенная)
