@@ -45,7 +45,7 @@
 - Модалка: showModal из ui-module, детали агента + cultural_name из agent_matrix_map
 - Mobile-test: 375px пройден (2 колонки)
 - ФАЗА 4 (разбивка экранов) ЗАВЕРШЕНА: 7/7 экранов готовы
-- PR: TBD
+- PR: https://github.com/victorianpieraverdi-dev/awara-game/pull/62
 - Следующая задача: T-072 (финальная документация)
 
 ### 2026-05-16 · Devin · T-062
