@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Test: dashboard-module.js — AWARA</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background:#0a0812;
+    color:#fff8d6;
+    font-family:'Cormorant Garamond',Georgia,serif;
+    min-height:100vh;
+    padding:20px;
+  }
+  h1 {
+    font-family:'Cinzel',serif;
+    text-align:center;
+    color:#c9a84c;
+    font-size:clamp(16px,4vw,22px);
+    margin-bottom:8px;
+    letter-spacing:0.15em;
+  }
+  .subtitle {
+    text-align:center;
+    color:rgba(201,168,76,0.5);
+    font-size:12px;
+    letter-spacing:0.1em;
+    margin-bottom:24px;
+  }
+
+  /* --- Секции --- */
+  .section {
+    max-width:700px;
+    margin:0 auto 24px;
+    padding:16px;
+    border:1px solid rgba(201,168,76,0.2);
+    border-radius:12px;
+    background:rgba(201,168,76,0.04);
+  }
+  .section-title {
+    font-family:'Cinzel',serif;
+    font-size:13px;
+    color:#c9a84c;
+    letter-spacing:0.15em;
+    margin-bottom:12px;
+    padding-bottom:8px;
+    border-bottom:1px solid rgba(201,168,76,0.15);
+  }
+
+  /* --- Кнопки --- */
+  .btn-row {
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-bottom:12px;
+  }
+  .btn {
+    padding:8px 14px;
+    background:rgba(201,168,76,0.12);
+    border:1px solid rgba(201,168,76,0.4);
+    border-radius:8px;
+    color:#c9a84c;
+    font-family:'Cinzel',serif;
+    font-size:11px;
+    letter-spacing:0.1em;
+    cursor:pointer;
+    transition:all 0.3s;
+  }
+  .btn:hover {
+    background:rgba(201,168,76,0.25);
+    border-color:rgba(201,168,76,0.7);
+  }
+  .btn-green {
+    border-color:rgba(0,255,170,0.4);
+    color:rgba(0,255,170,0.9);
+    background:rgba(0,255,170,0.08);
+  }
+  .btn-green:hover {
+    background:rgba(0,255,170,0.2);
+    border-color:rgba(0,255,170,0.7);
+  }
+  .btn-red {
+    border-color:rgba(255,80,80,0.4);
+    color:rgba(255,80,80,0.9);
+    background:rgba(255,80,80,0.08);
+  }
+  .btn-red:hover {
+    background:rgba(255,80,80,0.2);
+  }
+  .btn-blue {
+    border-color:rgba(68,136,255,0.4);
+    color:rgba(68,136,255,0.9);
+    background:rgba(68,136,255,0.08);
+  }
+  .btn-blue:hover {
+    background:rgba(68,136,255,0.2);
+  }
+
+  /* --- Результат --- */
+  .result-box {
+    padding:12px;
+    border:1px solid rgba(201,168,76,0.15);
+    border-radius:8px;
+    background:rgba(0,0,0,0.3);
+    margin:8px 0;
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;
+    line-height:1.6;
+    color:rgba(201,168,76,0.7);
+    white-space:pre-wrap;
+    word-break:break-all;
+    max-height:200px;
+    overflow-y:auto;
+  }
+
+  /* --- Hero mock --- */
+  .hero-mock {
+    background:linear-gradient(180deg, rgba(20,16,8,0.62), rgba(2,1,10,0.72));
+    border:1px solid rgba(201,168,76,0.34);
+    border-radius:16px;
+    padding:20px 16px;
+    text-align:center;
+    margin-bottom:12px;
+  }
+  .hero-amount {
+    font-family:'JetBrains Mono',monospace;
+    font-size:clamp(26px,8vw,36px);
+    font-weight:700;
+    color:#fff8d6;
+    text-shadow:0 0 24px rgba(255,215,80,0.5);
+    margin:8px 0;
+    word-break:break-all;
+  }
+  .hero-stage {
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    padding:8px 16px;
+    border-radius:10px;
+    background:rgba(201,168,76,0.10);
+    border:1px solid rgba(201,168,76,0.25);
+    margin:8px 0;
+  }
+  .bar {
+    height:6px;
+    border-radius:3px;
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(201,168,76,0.15);
+    overflow:hidden;
+    margin-top:10px;
+  }
+  .bar-fill {
+    height:100%;
+    background:linear-gradient(90deg, rgba(201,168,76,0.5), #ffe080, #ffd700);
+    transition:width .8s ease-out;
+  }
+
+  /* --- Карточки --- */
+  .grid { display:grid; gap:10px; }
+  .grid-2 { grid-template-columns:1fr 1fr; }
+  @media(max-width:480px) { .grid-2 { grid-template-columns:1fr; } }
+  .card {
+    background:linear-gradient(135deg,rgba(18,14,30,0.72),rgba(8,5,18,0.62));
+    border:1px solid rgba(201,168,76,0.20);
+    border-radius:12px;
+    padding:12px;
+  }
+  .card-eyebrow {
+    font-family:'Cinzel',serif;
+    font-size:10px;
+    letter-spacing:0.15em;
+    color:rgba(255,255,255,0.35);
+    margin-bottom:4px;
+  }
+  .card-value {
+    font-family:'JetBrains Mono',monospace;
+    font-size:20px;
+    font-weight:600;
+    color:#fff8d6;
+  }
+  .card-sub {
+    font-size:11px;
+    color:rgba(255,248,214,0.55);
+    margin-top:4px;
+  }
+
+  /* --- Sphere rows --- */
+  .sphere-row {
+    display:grid;
+    grid-template-columns:42px 1fr auto;
+    gap:12px;
+    align-items:center;
+    padding:10px;
+    border-radius:12px;
+    background:linear-gradient(135deg,rgba(15,12,24,0.58),rgba(8,5,18,0.44));
+    border:1px solid rgba(201,168,76,0.13);
+    margin-bottom:8px;
+  }
+  .sphere-row .glyph {
+    width:42px;height:42px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:14px;
+    background:radial-gradient(circle at 35% 30%, var(--c1, #4488ff40), var(--c2, #1a1428));
+    border:1px solid rgba(255,255,255,0.08);
+  }
+  .sphere-row .body { min-width:0; }
+  .sphere-row .name {
+    font-family:'Cinzel',serif;font-size:11px;
+    color:#fff8d6;letter-spacing:0.15em;
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+  .sphere-row .meta { font-size:10px;color:rgba(255,255,255,0.35); }
+  .sphere-row .lvl {
+    font-family:'Cinzel',serif;font-size:10px;
+    color:#ffe080;letter-spacing:0.15em;text-align:right;
+  }
+  .sphere-row .lvl span {
+    display:block;font-family:'JetBrains Mono',monospace;
+    font-size:8px;color:rgba(255,255,255,0.35);margin-top:2px;
+  }
+
+  /* --- Leaderboard rows --- */
+  .lead-row {
+    display:grid;
+    grid-template-columns:30px 30px 1fr auto;
+    gap:8px;
+    align-items:center;
+    padding:10px;
+    border-radius:12px;
+    background:linear-gradient(135deg,rgba(15,12,24,0.58),rgba(8,5,18,0.44));
+    border:1px solid rgba(201,168,76,0.13);
+    margin-bottom:8px;
+  }
+  .lead-row.you {
+    background:linear-gradient(135deg, rgba(201,168,76,0.16), rgba(255,215,80,0.04));
+    border-color:rgba(255,215,80,0.42);
+  }
+  .lead-row .pos { font-family:'Cinzel',serif;font-size:11px;color:rgba(255,255,255,0.35);text-align:center; }
+  .lead-row.you .pos { color:#ffd700; }
+  .lead-row .icon { font-size:16px;text-align:center; }
+  .lead-row .meta { min-width:0; }
+  .lead-row .name { font-family:'Cinzel',serif;font-size:11px;color:#fff8d6;letter-spacing:0.12em; }
+  .lead-row .desc { font-size:9px;color:rgba(255,255,255,0.35); }
+  .lead-row .light {
+    font-family:'JetBrains Mono',monospace;font-size:11px;
+    color:#ffe080;text-align:right;
+  }
+  .lead-row .rank {
+    font-family:'Cinzel',serif;font-size:9px;
+    letter-spacing:0.15em;
+    color:var(--rank-col, rgba(255,255,255,0.35));
+    white-space:nowrap;
+  }
+
+  /* --- Evolution rows --- */
+  .evo-row {
+    display:grid;
+    grid-template-columns:42px 1fr auto;
+    gap:12px;
+    align-items:center;
+    padding:10px;
+    border-radius:12px;
+    background:linear-gradient(135deg,rgba(15,12,24,0.58),rgba(8,5,18,0.44));
+    border:1px solid rgba(201,168,76,0.13);
+    margin-bottom:8px;
+  }
+  .evo-row.current {
+    background:rgba(201,168,76,0.10);
+    border-color:rgba(201,168,76,0.45);
+  }
+  .evo-row.locked { opacity:0.4; }
+  .evo-row .num {
+    font-family:'Cinzel',serif;font-size:16px;
+    color:#c9a84c;text-align:center;
+  }
+  .evo-row.locked .num { color:rgba(255,255,255,0.35); }
+  .evo-row .lab {
+    font-family:'Cinzel',serif;font-size:11px;
+    color:#fff8d6;letter-spacing:0.15em;
+    margin-bottom:2px;
+  }
+  .evo-row .desc { font-size:10px;color:rgba(255,255,255,0.35); }
+  .evo-row .mult {
+    font-family:'JetBrains Mono',monospace;
+    font-size:10px;color:#ffe080;
+    text-align:right;
+  }
+
+  /* --- Empty state --- */
+  .empty {
+    text-align:center;padding:16px;
+    color:rgba(255,255,255,0.35);font-size:11px;
+    letter-spacing:0.15em;
+  }
+
+  /* --- Hero agent --- */
+  .hero-agent {
+    margin-top:12px;padding:8px 14px;border-radius:8px;
+    background:rgba(201,168,76,0.06);
+    border:1px solid rgba(201,168,76,0.18);
+    display:inline-block;
+  }
+  .hero-agent-name {
+    font-family:'Cinzel',serif;font-size:12px;
+    color:#fff8d6;letter-spacing:0.15em;margin-bottom:2px;
+  }
+  .hero-agent-cultural {
+    font-family:'Cormorant Garamond',serif;font-size:11px;
+    font-style:italic;color:rgba(255,248,214,0.55);
+  }
+
+  /* --- Лог событий --- */
+  .event-log {
+    max-width:700px;
+    margin:0 auto;
+    padding:12px;
+    border:1px solid rgba(201,168,76,0.1);
+    border-radius:8px;
+    background:rgba(0,0,0,0.3);
+    max-height:200px;
+    overflow-y:auto;
+    font-family:monospace;
+    font-size:11px;
+    line-height:1.6;
+    color:rgba(201,168,76,0.6);
+  }
+  .section-h {
+    font-family:'Cinzel',serif;
+    font-size:12px;letter-spacing:0.18em;
+    color:#c9a84c;margin-bottom:10px;
+    display:flex;align-items:center;gap:8px;
+  }
+  .section-h::before, .section-h::after {
+    content:'';flex:1;height:1px;
+    background:linear-gradient(90deg, transparent, rgba(201,168,76,0.18), transparent);
+  }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:wght@400;600&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<h1>DASHBOARD-MODULE TEST</h1>
+<div class="subtitle">js/dashboard-module.js — Дашборд AWARA</div>
+
+<!-- === СЕКЦИЯ: УПРАВЛЕНИЕ === -->
+<div class="section">
+  <div class="section-title">УПРАВЛЕНИЕ</div>
+  <div class="btn-row">
+    <button class="btn btn-green" onclick="doInit()">Init Dashboard</button>
+    <button class="btn btn-blue" onclick="doRefresh()">Refresh</button>
+    <button class="btn" onclick="doGetState()">Get State</button>
+    <button class="btn" onclick="doGetRanks()">Ranks</button>
+    <button class="btn" onclick="doGetEvo()">Evolution</button>
+    <button class="btn" onclick="doGetRulers()">Rulers</button>
+    <button class="btn" onclick="doGetSpheres()">Spheres</button>
+    <button class="btn btn-red" onclick="doReset()">Reset</button>
+  </div>
+  <div class="result-box" id="result">Нажми Init Dashboard для начала</div>
+</div>
+
+<!-- === СЕКЦИЯ: СИМУЛЯЦИЯ СВЕТА === -->
+<div class="section">
+  <div class="section-title">СИМУЛЯЦИЯ СВЕТА</div>
+  <div class="btn-row">
+    <button class="btn" onclick="setLight(0)">0 св.</button>
+    <button class="btn" onclick="setLight(1000)">1 000 св.</button>
+    <button class="btn" onclick="setLight(3500)">3 500 св.</button>
+    <button class="btn" onclick="setLight(7500)">7 500 св.</button>
+    <button class="btn" onclick="setLight(12000)">12 000 св.</button>
+    <button class="btn" onclick="setLight(30000)">30 000 св.</button>
+    <button class="btn" onclick="setLight(55000)">55 000 св.</button>
+  </div>
+  <div style="font-size:10px;color:rgba(201,168,76,0.4);text-align:center;">Установи уровень света для тестирования рангов и эволюции</div>
+</div>
+
+<!-- === СЕКЦИЯ: HERO === -->
+<div class="section">
+  <div class="section-title">HERO: СВЕТКОИН</div>
+  <div class="hero-mock">
+    <div style="font-size:11px;color:rgba(201,168,76,0.5);letter-spacing:0.2em;">ВАШ СВЕТКОИН</div>
+    <div class="hero-amount" id="hero-amount">0.0000000000</div>
+    <div style="font-size:11px;color:rgba(255,248,214,0.55);letter-spacing:0.15em;margin-bottom:12px;">светкоин · 1 ед. = 10^-10</div>
+    <div class="hero-stage">
+      <span id="stage-icon">~</span>
+      <span id="stage-name" style="font-family:'Cinzel',serif;font-size:11px;letter-spacing:0.15em;">ИНИЦИАТ</span>
+    </div>
+    <div class="hero-agent" id="hero-agent" style="display:none">
+      <div class="hero-agent-name" id="agent-name"></div>
+      <div class="hero-agent-cultural" id="agent-cultural"></div>
+    </div>
+    <div class="bar"><div class="bar-fill" id="rank-bar" style="width:0%"></div></div>
+    <div id="hero-progress" style="margin-top:8px;font-size:10px;color:rgba(255,255,255,0.35);letter-spacing:0.1em;">--- до следующего ранга</div>
+  </div>
+</div>
+
+<!-- === СЕКЦИЯ: СТАТИСТИКА === -->
+<div class="section">
+  <div class="section-title">ЛИЧНЫЙ ВКЛАД</div>
+  <div class="grid grid-2">
+    <div class="card">
+      <div class="card-eyebrow">НАКОПЛЕНО</div>
+      <div class="card-value" id="stat-light">0</div>
+      <div class="card-sub">единиц света (raw)</div>
+    </div>
+    <div class="card">
+      <div class="card-eyebrow">ПРОХОЖДЕНИЙ</div>
+      <div class="card-value" id="stat-journey">0</div>
+      <div class="card-sub">входов через Портал</div>
+    </div>
+    <div class="card">
+      <div class="card-eyebrow">МАКС. УРОВЕНЬ СФЕРЫ</div>
+      <div class="card-value" id="stat-maxlvl">1</div>
+      <div class="card-sub">высшая прокачка</div>
+    </div>
+    <div class="card">
+      <div class="card-eyebrow">АКТИВНАЯ МАТРИЦА</div>
+      <div class="card-value" id="stat-matrix" style="font-size:13px;">---</div>
+      <div class="card-sub">из 33 интерфейсов</div>
+    </div>
+  </div>
+</div>
+
+<!-- === СЕКЦИЯ: ПОСЛЕДНИЙ ТИГЕЛЬ === -->
+<div class="section" id="last-cauldron-section" style="display:none">
+  <div class="section-title">ПОСЛЕДНИЙ ТИГЕЛЬ</div>
+  <div class="card">
+    <div class="grid grid-2">
+      <div>
+        <div class="card-eyebrow">СИНТЕЗИРОВАНО</div>
+        <div class="card-value" id="last-cauldron-light">0</div>
+        <div class="card-sub">света за последнюю запись</div>
+      </div>
+      <div>
+        <div class="card-eyebrow">СТИХИЯ ДНЯ</div>
+        <div class="card-value" id="last-cauldron-element" style="font-size:14px;">---</div>
+        <div class="card-sub" id="last-cauldron-date">---</div>
+      </div>
+    </div>
+    <div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06);">
+      <div class="card-eyebrow">СФЕРА</div>
+      <div class="card-value" id="last-cauldron-sphere" style="font-size:14px;">---</div>
+    </div>
+    <div style="margin-top:10px;">
+      <div class="card-eyebrow">ПРАКТИКА НА ЗАВТРА</div>
+      <div class="card-sub" id="last-cauldron-practice" style="font-size:11px;color:#fff8d6;">---</div>
+    </div>
+  </div>
+</div>
+
+<!-- === СЕКЦИЯ: СФЕРЫ === -->
+<div class="section">
+  <div class="section-title">ВКЛАД ПО СФЕРАМ</div>
+  <div id="spheres-list"></div>
+</div>
+
+<!-- === СЕКЦИЯ: ЛИДЕРБОРД === -->
+<div class="section">
+  <div class="section-title">ТОП ДЕРЖАВЫ РА</div>
+  <div id="leaderboard"></div>
+</div>
+
+<!-- === СЕКЦИЯ: ЭВОЛЮЦИЯ === -->
+<div class="section">
+  <div class="section-title">ШКАЛА ЭВОЛЮЦИИ</div>
+  <div id="evolution-list"></div>
+</div>
+
+<!-- === ЛОГ СОБЫТИЙ === -->
+<div class="event-log" id="event-log">
+  [log] Тест-страница dashboard-module.js загружена<br>
+</div>
+
+<script type="module">
+import {
+  initDashboard, getDashboardState, resetDashboardState,
+  refreshDashboard, getRanks, getEvolution, getRulers, getSpheres,
+  rankOf, nextRank, evoLevelOf,
+  renderHero, renderStats, renderSpheres, renderLeaderboard, renderEvolution,
+  renderLastCauldron, renderAgent
+} from './dashboard-module.js';
+
+import { loadState, updateState } from './state-module.js';
+
+const logEl = document.getElementById('event-log');
+const resultEl = document.getElementById('result');
+
+function log(msg) {
+  const ts = new Date().toLocaleTimeString('ru-RU');
+  logEl.innerHTML += '[' + ts + '] ' + msg + '<br>';
+  logEl.scrollTop = logEl.scrollHeight;
+}
+
+function showResult(data) {
+  resultEl.textContent = typeof data === 'string' ? data : JSON.stringify(data, null, 2);
+}
+
+// === Кнопки управления ===
+
+window.doInit = async function() {
+  log('initDashboard()...');
+  const result = await initDashboard();
+  if (result) {
+    log('Dashboard инициализирован');
+    showResult(getDashboardState());
+  } else {
+    log('Ошибка инициализации');
+    showResult('ERROR');
+  }
+};
+
+window.doRefresh = async function() {
+  log('refreshDashboard()...');
+  await refreshDashboard();
+  log('Dashboard обновлён');
+  showResult(getDashboardState());
+};
+
+window.doGetState = function() {
+  const s = getDashboardState();
+  log('getDashboardState(): light=' + s.totalLight + ' rank=' + s.currentRank.name);
+  showResult(s);
+};
+
+window.doGetRanks = function() {
+  const ranks = getRanks();
+  log('getRanks(): ' + ranks.length + ' рангов');
+  showResult(ranks);
+};
+
+window.doGetEvo = function() {
+  const evo = getEvolution();
+  log('getEvolution(): ' + evo.length + ' уровней');
+  showResult(evo);
+};
+
+window.doGetRulers = function() {
+  const rulers = getRulers();
+  log('getRulers(): ' + rulers.length + ' правителей');
+  showResult(rulers);
+};
+
+window.doGetSpheres = function() {
+  const sph = getSpheres();
+  log('getSpheres(): ' + sph.length + ' сфер');
+  showResult(sph);
+};
+
+window.doReset = function() {
+  resetDashboardState();
+  log('Dashboard state сброшен');
+  showResult('RESET OK');
+};
+
+// === Симуляция света ===
+
+window.setLight = async function(amount) {
+  log('setLight(' + amount + ')...');
+  updateState({ totalLight: amount });
+  resetDashboardState();
+  await initDashboard();
+  log('Свет установлен: ' + amount + '. Ранг: ' + rankOf(amount).name + '. Эволюция: ' + evoLevelOf(amount).name);
+  showResult(getDashboardState());
+};
+
+// === Авто-инициализация ===
+log('Авто-инициализация...');
+doInit().catch(function(e) {
+  log('Ошибка: ' + e.message);
+});
+</script>
+</body>
+</html>
