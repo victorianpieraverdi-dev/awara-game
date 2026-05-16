@@ -45,6 +45,18 @@
 - PR: https://github.com/victorianpieraverdi-dev/awara-game/pull/60
 - Следующая задача: T-067 (oracle.html — Оракул)
 
+### 2026-05-18 · Devin · T-065
+- Закрыто: T-065 — matrix.html (Матрица Восприятия)
+- Импортирует: loadAgents/loadMatrices/getMatrixById из canon-module.js,
+  renderSwitcher/getActivePerception/setActivePerception/PERCEPTIONS из matrixSwitcher.js,
+  loadState/updateState из state-module.js,
+  showToast из ui-module.js
+- Экран: 21 агент + 33 матрицы, переключатель 3 восприятий (Ведическая/Славянская/Каббала)
+- Сетка: 2/4/6 колонок (mobile-first)
+- Анимация: matrixPulse при переключении, matrixFadeIn при загрузке
+- Тест: js/test-matrix-screen.html
+- PR: TBD
+- Следующая задача: T-066 (cards.html — Колода Карт)
 ### 2026-05-17 · Devin · T-064
 - Закрыто: T-064 — universe.html (Вселенная)
 - Импортирует: initUniverse/stopUniverseAnimation/selectAgent/getUniverseState/resetUniverse из universe-module.js,
