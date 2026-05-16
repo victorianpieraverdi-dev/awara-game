@@ -16250,19 +16250,28 @@ import { createUniverseSnapshot } from './js/universe/universeProgression.js';
 <!-- T-048: СКРЫТЬ КАЛЕНДАРНЫЕ ЭЛЕМЕНТЫ -->
 <script>
 (function hideCalendarUI() {
-  const calendarKeywords = [
+  var calendarKeywords = [
     'юлианский', 'григорианский', 'кармическая',
     'понедельник', 'вторник', 'среда', 'четверг', 'пятница', 'суббота', 'воскресенье',
     'январь', 'февраль', 'март', 'апрель', 'май', 'июнь', 'июль', 'август', 'сентябрь', 'октябрь', 'ноябрь', 'декабрь'
   ];
+
   function hideElements() {
-    let hiddenCount = 0;
-    document.querySelectorAll('*').forEach(el => {
+    var hiddenCount = 0;
+    var raDaySub = document.getElementById('ra-day-sub');
+    if (raDaySub && raDaySub.style.display !== 'none') {
+      raDaySub.style.display = 'none';
+      hiddenCount++;
+    }
+    var root = document.querySelector('#awara-app');
+    if (!root) root = document.body;
+    root.querySelectorAll('*').forEach(function(el) {
+      if (el.id === 'ra-day-sub') return;
       if (el.children.length > 5) return;
-      const text = el.textContent?.toLowerCase() || '';
-      for (const keyword of calendarKeywords) {
-        if (text.includes(keyword.toLowerCase())) {
-          const rect = el.getBoundingClientRect();
+      var text = (el.textContent || '').toLowerCase();
+      for (var i = 0; i < calendarKeywords.length; i++) {
+        if (text.includes(calendarKeywords[i])) {
+          var rect = el.getBoundingClientRect();
           if (rect.width < 500 && rect.height < 100) {
             el.style.display = 'none';
             hiddenCount++;
@@ -16271,19 +16280,44 @@ import { createUniverseSnapshot } from './js/universe/universeProgression.js';
         }
       }
       if (/\d+\s*(число|н\.э\.)/.test(text) || /\d+\/\d+/.test(text)) {
-        const rect = el.getBoundingClientRect();
-        if (rect.width < 300 && rect.height < 50) {
+        var rect2 = el.getBoundingClientRect();
+        if (rect2.width < 300 && rect2.height < 50) {
           el.style.display = 'none';
           hiddenCount++;
         }
       }
     });
-    console.log('[AWARA] Скрыто календарных элементов: ' + hiddenCount);
+    if (hiddenCount > 0) {
+      console.log('[AWARA] Скрыто календарных элементов: ' + hiddenCount);
+    }
   }
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', hideElements);
-  } else {
+
+  function startObserving() {
     hideElements();
+    var observer = new MutationObserver(function(mutations) {
+      for (var i = 0; i < mutations.length; i++) {
+        var nodes = mutations[i].addedNodes;
+        for (var j = 0; j < nodes.length; j++) {
+          if (nodes[j].nodeType === 1) {
+            if (nodes[j].id === 'ra-day-sub' ||
+                (nodes[j].textContent || '').toLowerCase().indexOf('юлианский') !== -1 ||
+                (nodes[j].textContent || '').toLowerCase().indexOf('григорианский') !== -1 ||
+                (nodes[j].textContent || '').toLowerCase().indexOf('кармическая') !== -1) {
+              hideElements();
+              return;
+            }
+          }
+        }
+      }
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+    setInterval(hideElements, 2000);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', startObserving);
+  } else {
+    startObserving();
   }
 })();
 </script>
