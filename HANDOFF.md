@@ -37,7 +37,7 @@
 ### 2026-05-16 · Devin · T-054 (ФИНАЛ CSS-ФАЗЫ)
 
 - Закрыто: T-054 — единая точка входа css/main.css
-- PR: [ссылка будет добавлена после создания]
+- PR: https://github.com/victorianpieraverdi-dev/awara-game/pull/46
 - Следующая задача: T-055 (js/core.js — начало JS-фазы)
 - Mobile-test: пройден на 375px и 320px
 - Network: 4 CSS файла загружаются через main.css + @import
