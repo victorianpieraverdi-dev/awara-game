@@ -42,7 +42,7 @@
 - Фильтры: ВСЕ / ВЕДИЧЕСКИЕ / СЛАВЯНСКИЕ / КАББАЛА / СОБРАНЫ
 - Попап: детали карты, статус собрана/не найдена
 - Тест: js/test-cards-screen.html
-- PR: [ссылка]
+- PR: https://github.com/victorianpieraverdi-dev/awara-game/pull/60
 - Следующая задача: T-067 (oracle.html — Оракул)
 
 ### 2026-05-17 · Devin · T-064
