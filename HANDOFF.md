@@ -41,7 +41,7 @@
 - Использует: state-module (addTigelEntry, getTigelEntries), ui-module (showToast)
 - Функционал: textarea записи дня, выбор эмоции (5), выбор стихии У-Син (5), сохранение в localStorage, список последних 10 записей
 - Mobile-test: 375px пройден
-- PR: TBD
+- PR: https://github.com/victorianpieraverdi-dev/awara-game/pull/61
 - Следующая задача: T-066 (cards.html)
 
 ### 2026-05-18 · Devin · T-066
