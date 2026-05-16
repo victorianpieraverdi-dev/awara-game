@@ -49,7 +49,7 @@
 - Функциональность: Светкоин-банк (10^-10), 6 рангов, 6 уровней эволюции,
   4 личные сферы, лидерборд с 5 демо-правителями, последний Тигель
 - Тест: js/test-dashboard-module.html
-- PR: (будет добавлен)
+- PR: https://github.com/victorianpieraverdi-dev/awara-game/pull/57
 - Следующая задача: T-064 (universe.html)
 - index.html: НЕ ТРОНУТ, legacy не тронуты, dashboard.html не изменён
 
