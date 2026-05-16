@@ -34,6 +34,21 @@
 
 ## Лог смен (новые записи СВЕРХУ)
 
+### 2026-05-16 · Devin · T-060
+- Закрыто: T-060 — js/game-module.js (логика 4 пространств)
+- Импортирует: CANON/TIMINGS/COLORS из core-module.js,
+  loadState/updateState/addLight из state-module.js,
+  showToast/showModal из ui-module.js,
+  loadAgents/loadMatrices/loadLocas из canon-module.js
+- SPACES константа: 4 пространства (spaces/earth/universe/creation)
+- Экспорты (8): initGame, showGameMenu, openSpace,
+  getCurrentSpace, getAllSpaces, getGameState, resetGameState
+- Слушает: awara:section (от lobby-module)
+- Эмитит: awara:space:enter
+- Тест: js/test-game-module.html — 4 пространства, 4 модалки
+- PR: https://github.com/victorianpieraverdi-dev/awara-game/pull/54
+- Следующая задача: T-061 (js/universe-module.js — космическая визуализация)
+
 ### 2026-05-17 · Devin · T-059
 - Закрыто: T-059 — js/lobby-module.js (логика главной страницы)
 - Импортирует: STAGES/CANON/COLORS/TIMINGS из core-module.js,
