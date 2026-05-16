@@ -40,7 +40,7 @@
 - Импортирует: STORAGE_KEYS из core-module.js
 - Экспорты: loadState, saveState, updateState, resetState, getLight, addLight, addTigelEntry, getTigelEntries
 - Тест: js/test-state-module.html — все функции работают
-- PR: [ссылка]
+- PR: https://github.com/victorianpieraverdi-dev/awara-game/pull/50
 - Следующая задача: T-057 (js/ui-module.js — UI helpers)
 
 ### 2026-05-16 · Devin · T-055 (handoff)
