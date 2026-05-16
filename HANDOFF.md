@@ -43,7 +43,7 @@
   getAgentMatrixEntry, preloadCanon, clearCanonCache
 - Канон проверка: 21/33/14/9/63/693 — валидация в каждом loader
 - Тест: js/test-canon-module.html
-- PR: [ссылка]
+- PR: https://github.com/victorianpieraverdi-dev/awara-game/pull/52
 - Следующая задача: T-059 (js/lobby-module.js — логика главной)
 
 Замечания:
