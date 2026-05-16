@@ -249,6 +249,35 @@ body::before{
   margin-top:2px;
 }
 
+.dosha-block{
+  margin-bottom:16px;padding:12px;
+  border:1px solid rgba(201,168,76,0.16);border-radius:10px;
+  background:rgba(201,168,76,0.04);
+}
+.dosha-block .section-title{color:rgba(201,168,76,0.62)}
+.dosha-dominant{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(13px,3vw,15px);color:var(--text-soft);
+  margin-bottom:10px;
+}
+.dosha-dominant span{color:var(--gold-light);font-weight:600}
+.dosha-grid{display:grid;gap:8px}
+.dosha-meta{
+  display:flex;justify-content:space-between;align-items:center;
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  color:var(--text-soft);margin-bottom:4px;
+}
+.dosha-meta span{font-family:'Cormorant Garamond',serif;font-size:13px;color:var(--text)}
+.dosha-meta b{font-weight:400;color:var(--gold)}
+.dosha-bar{
+  height:6px;border-radius:999px;overflow:hidden;
+  background:rgba(255,255,255,0.06);
+}
+.dosha-bar i{
+  display:block;height:100%;border-radius:999px;
+  background:linear-gradient(90deg,rgba(201,168,76,0.42),rgba(255,215,0,0.86));
+}
+
 .calc-status{
   text-align:center;padding:16px;
   font-family:'Cormorant Garamond',serif;
@@ -316,6 +345,8 @@ body::before{
 </div>
 
 <script type="module">
+import { calculateDosha, renderDoshaHtml, saveDosha } from './js/dosha.js';
+
 const STORAGE_KEY = 'awara_natal_data';
 const STORAGE_CHART = 'awara_natal_chart';
 
@@ -500,6 +531,9 @@ function renderChart(chart, geoDisplay) {
   html += '<div class="lagna-deg">' + formatDeg(chart.ascendant) + '</div>';
   html += '</div>';
 
+  const dosha = chart.dosha || calculateDosha(chart);
+  html += renderDoshaHtml(dosha);
+
   html += '<div class="section-title" style="margin-top:16px">НАВГРАХИ (9 ПЛАНЕТ)</div>';
   html += '<div class="planets-grid">';
   html += '<div class="planet-header"><div>ГРАХА</div><div>РАШИ</div><div>ГРАДУС</div><div>НАКШАТРА</div></div>';
@@ -556,6 +590,8 @@ function loadSavedData() {
     if (savedChart) {
       try {
         const chart = JSON.parse(savedChart);
+        if (!chart.data.dosha) chart.data.dosha = calculateDosha(chart.data);
+        saveDosha(chart.data.dosha);
         document.getElementById('result-block').classList.add('visible');
         renderChart(chart.data, chart.geoDisplay);
       } catch (e) { /* ignore */ }
@@ -609,6 +645,8 @@ async function doCalculate() {
 
     showStatus('<span class="loading">Расчёт планет и домов...</span>', false);
     const chart = await calculateChart(dateVal, timeVal, lat, lon);
+    chart.dosha = calculateDosha(chart);
+    saveDosha(chart.dosha);
     renderChart(chart, geoDisplay);
 
     localStorage.setItem(STORAGE_CHART, JSON.stringify({ data: chart, geoDisplay, calculatedAt: new Date().toISOString() }));
