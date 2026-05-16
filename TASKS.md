@@ -229,6 +229,11 @@
   Файлы: `game-space-changes.md`
   Est: 10 мин
 
+- [x] **T-050 · вынести UniverseState для mobile universe**
+  DoD: создан `js/universe/universeState.js`, общий state/snapshot/зодиак/луч вынесен из inline-скрипта `index.html`, mobile focus и панель `ОПЫТ` продолжают брать те же данные без изменения канона и карты.
+  Файлы: `js/universe/universeState.js`, `index.html`
+  Est: 10 мин
+
 ---
 
 ## Done (закрытые)

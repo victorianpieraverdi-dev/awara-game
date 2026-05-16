@@ -16174,15 +16174,9 @@ function toggleNakopPanel() {
 })();
 </script>
 <script type="module">
-import { createUniverseSnapshot } from './js/universe/universeProgression.js';
+import { createUniverseStateFromGlobal } from './js/universe/universeState.js';
 
 (function(){
-  function getPlayerState() {
-    if (typeof window.state !== 'undefined') return window.state;
-    if (typeof state !== 'undefined') return state;
-    return { totalLight: 0 };
-  }
-
   function setText(id, value) {
     var el = document.getElementById(id);
     if (el) el.textContent = value;
@@ -16192,43 +16186,30 @@ import { createUniverseSnapshot } from './js/universe/universeProgression.js';
     var card = document.querySelector('#mobile-universe-focus .muf-card');
     if (!card) return;
 
-    var snapshot = createUniverseSnapshot(getPlayerState());
-    var level = snapshot.level;
-    var next = snapshot.nextLevel;
+    var universe = createUniverseStateFromGlobal(window);
+    var level = universe.level;
+    var next = universe.nextLevel;
     var color = level.color || '#c9a84c';
     var fill = document.getElementById('muf-progress-fill');
 
     card.style.setProperty('--muf-color', color);
-    setText('muf-kicker', 'ВСЕЛЕННАЯ ИГРОКА · ' + Math.round(snapshot.light) + ' СВЕТА');
+    setText('muf-kicker', 'ВСЕЛЕННАЯ ИГРОКА · ' + Math.round(universe.light) + ' СВЕТА');
     setText('muf-sun', level.icon || '☀');
     setText('muf-title', level.name || 'ЦЕНТР РА');
     setText('muf-sub', level.subtitle || level.focus || 'свет · орбиты · путь');
-    setText('muf-next', next ? ('ДАЛЕЕ: ' + next.name + ' · ' + snapshot.lightToNext + ' СВЕТА') : 'ВЕРХНИЙ УРОВЕНЬ ОТКРЫТ');
-    if (fill) fill.style.width = snapshot.progress + '%';
-    updateMobileUniverseExperience(snapshot);
+    setText('muf-next', next ? ('ДАЛЕЕ: ' + next.name + ' · ' + universe.lightToNext + ' СВЕТА') : 'ВЕРХНИЙ УРОВЕНЬ ОТКРЫТ');
+    if (fill) fill.style.width = universe.progress + '%';
+    updateMobileUniverseExperience(universe);
   }
 
-  function getActiveZodiacByLight(light) {
-    var signs = ['Овен','Телец','Близнецы','Рак','Лев','Дева','Весы','Скорпион','Стрелец','Козерог','Водолей','Рыбы'];
-    var idx = Math.max(0, Math.min(signs.length - 1, Math.floor(Number(light || 0) / 150)));
-    return { name: signs[idx], index: idx };
-  }
-
-  function getRayByZodiacIndex(index) {
-    var rays = [1,4,2,3,1,2,3,4,5,6,5,6];
-    return rays[Math.max(0, Math.min(rays.length - 1, index || 0))] || 1;
-  }
-
-  function updateMobileUniverseExperience(snapshot) {
+  function updateMobileUniverseExperience(universe) {
     var panel = document.getElementById('mobile-universe-experience-panel');
     if (!panel) return;
-    var zodiac = getActiveZodiacByLight(snapshot.light);
-    var ray = getRayByZodiacIndex(zodiac.index);
-    setText('mue-light', Math.round(snapshot.light));
-    setText('mue-level', snapshot.level ? snapshot.level.name : 'Ахамкара');
-    setText('mue-ray', 'Луч ' + ray);
-    setText('mue-zodiac', zodiac.name);
-    setText('mue-visible', 'В галактике сейчас: активный знак ' + zodiac.name + ', Луч ' + ray + ', Ра и одна сфера. Остальной опыт хранится в панелях и позже сможет выноситься игроком вручную.');
+    setText('mue-light', Math.round(universe.light));
+    setText('mue-level', universe.level ? universe.level.name : 'Ахамкара');
+    setText('mue-ray', 'Луч ' + universe.ray);
+    setText('mue-zodiac', universe.zodiac.name);
+    setText('mue-visible', universe.visibleSummary);
   }
 
   window.toggleMobileUniverseExperience = function(force) {
