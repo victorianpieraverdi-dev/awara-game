@@ -35,11 +35,12 @@
 ## Лог смен (новые записи СВЕРХУ)
 
 ### 2026-05-16 · Devin · T-055 (handoff)
-- Закрыто: T-055 — js/core.js (константы, STAGES, CANON, COLORS, validateCanon)
+- Закрыто: T-055 — js/core-module.js (константы, STAGES, CANON, COLORS, validateCanon)
 - Источник: handoff от сессии ff4918c77114413f95fe84389e9f3f76
 - Тест: js/test-core.html — канон валиден (21/33/14/9/693)
+- Замечание: экспорты вынесены в отдельный js/core-module.js (ES6 module), js/core.js НЕ ТРОНУТ (export ломает <script> в index.html)
 - index.html: НЕ ТРОНУТ, сайт работает как после T-054b
-- PR: [будет ссылка]
+- PR: https://github.com/victorianpieraverdi-dev/awara-game/pull/49
 - Следующая задача: T-056 (js/state.js — localStorage)
 
 ### 2026-05-16 · Devin · T-054b (правильная версия)
