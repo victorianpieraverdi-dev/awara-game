@@ -44,7 +44,7 @@
 - Визуализация: пульсирующее Солнце, ~200 звёзд,
   вращающиеся агенты на орбитах, клик-выбор
 - Тест: js/test-universe-module.html
-- PR: [ссылка]
+- PR: https://github.com/victorianpieraverdi-dev/awara-game/pull/55
 - JS-ФАЗА ЗАВЕРШЕНА: 7/7 модулей готовы!
 - Следующая фаза: разбивка экранов T-062 (tigel.html)
 
