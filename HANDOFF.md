@@ -39,7 +39,7 @@
 - Импортирует: BREAKPOINTS, TIMINGS, COLORS из core-module.js
 - Экспорты (12): formatLight, formatPercent, formatBigNumber, showModal, showToast, fadeIn, fadeOut, vibrate, getCurrentBreakpoint, isMobile, debounce, throttle
 - Тест: js/test-ui-module.html — все функции работают
-- PR: [ссылка]
+- PR: https://github.com/victorianpieraverdi-dev/awara-game/pull/51
 - Следующая задача: T-058 (js/canon-module.js — загрузка agents/matrices)
 
 ### 2026-05-16 · Devin · T-056
